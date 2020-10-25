@@ -1,0 +1,14 @@
+spring:
+  profiles:
+    active:
+      - dev
+  jpa:
+    hibernate:
+      ddl-auto: validate
+    database-platform: org.artembogomolova.demo.webapp.jpa.util.SQLLiteDialect
+  datasource:
+    driver-class-name: org.sqlite.JDBC
+  liquibase:
+    change-log: classpath*:db/changelog/db.changelog-master.yml
+server:
+  port: 8080

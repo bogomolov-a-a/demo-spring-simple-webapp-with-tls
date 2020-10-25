@@ -1,0 +1,5 @@
+spring:
+  datasource:
+    url: jdbc:sqlite:target/simple-service.db
+    username: admin
+    password: admin
