@@ -5,3 +5,4 @@ databaseChangeLog:
      sqlFile:
        path: sql/init-db.sql
        relativeToChangelogFile: true
+       endDelitimiter: /
