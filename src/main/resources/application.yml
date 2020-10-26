@@ -5,9 +5,10 @@ spring:
   jpa:
     hibernate:
       ddl-auto: validate
-    database-platform: org.artembogomolova.demo.webapp.jpa.util.SQLLiteDialect
+    database-platform: org.artembogomolova.demo.webapp.dao.util.SQLLiteDialect
   datasource:
     driver-class-name: org.sqlite.JDBC
+    continue-on-error: false
   liquibase:
     change-log: classpath*:db/changelog/db.changelog-master.yml
 server:
