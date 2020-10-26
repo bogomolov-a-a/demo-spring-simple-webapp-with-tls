@@ -1,6 +1,9 @@
 package org.artembogomolova.demo.webapp.dao;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import org.artembogomolova.demo.webapp.model.Order;
+import org.artembogomolova.demo.webapp.model.Person;
 import org.artembogomolova.demo.webapp.model.PhysicalAddress;
 
 public class RepositoryTestUtil {
@@ -37,6 +40,21 @@ public class RepositoryTestUtil {
     Order result = new Order();
     result.setAddress(buildOrderTestAddress());
     result.setDescription("test order description");
+    return result;
+  }
+
+  public static Person buildPerson() {
+    Person result = new Person();
+    result.setSurname("Surname1");
+    result.setName("Name1");
+    result.setPatronymic("Patronymic1");
+    try {
+      result.setBirthDate(new SimpleDateFormat("yyyy-MM-dd").parse("2010-10-27"));
+    } catch (ParseException e) {
+      //no op
+    }
+    result.setPhone("+78*********");
+    result.setEstateAddress(RepositoryTestUtil.buildTestAddress());
     return result;
   }
 }
