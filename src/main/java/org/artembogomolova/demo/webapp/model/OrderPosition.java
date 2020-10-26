@@ -1,5 +1,6 @@
 package org.artembogomolova.demo.webapp.model;
 
+import java.io.Serializable;
 import javax.persistence.Basic;
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
@@ -20,7 +21,7 @@ import lombok.ToString;
 @Getter
 @Setter
 @ToString
-public class OrderPosition {
+public class OrderPosition implements Serializable {
   @Id
   @GeneratedValue(strategy=GenerationType.IDENTITY)
   @Basic

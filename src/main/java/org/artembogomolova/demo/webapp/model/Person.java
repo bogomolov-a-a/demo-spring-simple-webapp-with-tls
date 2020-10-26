@@ -43,4 +43,16 @@ public class Person implements Serializable {
   @OneToMany(cascade = {CascadeType.PERSIST,CascadeType.MERGE,CascadeType.REMOVE,CascadeType.DETACH})
   @JoinColumn(name = "person_id")
   private Set<Order> orders;
+
+  public Date getBirthDate() {
+    if(birthDate==null)
+    {
+      return null;
+    }
+    return new Date(birthDate.getTime());
+  }
+
+  public void setBirthDate(Date birthDate) {
+    this.birthDate = new Date(birthDate.getTime());
+  }
 }

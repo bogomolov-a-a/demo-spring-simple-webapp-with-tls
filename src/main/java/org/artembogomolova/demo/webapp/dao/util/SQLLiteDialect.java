@@ -63,13 +63,12 @@ public class SQLLiteDialect extends Dialect {
     return new org.hibernate.dialect.pagination.AbstractLimitHandler() {
       @Override
       public boolean supportsLimit() {
-        return super.supportsLimit();
+        return true;
       }
 
       @Override
       public String processSql(String sql, org.hibernate.engine.spi.RowSelection selection) {
-        return new StringBuilder(sql.length() + 20).append(sql).append(this.supportsLimitOffset() ? " limit ? offset ?" : " limit ?")
-            .toString();
+        return sql + (this.supportsLimitOffset() ? " limit ? offset ?" : " limit ?");
       }
     };
   }
