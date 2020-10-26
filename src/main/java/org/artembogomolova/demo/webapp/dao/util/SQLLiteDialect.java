@@ -1,10 +1,13 @@
 package org.artembogomolova.demo.webapp.dao.util;
 
 import java.sql.Types;
+import org.hibernate.MappingException;
 import org.hibernate.dialect.Dialect;
 import org.hibernate.dialect.function.SQLFunctionTemplate;
 import org.hibernate.dialect.function.StandardSQLFunction;
 import org.hibernate.dialect.function.VarArgsSQLFunction;
+import org.hibernate.dialect.identity.IdentityColumnSupport;
+import org.hibernate.dialect.identity.IdentityColumnSupportImpl;
 import org.hibernate.type.StringType;
 
 /**
@@ -39,23 +42,6 @@ public class SQLLiteDialect extends Dialect {
     registerFunction("mod", new SQLFunctionTemplate(StringType.INSTANCE, "?1 % ?2"));
     registerFunction("substr", new StandardSQLFunction("substr", StringType.INSTANCE));
     registerFunction("substring", new StandardSQLFunction("substr", StringType.INSTANCE));
-  }
-
-  public boolean supportsIdentityColumns() {
-    return true;
-  }
-
-  public boolean hasDataTypeInIdentityColumn() {
-    return false; // As specify in NHibernate dialect
-  }
-
-  public String getIdentityColumnString() {
-    // return "integer primary key autoincrement";
-    return "integer";
-  }
-
-  public String getIdentitySelectString() {
-    return "select last_insert_rowid()";
   }
 
   @Override
@@ -156,4 +142,35 @@ public class SQLLiteDialect extends Dialect {
     return false;
   }
 
+  @Override
+  public IdentityColumnSupport getIdentityColumnSupport() {
+    return new IdentityColumnSupportImpl()
+    {
+      @Override
+      public boolean supportsIdentityColumns() {
+        return true;
+      }
+
+      @Override
+      public String getIdentitySelectString(String table, String column, int type)
+          throws MappingException {
+        return "select last_insert_rowid()";
+      }
+
+      @Override
+      public String getIdentityColumnString(int type) throws MappingException {
+        switch(type)
+        {
+          case Types.BIGINT:
+          {
+            return "bigint";
+          }
+          case Types.INTEGER: {
+            return "integer primary key autoincrement";
+          }
+        }
+        return "integer";
+      }
+    };
+  }
 }
