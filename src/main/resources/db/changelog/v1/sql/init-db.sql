@@ -9,7 +9,7 @@ create table addresses(
   house text not null,
   room integer,
   specific_part text,
-  unique (postal_code)
+  unique (postal_code,country,state,city,district,street,house,room,specific_part)
 );
 /
 create table persons(
@@ -17,31 +17,31 @@ create table persons(
   name text not null,
   surname text not null,
   patronymic text,
-  birth_date numberic not null,
+  birth_date TIMESTAMP not null,
   phone text not null,
   estate_address_id bigint not null,
-  foreign key (estate_address_id) references addresses(id),
+  foreign key (estate_address_id) references addresses(id) on delete cascade on update cascade,
   unique (name,surname,patronymic,birth_date)
 );
 /
 create table orders(
   id integer not null primary key autoincrement,
-  order_date numberic not null default CURRENT_DATE,
-  deliver_date numberic,
+  order_date TIMESTAMP not null default current_timestamp,
+  deliver_date TIMESTAMP,
   order_address_plain text,
   description text not null,
   payed integer default 0,
   order_address_id bigint,
   person_id bigint not null,
-  foreign key (order_address_id) references addresses(id),
-  foreign key (person_id ) references persons(id)
+  foreign key (order_address_id) references addresses(id) on delete cascade on update cascade,
+  foreign key (person_id ) references persons(id) on delete cascade on update cascade
 );
 /
 create table tickets(
   id integer not null primary key autoincrement,
   summ real,
   order_id bigint not null,
-  foreign key (order_id) references orders(id)
+  foreign key (order_id) references orders(id) on delete cascade on update cascade
 );
 create table categories(
   id integer not null primary key autoincrement,
@@ -53,7 +53,7 @@ create table producers(
   id integer not null primary key autoincrement,
   name text not null,
   producer_address_id bigint not null,
-  foreign key (producer_address_id) references addresses(id)
+  foreign key (producer_address_id) references addresses(id)on delete cascade on update cascade
 );
 /
 create table goods(
@@ -65,8 +65,8 @@ create table goods(
  quantity double not null default 0,
  producer_id bigint not null,
  category_id bigint not null,
- foreign key (category_id) references categories(id),
- foreign key (producer_id) references producers(id)
+ foreign key (category_id) references categories(id) on delete cascade on update cascade,
+ foreign key (producer_id) references producers(id) on delete cascade on update cascade
 );
 /
 create table actions(
@@ -75,12 +75,12 @@ create table actions(
   description text not null,
   discount_fixed real default 0,
   discount_percent real default 0,
-  start_date numberic not null,
-  end_date numberic not null,
+  start_date TIMESTAMP not null,
+  end_date TIMESTAMP not null,
   category_id bigint,
   good_id bigint not null,
-  foreign key (category_id) references categories(id),
-  foreign key (good_id) references goods(id)
+  foreign key (category_id) references categories(id) on delete cascade on update cascade,
+  foreign key (good_id) references goods(id)on delete cascade on update cascade
 );
 /
 create table order_positions(
@@ -90,9 +90,9 @@ create table order_positions(
   order_id bigint not null,
   good_id bigint not null,
   action_id bigint,
-  foreign key (order_id) references orders(id),
-  foreign key (good_id) references goods(id),
-  foreign key (action_id) references actions(id)
+  foreign key (order_id) references orders(id) on delete cascade on update cascade,
+  foreign key (good_id) references goods(id) on delete cascade on update cascade,
+  foreign key (action_id) references actions(id)on delete cascade on update cascade
 );
 
 
