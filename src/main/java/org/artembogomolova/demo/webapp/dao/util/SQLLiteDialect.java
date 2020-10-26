@@ -1,4 +1,4 @@
-package org.artembogomolova.demo.webapp.jpa.util;
+package org.artembogomolova.demo.webapp.dao.util;
 
 import java.sql.Types;
 import org.hibernate.dialect.Dialect;
