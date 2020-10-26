@@ -15,6 +15,8 @@
     <maven.failsafe.plugin.version>3.0.0-M5</maven.failsafe.plugin.version>
     <!--code quality. tests -->
     <jacoco.plugin.version>0.8.5</jacoco.plugin.version>
+    <jacoco.plugin.min.class.coverage.ratio>0.8</jacoco.plugin.min.class.coverage.ratio>
+    <jacoco.plugin.min.method.coverage.ratio>0.8</jacoco.plugin.min.method.coverage.ratio>
     <jacoco.plugin.min.coverage.ratio>0.9</jacoco.plugin.min.coverage.ratio>
   </properties>
 
@@ -202,6 +204,7 @@
                   <linkXRef>true</linkXRef>
                   <skipPmdError>false</skipPmdError>
                   <targetJdk>${java.version}</targetJdk>
+                  <includeTests>true</includeTests>
                 </configuration>
               </execution>
               <execution>
@@ -217,6 +220,9 @@
                 <goals>
                   <goal>cpd</goal>
                 </goals>
+                <configuration>
+                  <includeTests>true</includeTests>
+                </configuration>
               </execution>
               <execution>
                 <id>cpd-check</id>
@@ -246,6 +252,9 @@
                 <goals>
                   <goal>spotbugs</goal>
                 </goals>
+                <configuration>
+                  <includeTests>true</includeTests>
+                </configuration>
               </execution>
               <execution>
                 <id>spotbugs-check</id>
@@ -329,6 +338,11 @@
                 <goals>
                   <goal>report</goal>
                 </goals>
+                <configuration>
+                  <excludes>
+                    <exclude>org.artembogomolova.demo.webapp.DemoWebappWithTlsApplication</exclude>
+                  </excludes>
+                </configuration>
               </execution>
               <execution>
                 <id>jacoco-check</id>
@@ -337,6 +351,9 @@
                   <goal>check</goal>
                 </goals>
                 <configuration>
+                  <excludes>
+                    <exclude>org.artembogomolova.demo.webapp.DemoWebappWithTlsApplication</exclude>
+                  </excludes>
                   <rules>
                     <rule>
                       <element>PACKAGE</element>
@@ -344,22 +361,12 @@
                         <limit>
                           <counter>CLASS</counter>
                           <value>COVEREDRATIO</value>
-                          <minimum>${jacoco.plugin.min.coverage.ratio}</minimum>
+                          <minimum>${jacoco.plugin.min.class.coverage.ratio}</minimum>
                         </limit>
                         <limit>
                           <counter>METHOD</counter>
                           <value>COVEREDRATIO</value>
-                          <minimum>${jacoco.plugin.min.coverage.ratio}</minimum>
-                        </limit>
-                        <limit>
-                          <counter>BRANCH</counter>
-                          <value>COVEREDRATIO</value>
-                          <minimum>${jacoco.plugin.min.coverage.ratio}</minimum>
-                        </limit>
-                        <limit>
-                          <counter>INSTRUCTION</counter>
-                          <value>COVEREDRATIO</value>
-                          <minimum>${jacoco.plugin.min.coverage.ratio}</minimum>
+                          <minimum>${jacoco.plugin.min.method.coverage.ratio}</minimum>
                         </limit>
                         <limit>
                           <counter>LINE</counter>
@@ -400,6 +407,11 @@
                 <goals>
                   <goal>report-integration</goal>
                 </goals>
+                <configuration>
+                  <excludes>
+                    <exclude>org.artembogomolova.demo.webapp.DemoWebappWithTlsApplication</exclude>
+                  </excludes>
+                </configuration>
               </execution>
               <execution>
                 <id>jacoco-check-integration</id>
@@ -419,22 +431,12 @@
                         <limit>
                           <counter>CLASS</counter>
                           <value>COVEREDRATIO</value>
-                          <minimum>${jacoco.plugin.min.coverage.ratio}</minimum>
+                          <minimum>${jacoco.plugin.min.class.coverage.ratio}</minimum>
                         </limit>
                         <limit>
                           <counter>METHOD</counter>
                           <value>COVEREDRATIO</value>
-                          <minimum>${jacoco.plugin.min.coverage.ratio}</minimum>
-                        </limit>
-                        <limit>
-                          <counter>BRANCH</counter>
-                          <value>COVEREDRATIO</value>
-                          <minimum>${jacoco.plugin.min.coverage.ratio}</minimum>
-                        </limit>
-                        <limit>
-                          <counter>INSTRUCTION</counter>
-                          <value>COVEREDRATIO</value>
-                          <minimum>${jacoco.plugin.min.coverage.ratio}</minimum>
+                          <minimum>${jacoco.plugin.min.method.coverage.ratio}</minimum>
                         </limit>
                         <limit>
                           <counter>LINE</counter>

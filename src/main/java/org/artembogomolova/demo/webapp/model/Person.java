@@ -1,48 +1,36 @@
 package org.artembogomolova.demo.webapp.model;
 
-import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Date;
-import java.util.Set;
-import javax.persistence.Basic;
+import java.util.List;
 import javax.persistence.CascadeType;
-import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
-import lombok.ToString;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
+import lombok.Data;
 
 @Entity
 @Table(name="persons")
-@NoArgsConstructor
-@Getter
-@Setter
-@ToString
-public class Person implements Serializable {
+@Data
+public class Person extends IdentifiedEntity {
 
-  @Id
-  @GeneratedValue(strategy=GenerationType.IDENTITY)
-  @Basic
-  private Long id;
   private String name;
   private String surname;
   private String patronymic;
-  @Column(columnDefinition = "numberic")
+  @Temporal(TemporalType.TIMESTAMP)
   private Date birthDate;
   private String phone;
   @ManyToOne(cascade = {CascadeType.PERSIST,CascadeType.MERGE,CascadeType.REMOVE,CascadeType.DETACH})
-  @JoinColumn(name="estate_address_id")
+  @JoinColumn(name="estate_address_id",columnDefinition = "bigint")
   private PhysicalAddress estateAddress;
-  @OneToMany(cascade = {CascadeType.PERSIST,CascadeType.MERGE,CascadeType.REMOVE,CascadeType.DETACH})
-  @JoinColumn(name = "person_id")
-  private Set<Order> orders;
+  @OneToMany(cascade = {CascadeType.PERSIST,CascadeType.MERGE,CascadeType.REMOVE,CascadeType.DETACH},
+      mappedBy = "person",
+      orphanRemoval = true)
+  private List<Order> orders=new ArrayList<>();
 
   public Date getBirthDate() {
     if(birthDate==null)
