@@ -46,4 +46,27 @@ public class Order implements Serializable {
   @OneToMany(cascade = {CascadeType.PERSIST,CascadeType.MERGE,CascadeType.DETACH,CascadeType.REMOVE},mappedBy = "order")
   private Set<OrderPosition> orderPositions;
 
+  public Date getOrderDate() {
+    if(orderDate==null)
+    {
+      return null;
+    }
+    return new Date(orderDate.getTime());
+  }
+
+  public void setOrderDate(Date orderDate) {
+    this.orderDate = new Date(orderDate.getTime());
+  }
+
+  public Date getDeliverDate() {
+    if(deliverDate==null)
+    {
+      return null;
+    }
+    return new Date(deliverDate.getTime());
+  }
+
+  public void setDeliverDate(Date deliverDate) {
+    this.deliverDate = new Date(deliverDate.getTime());
+  }
 }

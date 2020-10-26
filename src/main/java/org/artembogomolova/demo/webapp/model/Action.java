@@ -1,5 +1,6 @@
 package org.artembogomolova.demo.webapp.model;
 
+import java.io.Serializable;
 import java.util.Date;
 import javax.persistence.Basic;
 import javax.persistence.CascadeType;
@@ -23,7 +24,7 @@ import lombok.ToString;
 @Getter
 @Setter
 @ToString
-public class Action {
+public class Action implements Serializable {
   @Id
   @GeneratedValue(strategy=GenerationType.IDENTITY)
   @Basic
@@ -41,5 +42,30 @@ public class Action {
   private Category category;
   @ManyToOne(cascade = {CascadeType.PERSIST,CascadeType.MERGE,CascadeType.REMOVE,CascadeType.DETACH})
   @JoinColumn(name="good_id")
+
   private Good good;
+
+  public Date getStartDate() {
+    if(startDate==null)
+    {
+      return null;
+    }
+    return new Date(startDate.getTime());
+  }
+
+  public void setStartDate(Date startDate) {
+    this.startDate = new Date(startDate.getTime());
+  }
+
+  public Date getEndDate() {
+    if(endDate==null)
+    {
+      return null;
+    }
+    return new Date(endDate.getTime());
+  }
+
+  public void setEndDate(Date endDate) {
+    this.endDate = new Date(endDate.getTime());
+  }
 }
