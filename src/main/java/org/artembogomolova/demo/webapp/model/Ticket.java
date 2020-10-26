@@ -13,19 +13,21 @@ import javax.persistence.Table;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import lombok.ToString;
 
 @Entity
 @Table(name="tickets")
 @NoArgsConstructor
 @Getter
 @Setter
+@ToString
 public class Ticket  implements Serializable {
   @Id
   @GeneratedValue(strategy=GenerationType.IDENTITY)
   @Basic
   private Long id;
-  private Double summ;
+  private Float summ;
   @ManyToOne(cascade = {CascadeType.PERSIST,CascadeType.MERGE,CascadeType.REMOVE,CascadeType.DETACH})
-  @JoinColumn(name="orderId")
+  @JoinColumn(name="order_id")
   private Order order;
 }

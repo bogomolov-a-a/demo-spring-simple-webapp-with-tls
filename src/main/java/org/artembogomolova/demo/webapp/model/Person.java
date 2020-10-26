@@ -17,12 +17,14 @@ import javax.persistence.Table;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import lombok.ToString;
 
 @Entity
 @Table(name="persons")
 @NoArgsConstructor
 @Getter
 @Setter
+@ToString
 public class Person implements Serializable {
 
   @Id
@@ -36,9 +38,9 @@ public class Person implements Serializable {
   private Date birthDate;
   private String phone;
   @ManyToOne(cascade = {CascadeType.PERSIST,CascadeType.MERGE,CascadeType.REMOVE,CascadeType.DETACH})
-  @JoinColumn(name="estateAddressId")
+  @JoinColumn(name="estate_address_id")
   private PhysicalAddress estateAddress;
   @OneToMany(cascade = {CascadeType.PERSIST,CascadeType.MERGE,CascadeType.REMOVE,CascadeType.DETACH})
-  @JoinColumn(name = "personId")
+  @JoinColumn(name = "person_id")
   private Set<Order> orders;
 }

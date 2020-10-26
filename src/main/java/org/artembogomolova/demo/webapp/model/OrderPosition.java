@@ -8,31 +8,32 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import lombok.ToString;
 
 @Entity
-@Table(name="orderPositions")
+@Table(name="order_positions")
 @NoArgsConstructor
 @Getter
 @Setter
+@ToString
 public class OrderPosition {
   @Id
   @GeneratedValue(strategy=GenerationType.IDENTITY)
   @Basic
   private Long id;
-  private Double discount;
-  private Double quantity;
+  private Float discount;
+  private Float quantity;
   @ManyToOne(cascade = {CascadeType.PERSIST,CascadeType.MERGE,CascadeType.DETACH,CascadeType.REMOVE})
-  @JoinColumn(name="orderId")
+  @JoinColumn(name="order_id")
   private Order order;
   @ManyToOne(cascade = {CascadeType.PERSIST,CascadeType.MERGE,CascadeType.DETACH,CascadeType.REMOVE})
-  @JoinColumn(name="goodId")
+  @JoinColumn(name="good_id")
   private Good good;
   @ManyToOne(cascade = {CascadeType.PERSIST,CascadeType.MERGE,CascadeType.DETACH,CascadeType.REMOVE})
-  @JoinColumn(name="actionId")
+  @JoinColumn(name="action_id")
   private Action action;
 }
