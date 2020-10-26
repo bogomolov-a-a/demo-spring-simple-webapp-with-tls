@@ -3,6 +3,7 @@ package org.artembogomolova.demo.webapp.model;
 import java.io.Serializable;
 import javax.persistence.Basic;
 import javax.persistence.CascadeType;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -21,20 +22,22 @@ import lombok.ToString;
 @Getter
 @Setter
 @ToString
+
 public class OrderPosition implements Serializable {
   @Id
   @GeneratedValue(strategy=GenerationType.IDENTITY)
   @Basic
+  @Column(columnDefinition = "integer not null primary key autoincrement")
   private Long id;
   private Float discount;
   private Float quantity;
   @ManyToOne(cascade = {CascadeType.PERSIST,CascadeType.MERGE,CascadeType.DETACH,CascadeType.REMOVE})
-  @JoinColumn(name="order_id")
+  @JoinColumn(name="order_id",columnDefinition = "bigint")
   private Order order;
   @ManyToOne(cascade = {CascadeType.PERSIST,CascadeType.MERGE,CascadeType.DETACH,CascadeType.REMOVE})
-  @JoinColumn(name="good_id")
+  @JoinColumn(name="good_id",columnDefinition = "bigint")
   private Good good;
   @ManyToOne(cascade = {CascadeType.PERSIST,CascadeType.MERGE,CascadeType.DETACH,CascadeType.REMOVE})
-  @JoinColumn(name="action_id")
+  @JoinColumn(name="action_id",columnDefinition = "bigint")
   private Action action;
 }

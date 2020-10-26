@@ -29,6 +29,7 @@ public class Order implements Serializable {
   @Id
   @GeneratedValue(strategy=GenerationType.IDENTITY)
   @Basic
+  @Column(columnDefinition = "integer not null primary key autoincrement")
   private Long id;
   @Column(columnDefinition = "numberic")
   private Date orderDate;
@@ -36,7 +37,7 @@ public class Order implements Serializable {
   private Date deliverDate;
   private String orderAddressPlain;
   @ManyToOne(cascade = {CascadeType.PERSIST,CascadeType.MERGE,CascadeType.REMOVE,CascadeType.DETACH})
-  @JoinColumn(name="order_address_id")
+  @JoinColumn(name="order_address_id",columnDefinition = "bigint")
   private PhysicalAddress address;
   private String description;
   @Column(columnDefinition = "integer")

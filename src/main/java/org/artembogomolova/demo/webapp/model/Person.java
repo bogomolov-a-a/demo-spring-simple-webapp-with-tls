@@ -30,6 +30,7 @@ public class Person implements Serializable {
   @Id
   @GeneratedValue(strategy=GenerationType.IDENTITY)
   @Basic
+  @Column(columnDefinition = "integer not null primary key autoincrement")
   private Long id;
   private String name;
   private String surname;
@@ -38,10 +39,10 @@ public class Person implements Serializable {
   private Date birthDate;
   private String phone;
   @ManyToOne(cascade = {CascadeType.PERSIST,CascadeType.MERGE,CascadeType.REMOVE,CascadeType.DETACH})
-  @JoinColumn(name="estate_address_id")
+  @JoinColumn(name="estate_address_id",columnDefinition = "bigint")
   private PhysicalAddress estateAddress;
   @OneToMany(cascade = {CascadeType.PERSIST,CascadeType.MERGE,CascadeType.REMOVE,CascadeType.DETACH})
-  @JoinColumn(name = "person_id")
+  @JoinColumn(name = "person_id",columnDefinition = "bigint")
   private Set<Order> orders;
 
   public Date getBirthDate() {

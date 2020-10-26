@@ -3,6 +3,7 @@ package org.artembogomolova.demo.webapp.model;
 import java.io.Serializable;
 import javax.persistence.Basic;
 import javax.persistence.CascadeType;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -25,9 +26,10 @@ public class Ticket  implements Serializable {
   @Id
   @GeneratedValue(strategy=GenerationType.IDENTITY)
   @Basic
+  @Column(columnDefinition = "integer not null primary key autoincrement")
   private Long id;
   private Float summ;
   @ManyToOne(cascade = {CascadeType.PERSIST,CascadeType.MERGE,CascadeType.REMOVE,CascadeType.DETACH})
-  @JoinColumn(name="order_id")
+  @JoinColumn(name="order_id",columnDefinition = "bigint")
   private Order order;
 }

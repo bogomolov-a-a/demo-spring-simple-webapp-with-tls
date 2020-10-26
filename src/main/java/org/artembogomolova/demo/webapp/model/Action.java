@@ -28,6 +28,7 @@ public class Action implements Serializable {
   @Id
   @GeneratedValue(strategy=GenerationType.IDENTITY)
   @Basic
+  @Column(columnDefinition = "integer not null primary key autoincrement")
   private Long id;
   private String name;
   private String description;
@@ -38,10 +39,10 @@ public class Action implements Serializable {
   private Float discountFixed;
   private Float discountPercent;
   @OneToOne(cascade = {CascadeType.PERSIST,CascadeType.MERGE,CascadeType.REMOVE,CascadeType.DETACH})
-  @JoinColumn(name="category_id")
+  @JoinColumn(name="category_id",columnDefinition = "bigint")
   private Category category;
   @ManyToOne(cascade = {CascadeType.PERSIST,CascadeType.MERGE,CascadeType.REMOVE,CascadeType.DETACH})
-  @JoinColumn(name="good_id")
+  @JoinColumn(name="good_id",columnDefinition = "bigint")
 
   private Good good;
 
