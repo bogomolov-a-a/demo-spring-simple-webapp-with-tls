@@ -15,12 +15,14 @@ import javax.persistence.Table;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import lombok.ToString;
 
 @Entity
 @Table(name="actions")
 @NoArgsConstructor
 @Getter
 @Setter
+@ToString
 public class Action {
   @Id
   @GeneratedValue(strategy=GenerationType.IDENTITY)
@@ -32,12 +34,12 @@ public class Action {
   private Date startDate;
   @Column(columnDefinition = "numberic")
   private Date endDate;
-  private Double discountFixed;
-  private Double discountPercent;
+  private Float discountFixed;
+  private Float discountPercent;
   @OneToOne(cascade = {CascadeType.PERSIST,CascadeType.MERGE,CascadeType.REMOVE,CascadeType.DETACH})
-  @JoinColumn(name="categoryId")
+  @JoinColumn(name="category_id")
   private Category category;
   @ManyToOne(cascade = {CascadeType.PERSIST,CascadeType.MERGE,CascadeType.REMOVE,CascadeType.DETACH})
-  @JoinColumn(name="goodId")
+  @JoinColumn(name="good_id")
   private Good good;
 }

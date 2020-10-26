@@ -1,6 +1,6 @@
 create table addresses(
-  id integer not null primary key,
-  postalCode text not null,
+  id bigint not null primary key,
+  postal_code text not null,
   country text not null,
   state text,
   city text not null,
@@ -8,90 +8,91 @@ create table addresses(
   street text,
   house text not null,
   room integer,
-  specificPart text,
-  unique (postalCode)
+  specific_part text,
+  unique (postal_code)
 );
 /
 create table persons(
-  id integer not null primary key,
+  id bigint not null primary key,
   name text not null,
   surname text not null,
   patronymic text,
-  birthDate numberic not null,
+  birth_date numberic not null,
   phone text not null,
-  estateAddressId integer not null,
-  foreign key (estateAddressId) references addresses(id),
-  unique (name,surname,patronymic,birthDate)
+  estate_address_id bigint not null,
+  foreign key (estate_address_id) references addresses(id),
+  unique (name,surname,patronymic,birth_date)
 );
 /
 create table orders(
-  id integer not null primary key,
-  orderDate numberic not null default CURRENT_DATE,
-  deliverDate numberic,
-  orderAddressPlain text,
-  orderAddressId integer,
-  personId integer not null,
+  id bigint not null primary key,
+  order_date numberic not null default CURRENT_DATE,
+  deliver_date numberic,
+  order_address_plain text,
   description text not null,
   payed integer default 0,
-  foreign key (orderAddressId) references addresses(id)
+  order_address_id bigint,
+  person_id bigint not null,
+  foreign key (order_address_id) references addresses(id),
+  foreign key (person_id ) references persons(id)
 );
 /
 create table tickets(
-  id integer not null primary key,
+  id bigint not null primary key,
   summ real,
-  orderId integer not null,
-  foreign key (orderId) references orders(id)
+  order_id bigint not null,
+  foreign key (order_id) references orders(id)
 );
 create table categories(
-  id integer not null primary key,
+  id bigint not null primary key,
   name text not null,
-  parentCategoryId integer
+  parent_category_id bigint
 );
 /
 create table producers(
-  id integer not null primary key,
+  id bigint not null primary key,
   name text not null,
-  producerAddressId integer not null,
-  foreign key (producerAddressId) references addresses(id)
+  producer_address_id bigint not null,
+  foreign key (producer_address_id) references addresses(id)
 );
 /
 create table goods(
- id integer not null primary key,
+ id bigint not null primary key,
  name text not null,
  description text not null,
  price real not null,
- imgFilePath text,
+ img_file_path text,
  quantity double not null default 0,
- producerId integer not null,
- categoryId integer not null,
- foreign key (categoryId) references categories(id),
- foreign key (producerId) references producers(id)
+ producer_id bigint not null,
+ category_id bigint not null,
+ foreign key (category_id) references categories(id),
+ foreign key (producer_id) references producers(id)
 );
 /
 create table actions(
-  id integer not null primary key,
+  id bigint not null primary key,
   name text not null,
   description text not null,
-  discountFixed real default 0,
-  discountPercent real default 0,
-  startDate numberic not null,
-  endDate numberic not null,
-  categoryId integer,
-  goodId integer not null,
-  foreign key (categoryId) references categories(id),
-  foreign key (goodId) references goods(id)
+  discount_fixed real default 0,
+  discount_percent real default 0,
+  start_date numberic not null,
+  end_date numberic not null,
+  category_id bigint,
+  good_id bigint not null,
+  foreign key (category_id) references categories(id),
+  foreign key (good_id) references goods(id)
 );
 /
-create table orderPositions(
-  id integer not null primary key,
+create table order_positions(
+  id bigint not null primary key,
   discount real not null default 0,
   quantity real not null default 1,
-  orderId integer not null,
-  goodId integer not null,
-  actionId integer,
-  foreign key (orderId) references orders(id),
-  foreign key (goodId) references goods(id),
-  foreign key (actionId) references actions(id)
+  order_id bigint not null,
+  good_id bigint not null,
+  action_id bigint,
+  foreign key (order_id) references orders(id),
+  foreign key (good_id) references goods(id),
+  foreign key (action_id) references actions(id)
 );
 
 

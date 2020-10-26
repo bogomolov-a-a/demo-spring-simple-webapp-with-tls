@@ -13,12 +13,14 @@ import javax.persistence.Table;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import lombok.ToString;
 
 @Entity
 @Table(name="goods")
 @NoArgsConstructor
 @Getter
 @Setter
+@ToString
 public class Good  implements Serializable {
   @Id
   @GeneratedValue(strategy=GenerationType.IDENTITY)
@@ -26,13 +28,13 @@ public class Good  implements Serializable {
   private Long id;
   private String name;
   private String description;
-  private Double price;
+  private Float price;
   private String imgFilePath;
-  private Double quantity;
+  private Float quantity;
   @OneToOne(cascade = {CascadeType.PERSIST,CascadeType.MERGE,CascadeType.REMOVE,CascadeType.DETACH})
-  @JoinColumn(name = "producerId")
+  @JoinColumn(name = "producer_id")
   private Producer producer;
   @OneToOne(cascade = {CascadeType.PERSIST,CascadeType.MERGE,CascadeType.REMOVE,CascadeType.DETACH})
-  @JoinColumn(name = "categoryId")
+  @JoinColumn(name = "category_id")
   private Category category;
 }

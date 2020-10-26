@@ -17,12 +17,14 @@ import javax.persistence.Table;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import lombok.ToString;
 
 @Entity
 @Table(name="orders")
 @NoArgsConstructor
 @Getter
 @Setter
+@ToString
 public class Order implements Serializable {
   @Id
   @GeneratedValue(strategy=GenerationType.IDENTITY)
@@ -34,7 +36,7 @@ public class Order implements Serializable {
   private Date deliverDate;
   private String orderAddressPlain;
   @ManyToOne(cascade = {CascadeType.PERSIST,CascadeType.MERGE,CascadeType.REMOVE,CascadeType.DETACH})
-  @JoinColumn(name="orderAddressId")
+  @JoinColumn(name="order_address_id")
   private PhysicalAddress address;
   private String description;
   @Column(columnDefinition = "integer")
@@ -43,4 +45,5 @@ public class Order implements Serializable {
   private Set<Ticket> tickets;
   @OneToMany(cascade = {CascadeType.PERSIST,CascadeType.MERGE,CascadeType.DETACH,CascadeType.REMOVE},mappedBy = "order")
   private Set<OrderPosition> orderPositions;
+
 }
