@@ -2,10 +2,11 @@ package org.artembogomolova.demo.webapp.dao;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import lombok.extern.slf4j.Slf4j;
 import org.artembogomolova.demo.webapp.model.Order;
 import org.artembogomolova.demo.webapp.model.Person;
 import org.artembogomolova.demo.webapp.model.PhysicalAddress;
-
+@Slf4j
 public class RepositoryTestUtil {
 
   public static PhysicalAddress buildTestAddress() {
@@ -51,7 +52,7 @@ public class RepositoryTestUtil {
     try {
       result.setBirthDate(new SimpleDateFormat("yyyy-MM-dd").parse("2010-10-27"));
     } catch (ParseException e) {
-      //no op
+      log.warn(e.getMessage());
     }
     result.setPhone("+78*********");
     result.setEstateAddress(RepositoryTestUtil.buildTestAddress());
