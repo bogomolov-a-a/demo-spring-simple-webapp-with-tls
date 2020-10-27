@@ -15,7 +15,7 @@
     <maven.failsafe.plugin.version>3.0.0-M5</maven.failsafe.plugin.version>
     <!--code quality. tests -->
     <jacoco.plugin.version>0.8.5</jacoco.plugin.version>
-    <jacoco.plugin.coverage.min.ratio>0.9</jacoco.plugin.coverage.min.ratio>
+    <jacoco.plugin.coverage.min.ratio>0.900</jacoco.plugin.coverage.min.ratio>
     <!--BUNDLE is default element for coverage.
      Definition of BUNDLE
       BUNDLE is a set of classes/packages under analysis. Only with the Ant report task it is possible to split the classes under test into multiple bundles
