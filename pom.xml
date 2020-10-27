@@ -15,8 +15,6 @@
     <maven.failsafe.plugin.version>3.0.0-M5</maven.failsafe.plugin.version>
     <!--code quality. tests -->
     <jacoco.plugin.version>0.8.5</jacoco.plugin.version>
-    <jacoco.plugin.min.class.coverage.ratio>0.8</jacoco.plugin.min.class.coverage.ratio>
-    <jacoco.plugin.min.method.coverage.ratio>0.8</jacoco.plugin.min.method.coverage.ratio>
     <jacoco.plugin.min.coverage.ratio>0.9</jacoco.plugin.min.coverage.ratio>
   </properties>
 
@@ -359,16 +357,6 @@
                       <element>PACKAGE</element>
                       <limits>
                         <limit>
-                          <counter>CLASS</counter>
-                          <value>COVEREDRATIO</value>
-                          <minimum>${jacoco.plugin.min.class.coverage.ratio}</minimum>
-                        </limit>
-                        <limit>
-                          <counter>METHOD</counter>
-                          <value>COVEREDRATIO</value>
-                          <minimum>${jacoco.plugin.min.method.coverage.ratio}</minimum>
-                        </limit>
-                        <limit>
                           <counter>LINE</counter>
                           <value>COVEREDRATIO</value>
                           <minimum>${jacoco.plugin.min.coverage.ratio}</minimum>
@@ -428,16 +416,6 @@
                     <rule>
                       <element>PACKAGE</element>
                       <limits>
-                        <limit>
-                          <counter>CLASS</counter>
-                          <value>COVEREDRATIO</value>
-                          <minimum>${jacoco.plugin.min.class.coverage.ratio}</minimum>
-                        </limit>
-                        <limit>
-                          <counter>METHOD</counter>
-                          <value>COVEREDRATIO</value>
-                          <minimum>${jacoco.plugin.min.method.coverage.ratio}</minimum>
-                        </limit>
                         <limit>
                           <counter>LINE</counter>
                           <value>COVEREDRATIO</value>

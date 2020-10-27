@@ -42,4 +42,5 @@ public class PersonRepositoryTest extends AbstractDaoTest<Person>{
     Assertions.assertEquals(physicalAddressRepository.count(),0);
     Assertions.assertEquals(orderRepository.count(),0);
   }
+
 }

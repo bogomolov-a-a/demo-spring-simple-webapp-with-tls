@@ -5,7 +5,6 @@ import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -24,12 +23,11 @@ public class Action  extends IdentifiedEntity{
   private Date endDate;
   private Float discountFixed;
   private Float discountPercent;
-  @OneToOne(cascade = {CascadeType.PERSIST,CascadeType.MERGE,CascadeType.REMOVE,CascadeType.DETACH})
+  @ManyToOne(cascade = {CascadeType.PERSIST,CascadeType.MERGE,CascadeType.REMOVE,CascadeType.DETACH})
   @JoinColumn(name="category_id",columnDefinition = "bigint")
   private Category category;
   @ManyToOne(cascade = {CascadeType.PERSIST,CascadeType.MERGE,CascadeType.REMOVE,CascadeType.DETACH})
   @JoinColumn(name="good_id",columnDefinition = "bigint")
-
   private Good good;
 
   public Date getStartDate() {
