@@ -329,6 +329,11 @@
                 <goals>
                   <goal>prepare-agent</goal>
                 </goals>
+                <configuration>
+                  <excludes>
+                    <exclude>org.artembogomolova.demo.webapp.DemoWebappWithTlsApplication</exclude>
+                  </excludes>
+                </configuration>
               </execution>
               <execution>
                 <id>default-report-agent</id>
@@ -336,11 +341,6 @@
                 <goals>
                   <goal>report</goal>
                 </goals>
-                <configuration>
-                  <excludes>
-                    <exclude>org.artembogomolova.demo.webapp.DemoWebappWithTlsApplication</exclude>
-                  </excludes>
-                </configuration>
               </execution>
               <execution>
                 <id>jacoco-check</id>
@@ -349,9 +349,6 @@
                   <goal>check</goal>
                 </goals>
                 <configuration>
-                  <excludes>
-                    <exclude>org.artembogomolova.demo.webapp.DemoWebappWithTlsApplication</exclude>
-                  </excludes>
                   <rules>
                     <rule>
                       <element>PACKAGE</element>
@@ -388,6 +385,11 @@
                 <goals>
                   <goal>prepare-agent-integration</goal>
                 </goals>
+                <configuration>
+                  <excludes>
+                    <exclude>org.artembogomolova.demo.webapp.DemoWebappWithTlsApplication</exclude>
+                  </excludes>
+                </configuration>
               </execution>
               <execution>
                 <id>default-report-agent-integration</id>
@@ -395,11 +397,6 @@
                 <goals>
                   <goal>report-integration</goal>
                 </goals>
-                <configuration>
-                  <excludes>
-                    <exclude>org.artembogomolova.demo.webapp.DemoWebappWithTlsApplication</exclude>
-                  </excludes>
-                </configuration>
               </execution>
               <execution>
                 <id>jacoco-check-integration</id>
@@ -409,9 +406,6 @@
                 </goals>
                 <configuration>
                   <haltOnFailure>true</haltOnFailure>
-                  <excludes>
-                    <exclude>org.artembogomolova.demo.webapp.DemoWebappWithTlsApplication</exclude>
-                  </excludes>
                   <rules>
                     <rule>
                       <element>PACKAGE</element>
