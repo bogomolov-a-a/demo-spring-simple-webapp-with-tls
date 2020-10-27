@@ -3,3 +3,20 @@ spring:
     url: jdbc:sqlite:target/simple-service.db
     username: admin
     password: admin
+server:
+  port: 8443
+  ssl:
+    trust-store: certificate/build/trust-storage.p12
+    trust-store-type: PKCS12
+    trust-store-password: localhost
+    key-store: certificate/build/server-key.p12
+    key-alias: localhost
+    key-store-type: PKCS12
+    key-password: localhost
+    key-store-password: localhost
+test:
+  ssl:
+    trusted-keystore-file: certificate/build/trust-storage.p12
+    trusted-store-type: PKCS12
+    trusted-store-password: localhost
+    trusted-key-password: localhost
