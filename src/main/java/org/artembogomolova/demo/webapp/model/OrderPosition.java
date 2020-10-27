@@ -13,8 +13,8 @@ import lombok.Data;
 
 public class OrderPosition extends IdentifiedEntity {
 
-  private Float discount;
-  private Float quantity;
+  private Float discount=0f;
+  private Float quantity=1f;
   @ManyToOne(cascade = {CascadeType.PERSIST,CascadeType.MERGE,CascadeType.DETACH,CascadeType.REMOVE})
   @JoinColumn(name="order_id",columnDefinition = "bigint")
   private Order order;
