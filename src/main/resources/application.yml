@@ -13,3 +13,11 @@ spring:
     change-log: classpath*:db/changelog/db.changelog-master.yml
 server:
   port: 8080
+  compression:
+    enabled: true
+  ssl:
+    enabled: true
+    client-auth:  none
+    enabled-protocols:
+      - TLSv1.2
+      - TLSv1.3

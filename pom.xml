@@ -76,10 +76,6 @@
       <groupId>org.springframework.boot</groupId>
     </dependency>
     <dependency>
-      <artifactId>spring-boot-starter-oauth2-resource-server</artifactId>
-      <groupId>org.springframework.boot</groupId>
-    </dependency>
-    <dependency>
       <artifactId>spring-boot-starter-security</artifactId>
       <groupId>org.springframework.boot</groupId>
     </dependency>
@@ -159,6 +155,12 @@
     <dependency>
       <groupId>javax.servlet</groupId>
       <artifactId>javax.servlet-api</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>org.apache.httpcomponents</groupId>
+      <artifactId>httpclient</artifactId>
+      <version>4.5.8</version>
+      <scope>test</scope>
     </dependency>
   </dependencies>
   <groupId>org.artembogomolova</groupId>
