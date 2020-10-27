@@ -15,7 +15,13 @@
     <maven.failsafe.plugin.version>3.0.0-M5</maven.failsafe.plugin.version>
     <!--code quality. tests -->
     <jacoco.plugin.version>0.8.5</jacoco.plugin.version>
-    <jacoco.plugin.min.coverage.ratio>0.9</jacoco.plugin.min.coverage.ratio>
+    <jacoco.plugin.coverage.min.ratio>0.9</jacoco.plugin.coverage.min.ratio>
+    <!--BUNDLE is default element for coverage.
+     Definition of BUNDLE
+      BUNDLE is a set of classes/packages under analysis. Only with the Ant report task it is possible to split the classes under test into multiple bundles
+       (with the "group" tag). With Maven currently all classes of a module form a bundle (once we get multi-module reports
+       I would prefer to have a bundle per module).-->
+    <jacoco.plugin.coverage.element.name>BUNDLE</jacoco.plugin.coverage.element.name>
   </properties>
 
   <build>
@@ -329,11 +335,6 @@
                 <goals>
                   <goal>prepare-agent</goal>
                 </goals>
-                <configuration>
-                  <excludes>
-                    <exclude>org.artembogomolova.demo.webapp.DemoWebappWithTlsApplication</exclude>
-                  </excludes>
-                </configuration>
               </execution>
               <execution>
                 <id>default-report-agent</id>
@@ -351,12 +352,12 @@
                 <configuration>
                   <rules>
                     <rule>
-                      <element>PACKAGE</element>
+                      <element>${jacoco.plugin.coverage.element.name}</element>
                       <limits>
                         <limit>
                           <counter>LINE</counter>
                           <value>COVEREDRATIO</value>
-                          <minimum>${jacoco.plugin.min.coverage.ratio}</minimum>
+                          <minimum>${jacoco.plugin.coverage.min.ratio}</minimum>
                         </limit>
                       </limits>
                     </rule>
@@ -385,11 +386,6 @@
                 <goals>
                   <goal>prepare-agent-integration</goal>
                 </goals>
-                <configuration>
-                  <excludes>
-                    <exclude>org.artembogomolova.demo.webapp.DemoWebappWithTlsApplication</exclude>
-                  </excludes>
-                </configuration>
               </execution>
               <execution>
                 <id>default-report-agent-integration</id>
@@ -408,12 +404,12 @@
                   <haltOnFailure>true</haltOnFailure>
                   <rules>
                     <rule>
-                      <element>PACKAGE</element>
+                      <element>${jacoco.plugin.coverage.element.name}</element>
                       <limits>
                         <limit>
                           <counter>LINE</counter>
                           <value>COVEREDRATIO</value>
-                          <minimum>${jacoco.plugin.min.coverage.ratio}</minimum>
+                          <minimum>${jacoco.plugin.coverage.min.ratio}</minimum>
                         </limit>
                       </limits>
                     </rule>
