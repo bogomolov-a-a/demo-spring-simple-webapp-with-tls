@@ -21,11 +21,9 @@ public class CategoryRepositoryTest extends AbstractDaoTest<Category>{
   @Override
   protected Collection<Category> generateEntities() {
     Collection<Category> result=new ArrayList<>();
-    Category category1 = new Category();
-    category1.setName("Category1");
+    Category category1 = RepositoryTestUtil.buildCategory1();
     result.add(category1);
-    Category category2 = new Category();
-    category2.setName("Category2");
+    Category category2 = RepositoryTestUtil.buildCategory2();
     result.add(category2);
     Category category11 = new Category();
     category11.setName("Category11");
