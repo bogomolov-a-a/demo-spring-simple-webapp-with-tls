@@ -8,9 +8,11 @@ import org.artembogomolova.demo.webapp.model.Action;
 import org.artembogomolova.demo.webapp.model.Category;
 import org.artembogomolova.demo.webapp.model.Good;
 import org.artembogomolova.demo.webapp.model.Order;
+import org.artembogomolova.demo.webapp.model.OrderPosition;
 import org.artembogomolova.demo.webapp.model.Person;
 import org.artembogomolova.demo.webapp.model.PhysicalAddress;
 import org.artembogomolova.demo.webapp.model.Producer;
+import org.artembogomolova.demo.webapp.model.Ticket;
 
 @Slf4j
 public class RepositoryTestUtil {
@@ -48,6 +50,7 @@ public class RepositoryTestUtil {
     result.setSpecificPart("unused");
     return result;
   }
+
   public static PhysicalAddress buildProducerTestAddress() {
     PhysicalAddress result = new PhysicalAddress();
     result.setPostalCode("523152");
@@ -72,8 +75,10 @@ public class RepositoryTestUtil {
   }
   public static Order buildOrder() {
     Order result = new Order();
-    result.setAddress(buildOrderTestAddress());
     result.setDescription("test order description");
+    Person person = buildPerson();
+    result.setPerson(person);
+    person.getOrders().add(result);
     return result;
   }
 
@@ -144,6 +149,40 @@ public class RepositoryTestUtil {
     result.setCategory(category1);
     category1.getActions().add(result);
     result.setDiscountPercent(50.0f);
+    return result;
+  }
+
+  public static Order buildCreatedOrder() {
+    Order result = buildOrder();
+    OrderPosition orderPosition=buildOrderPosition();
+    result.getOrderPositions().add(orderPosition);
+    orderPosition.setOrder(result);
+    return result;
+  }
+
+  private static OrderPosition buildOrderPosition() {
+    OrderPosition result=new OrderPosition();
+    Good testGood = buildTestGood();
+    result.setGood(testGood);
+    testGood.getOrderPositions().add(result);
+    result.setQuantity(6f);
+    return result;
+  }
+
+
+  public static Order buildPayedOrder() {
+    Order result = buildCreatedOrder();
+    result.setPayed(true);
+    Ticket ticket = new Ticket();
+    result.getTickets().add(ticket);
+    ticket.setOrder(result);
+    ticket.setSumm(422.0f*6.0f);
+    return result;
+  }
+
+  public static Order buildDeliveredOrder() {
+    Order result = buildPayedOrder();
+    result.setDeliverDate(Calendar.getInstance().getTime());
     return result;
   }
 }

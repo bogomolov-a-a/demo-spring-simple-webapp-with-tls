@@ -1,0 +1,39 @@
+package org.artembogomolova.demo.webapp.dao;
+
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
+import org.artembogomolova.demo.webapp.model.Order;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.repository.CrudRepository;
+
+public class OrderRepositoryTest extends AbstractDaoTest<Order>{
+
+  @Autowired
+  private IOrderRepository orderRepository;
+
+  @Override
+  protected Collection<Order> updateEntities(Collection<Order> savedCollection) {
+    return savedCollection;
+  }
+
+  @Override
+  protected CrudRepository<Order, Long> getCrudRepository() {
+    return orderRepository;
+  }
+
+  @Override
+  protected Collection<Order> generateEntities() {
+    List<Order> result=new ArrayList<>();
+    /*Order createdOrder = RepositoryTestUtil.buildCreatedOrder();
+    createdOrder.setOrderAddressPlain("address1");
+    result.add(createdOrder);
+    Order payedOrder = RepositoryTestUtil.buildPayedOrder();
+    payedOrder.setOrderAddressPlain("address2");
+    result.add(payedOrder);*/
+    Order deliveredOrder = RepositoryTestUtil.buildDeliveredOrder();
+    deliveredOrder.setOrderAddressPlain("address3");
+    result.add(deliveredOrder);
+    return result;
+  }
+}

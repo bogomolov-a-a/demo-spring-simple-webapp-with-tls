@@ -24,7 +24,7 @@ import lombok.ToString;
 @Setter
 @NoArgsConstructor
 @EqualsAndHashCode
-@ToString(exclude = "person")
+@ToString(exclude = {"person","tickets","orderPositions"})
 public class Order extends IdentifiedEntity{
 
   @Temporal(TemporalType.TIMESTAMP)
@@ -43,7 +43,7 @@ public class Order extends IdentifiedEntity{
   private List<Ticket> tickets=new ArrayList<>();
   @OneToMany(cascade = {CascadeType.PERSIST,CascadeType.MERGE,CascadeType.DETACH,CascadeType.REMOVE},mappedBy = "order",orphanRemoval = true)
   private List<OrderPosition> orderPositions=new ArrayList<>();
-  @ManyToOne()
+  @ManyToOne(cascade = {CascadeType.PERSIST,CascadeType.MERGE,CascadeType.DETACH,CascadeType.REMOVE})
   @JoinColumn(name="person_id",columnDefinition = "bigint")
   private Person person;
   public Date getOrderDate() {

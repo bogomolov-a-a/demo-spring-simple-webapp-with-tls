@@ -20,7 +20,7 @@ import lombok.ToString;
 @Setter
 @EqualsAndHashCode
 @NoArgsConstructor
-@ToString(exclude = {"producer","category","actions"})
+@ToString(exclude = {"producer","category","actions","orderPositions"})
 public class Good  extends IdentifiedEntity {
 
   private String name;
@@ -36,4 +36,6 @@ public class Good  extends IdentifiedEntity {
   private Category category;
   @OneToMany(cascade = {CascadeType.PERSIST,CascadeType.MERGE,CascadeType.REMOVE,CascadeType.DETACH},orphanRemoval = true,mappedBy = "good")
   private List<Action> actions=new ArrayList<>();
+  @OneToMany(cascade = {CascadeType.PERSIST,CascadeType.MERGE,CascadeType.REMOVE,CascadeType.DETACH},orphanRemoval = true,mappedBy = "good")
+  private List<OrderPosition> orderPositions=new ArrayList<>();
 }
