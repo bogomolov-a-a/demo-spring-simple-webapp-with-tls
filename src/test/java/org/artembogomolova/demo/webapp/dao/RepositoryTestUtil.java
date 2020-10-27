@@ -2,7 +2,9 @@ package org.artembogomolova.demo.webapp.dao;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import lombok.extern.slf4j.Slf4j;
+import org.artembogomolova.demo.webapp.model.Action;
 import org.artembogomolova.demo.webapp.model.Category;
 import org.artembogomolova.demo.webapp.model.Good;
 import org.artembogomolova.demo.webapp.model.Order;
@@ -116,6 +118,32 @@ public class RepositoryTestUtil {
   public static Category buildCategory2() {
     Category result=new Category();
     result.setName("Category2");
+    return result;
+  }
+
+  public static Action buildGoodAction() {
+    Action result=new Action();
+    result.setDescription("test action 1 description");
+    result.setStartDate(Calendar.getInstance().getTime());
+    result.setEndDate(Calendar.getInstance().getTime());
+    result.setName("test action 1");
+    Good testGood = buildTestGood();
+    result.setGood(testGood);
+    testGood.getActions().add(result);
+    result.setDiscountFixed(500.0f);
+    return result;
+  }
+
+  public static Action buildCategoryAction() {
+    Action result=new Action();
+    result.setDescription("test action 1 description");
+    result.setStartDate(Calendar.getInstance().getTime());
+    result.setEndDate(Calendar.getInstance().getTime());
+    result.setName("test action 1");
+    Category category1 = buildCategory1();
+    result.setCategory(category1);
+    category1.getActions().add(result);
+    result.setDiscountPercent(50.0f);
     return result;
   }
 }

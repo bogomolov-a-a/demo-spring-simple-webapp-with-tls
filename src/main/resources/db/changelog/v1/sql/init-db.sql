@@ -78,7 +78,7 @@ create table actions(
   start_date TIMESTAMP not null,
   end_date TIMESTAMP not null,
   category_id bigint,
-  good_id bigint not null,
+  good_id bigint ,
   foreign key (category_id) references categories(id) on delete cascade on update cascade,
   foreign key (good_id) references goods(id)on delete cascade on update cascade
 );
