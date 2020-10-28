@@ -1,7 +1,6 @@
 package org.artembogomolova.demo.webapp.dao;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 import org.artembogomolova.demo.webapp.model.Order;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,7 +12,7 @@ public class OrderRepositoryTest extends AbstractDaoTest<Order>{
   private IOrderRepository orderRepository;
 
   @Override
-  protected Collection<Order> updateEntities(Collection<Order> savedCollection) {
+  protected List<Order> updateEntities(List<Order> savedCollection) {
     return savedCollection;
   }
 
@@ -23,8 +22,8 @@ public class OrderRepositoryTest extends AbstractDaoTest<Order>{
   }
 
   @Override
-  protected Collection<Order> generateEntities() {
-    List<Order> result=new ArrayList<>();
+  protected List<Order> generateEntities() {
+    List<Order> result = new ArrayList<>();
     /*Order createdOrder = RepositoryTestUtil.buildCreatedOrder();
     createdOrder.setOrderAddressPlain("address1");
     result.add(createdOrder);

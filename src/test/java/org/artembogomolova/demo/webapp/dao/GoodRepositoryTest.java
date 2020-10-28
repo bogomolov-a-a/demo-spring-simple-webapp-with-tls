@@ -1,7 +1,6 @@
 package org.artembogomolova.demo.webapp.dao;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 import org.artembogomolova.demo.webapp.model.Good;
 import org.junit.jupiter.api.Assertions;
@@ -20,8 +19,9 @@ public class GoodRepositoryTest extends AbstractDaoTest<Good>{
   private ICategoryRepository categoryRepository;
 
   @Override
-  protected Collection<Good> updateEntities(Collection<Good> savedCollection) {
-    ((List<Good>)savedCollection).get(0).setPrice(42.3f);
+  protected List<Good> updateEntities(List<Good> savedCollection) {
+    savedCollection.get(0)
+        .setPrice(42.3f);
     return savedCollection;
   }
 
@@ -31,8 +31,8 @@ public class GoodRepositoryTest extends AbstractDaoTest<Good>{
   }
 
   @Override
-  protected Collection<Good> generateEntities() {
-    List<Good> result= new ArrayList<>();
+  protected List<Good> generateEntities() {
+    List<Good> result = new ArrayList<>();
     result.add(RepositoryTestUtil.buildTestGood());
     return result;
   }

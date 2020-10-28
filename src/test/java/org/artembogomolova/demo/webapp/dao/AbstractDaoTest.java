@@ -1,6 +1,5 @@
 package org.artembogomolova.demo.webapp.dao;
 
-import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
@@ -28,17 +27,19 @@ public abstract class AbstractDaoTest<T extends IdentifiedEntity> {
   void crudCheck() {
     CrudRepository repository = getCrudRepository();
     try {
-      Collection<T> entities = generateEntities();
+      List<T> entities = generateEntities();
       Assertions.assertFalse(entities == null || entities.isEmpty(), "entities list can't empty!");
-      Collection<T> savedCollection = getSavedEntityCollection(repository,entities);
-      List<Long> identifierCollection = savedCollection.stream().map(IdentifiedEntity::getId).collect(Collectors.toList());
-      Collection<T> receivedCollection = (Collection<T>) repository.findAllById(identifierCollection);
+      List<T> savedCollection = getSavedEntityCollection(repository, entities);
+      List<Long> identifierCollection = savedCollection.stream()
+          .map(IdentifiedEntity::getId)
+          .collect(Collectors.toList());
+      List<T> receivedCollection = (List<T>) repository.findAllById(identifierCollection);
       validateSaveOperationData(savedCollection, receivedCollection);
       receivedCollection.clear();
-      Collection<T> updatedEntities = updateEntities(savedCollection);
-      Collection<T> updatedCollection = getSavedEntityCollection(repository,updatedEntities);
+      List<T> updatedEntities = updateEntities(savedCollection);
+      List<T> updatedCollection = getSavedEntityCollection(repository, updatedEntities);
       /*identifiers already exists*/
-      receivedCollection.addAll((Collection<T>) repository.findAllById(identifierCollection));
+      receivedCollection.addAll((List<T>) repository.findAllById(identifierCollection));
       validateSaveOperationData(updatedCollection, receivedCollection);
       repository.deleteAll(receivedCollection);
       Assertions.assertTrue(repository.count() == 0, "exists entities not deleted from repository " + repository.findAll());
@@ -50,10 +51,9 @@ public abstract class AbstractDaoTest<T extends IdentifiedEntity> {
     }
   }
 
-  protected Collection<T> getSavedEntityCollection(CrudRepository repository, Collection<T> entities)
-  {
+  protected List<T> getSavedEntityCollection(CrudRepository repository, List<T> entities) {
     try {
-      return  (Collection<T>) repository.saveAll(entities);
+      return (List<T>) repository.saveAll(entities);
     } catch (Exception e) {
       if (!handleExceptions(e, entities)) {
         throw new RuntimeException(e);
@@ -62,7 +62,7 @@ public abstract class AbstractDaoTest<T extends IdentifiedEntity> {
     }
   }
 
-  protected boolean handleExceptions(Exception e, Collection<T> entities) {
+  protected boolean handleExceptions(Exception e, List<T> entities) {
     /*Exceptions are wrong.*/
     return false;
   }
@@ -71,17 +71,17 @@ public abstract class AbstractDaoTest<T extends IdentifiedEntity> {
     //no repositories validate needed
   }
 
-  protected abstract Collection<T> updateEntities(Collection<T> savedCollection);
+  protected abstract List<T> updateEntities(List<T> savedCollection);
 
   protected abstract CrudRepository<T, Long> getCrudRepository();
 
-  protected abstract Collection<T> generateEntities();
+  protected abstract List<T> generateEntities();
 
-  protected void validateSaveOperationData(Collection<T> savedEntityCollection, Collection<T> receivedEntityCollection) {
+  protected void validateSaveOperationData(List<T> savedEntityCollection, List<T> receivedEntityCollection) {
     Assertions.assertNotNull(savedEntityCollection, "entitySavedCollection can't not be null!");
     Assertions.assertNotNull(receivedEntityCollection, "receivedEntityCollection can't not be null!");
-    Collections.sort((List) savedEntityCollection, ID_COMPARATOR);
-    Collections.sort((List) receivedEntityCollection, ID_COMPARATOR);
+    Collections.sort(savedEntityCollection, ID_COMPARATOR);
+    Collections.sort(receivedEntityCollection, ID_COMPARATOR);
     Assertions.assertEquals(savedEntityCollection, receivedEntityCollection,
         "collections are different!\nExpected: " + savedEntityCollection + "\nGot:" + receivedEntityCollection);
   }

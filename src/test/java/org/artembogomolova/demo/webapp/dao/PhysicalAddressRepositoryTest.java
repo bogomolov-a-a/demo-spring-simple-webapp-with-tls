@@ -1,7 +1,6 @@
 package org.artembogomolova.demo.webapp.dao;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 import org.artembogomolova.demo.webapp.model.PhysicalAddress;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,8 +11,8 @@ public class PhysicalAddressRepositoryTest extends AbstractDaoTest<PhysicalAddre
   @Autowired
   private IPhysicalAddressRepository physicalAddressRepository;
   @Override
-  protected Collection<PhysicalAddress> updateEntities(Collection<PhysicalAddress> savedCollection) {
-    PhysicalAddress address = ((List<PhysicalAddress>) savedCollection).get(0);
+  protected List<PhysicalAddress> updateEntities(List<PhysicalAddress> savedCollection) {
+    PhysicalAddress address = savedCollection.get(0);
     address.setCity("City2");
     address.setHouse("42/8544");
     return savedCollection;
@@ -25,8 +24,8 @@ public class PhysicalAddressRepositoryTest extends AbstractDaoTest<PhysicalAddre
   }
 
   @Override
-  protected Collection<PhysicalAddress> generateEntities() {
-    Collection<PhysicalAddress>  result=new ArrayList<>();
+  protected List<PhysicalAddress> generateEntities() {
+    List<PhysicalAddress> result = new ArrayList<>();
     result.add(RepositoryTestUtil.buildTestAddress());
     return result;
   }

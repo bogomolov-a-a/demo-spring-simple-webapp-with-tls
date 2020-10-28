@@ -1,7 +1,6 @@
 package org.artembogomolova.demo.webapp.dao;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 import org.artembogomolova.demo.webapp.model.Person;
 import org.junit.jupiter.api.Assertions;
@@ -17,8 +16,8 @@ public class PersonRepositoryTest extends AbstractDaoTest<Person>{
   @Autowired
   private IOrderRepository orderRepository;
   @Override
-  protected Collection<Person> updateEntities(Collection<Person> savedCollection) {
-    Person person = ((List<Person>) savedCollection).get(0);
+  protected List<Person> updateEntities(List<Person> savedCollection) {
+    Person person = savedCollection.get(0);
     person.setPhone("+781********");
     return savedCollection;
   }
@@ -29,8 +28,8 @@ public class PersonRepositoryTest extends AbstractDaoTest<Person>{
   }
 
   @Override
-  protected Collection<Person> generateEntities() {
-    Collection<Person> result=new ArrayList<>();
+  protected List<Person> generateEntities() {
+    List<Person> result = new ArrayList<>();
     Person person = RepositoryTestUtil.buildPerson();
     result.add(person);
     return result;
