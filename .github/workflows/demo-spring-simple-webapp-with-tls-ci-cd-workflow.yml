@@ -17,7 +17,8 @@ jobs:
          chmod +x ./certificate/cert-build.sh &&./certificate/cert-build.sh                    
      - name: Build with Maven in docker
        run: |
-        mvn -B package --file pom.xml  
+        mvn -B package --file pom.xml 
+        mkdir coverage 
      - name: Upload coverage to Codecov
        uses: codecov/codecov-action@v1
        with:
