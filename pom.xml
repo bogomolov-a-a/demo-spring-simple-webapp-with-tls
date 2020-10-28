@@ -403,6 +403,30 @@
       </build>
       <id>code-coverage-integration-test</id>
     </profile>
+    <profile>
+      <activation>
+        <activeByDefault>true</activeByDefault>
+      </activation>
+      <build>
+        <plugins>
+          <plugin>
+            <artifactId>sonar-maven-plugin</artifactId>
+            <executions>
+              <execution>
+                <goals>
+                  <goal>sonar</goal>
+                </goals>
+                <id>sonar-check</id>
+                <phase>verify</phase>
+              </execution>
+            </executions>
+            <groupId>org.sonarsource.scanner.maven</groupId>
+            <version>${sonar.maven.plugin.version}</version>
+          </plugin>
+        </plugins>
+      </build>
+      <id>sonar-check</id>
+    </profile>
   </profiles>
 
   <properties>
@@ -425,6 +449,10 @@
        (with the "group" tag). With Maven currently all classes of a module form a bundle (once we get multi-module reports
        I would prefer to have a bundle per module).-->
     <spotbugs.plugin.version>4.0.4</spotbugs.plugin.version>
+    <!-- sonar analysis. -->
+    <sonar.host.url>https://sonarcloud.io</sonar.host.url>
+    <!-- Optional URL to server. Default value is http://localhost:9000 -->
+    <sonar.maven.plugin.version>3.7.0.1746</sonar.maven.plugin.version>
   </properties>
   <version>0.0.1-SNAPSHOT</version>
 </project>
