@@ -2,28 +2,6 @@
 <project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://maven.apache.org/POM/4.0.0"
   xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
   <artifactId>demo-webapp-with-tls</artifactId>
-  <properties>
-    <java.version>11</java.version>
-    <!-- code quality. static analysis-->
-    <pmd.plugin.version>3.13.0</pmd.plugin.version>
-    <pmd.plugin.dependency.version>6.26.0</pmd.plugin.dependency.version>
-    <spotbugs.plugin.version>4.0.4</spotbugs.plugin.version>
-    <spotbugs.plugin.dependency.version>4.1.2</spotbugs.plugin.dependency.version>
-    <maven.checkstyle.plugin.version>3.1.1</maven.checkstyle.plugin.version>
-    <maven.checkstyle.plugin.dependency.version>8.35</maven.checkstyle.plugin.dependency.version>
-    <maven.surefire.plugin.version>3.0.0-M5</maven.surefire.plugin.version>
-    <maven.failsafe.plugin.version>3.0.0-M5</maven.failsafe.plugin.version>
-    <!--code quality. tests -->
-    <jacoco.plugin.version>0.8.5</jacoco.plugin.version>
-    <jacoco.plugin.coverage.min.ratio>0.900</jacoco.plugin.coverage.min.ratio>
-    <!--BUNDLE is default element for coverage.
-     Definition of BUNDLE
-      BUNDLE is a set of classes/packages under analysis. Only with the Ant report task it is possible to split the classes under test into multiple bundles
-       (with the "group" tag). With Maven currently all classes of a module form a bundle (once we get multi-module reports
-       I would prefer to have a bundle per module).-->
-    <jacoco.plugin.coverage.element.name>BUNDLE</jacoco.plugin.coverage.element.name>
-  </properties>
-
   <build>
     <plugins>
       <plugin>
@@ -31,45 +9,46 @@
         <groupId>org.springframework.boot</groupId>
       </plugin>
       <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-surefire-plugin</artifactId>
-        <version>${maven.surefire.plugin.version}</version>
         <executions>
           <execution>
-            <id>default-test</id>
-            <phase>test</phase>
-            <goals>
-              <goal>test</goal>
-            </goals>
             <configuration>
               <includes>
                 <include>**/*Test.java</include>
               </includes>
             </configuration>
+            <goals>
+              <goal>test</goal>
+            </goals>
+            <id>default-test</id>
+            <phase>test</phase>
           </execution>
         </executions>
+        <groupId>org.apache.maven.plugins</groupId>
+        <version>${maven.surefire.plugin.version}</version>
       </plugin>
       <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-failsafe-plugin</artifactId>
-        <version>${maven.surefire.plugin.version}</version>
         <executions>
           <execution>
-            <id>default-integration-test</id>
-            <phase>integration-test</phase>
-            <goals>
-              <goal>integration-test</goal>
-            </goals>
             <configuration>
               <includes>
                 <include>**/*IT.java</include>
               </includes>
             </configuration>
+            <goals>
+              <goal>integration-test</goal>
+            </goals>
+            <id>default-integration-test</id>
+            <phase>integration-test</phase>
           </execution>
         </executions>
+        <groupId>org.apache.maven.plugins</groupId>
+        <version>${maven.surefire.plugin.version}</version>
       </plugin>
     </plugins>
   </build>
+
   <dependencies>
     <dependency>
       <artifactId>spring-boot-starter-data-jpa</artifactId>
@@ -122,16 +101,16 @@
           <groupId>org.junit.vintage</groupId>
         </exclusion>
         <exclusion>
-          <groupId>junit</groupId>
           <artifactId>junit</artifactId>
+          <groupId>junit</groupId>
         </exclusion>
       </exclusions>
       <groupId>org.springframework.boot</groupId>
       <scope>test</scope>
     </dependency>
     <dependency>
-      <groupId>org.junit.jupiter</groupId>
       <artifactId>junit-jupiter-engine</artifactId>
+      <groupId>org.junit.jupiter</groupId>
       <scope>test</scope>
     </dependency>
     <dependency>
@@ -140,33 +119,35 @@
       <scope>test</scope>
     </dependency>
     <dependency>
-      <groupId>org.springframework.boot</groupId>
       <artifactId>spring-boot-devtools</artifactId>
+      <groupId>org.springframework.boot</groupId>
       <optional>true</optional>
     </dependency>
     <dependency>
-      <groupId>com.fasterxml.jackson.module</groupId>
       <artifactId>jackson-module-jaxb-annotations</artifactId>
+      <groupId>com.fasterxml.jackson.module</groupId>
     </dependency>
     <dependency>
-      <groupId>org.springframework.boot</groupId>
       <artifactId>spring-boot-starter-tomcat</artifactId>
+      <groupId>org.springframework.boot</groupId>
     </dependency>
     <dependency>
-      <groupId>javax.servlet</groupId>
       <artifactId>javax.servlet-api</artifactId>
+      <groupId>javax.servlet</groupId>
     </dependency>
     <dependency>
-      <groupId>org.apache.httpcomponents</groupId>
       <artifactId>httpclient</artifactId>
-      <version>4.5.8</version>
+      <groupId>org.apache.httpcomponents</groupId>
       <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.springframework.security</groupId>
+      <artifactId>spring-security-config</artifactId>
     </dependency>
   </dependencies>
   <groupId>org.artembogomolova</groupId>
   <modelVersion>4.0.0</modelVersion>
   <name>demo-webapp-with-tls</name>
-
   <parent>
     <artifactId>spring-boot-starter-parent</artifactId>
     <groupId>org.springframework.boot</groupId>
@@ -174,138 +155,129 @@
     <version>2.3.4.RELEASE</version> <!-- lookup parent from repository -->
   </parent>
 
-  <version>0.0.1-SNAPSHOT</version>
   <profiles>
     <profile>
-      <id>code-quality</id>
       <activation>
         <activeByDefault>true</activeByDefault>
       </activation>
       <build>
         <plugins>
           <plugin>
-            <groupId>org.apache.maven.plugins</groupId>
             <artifactId>maven-pmd-plugin</artifactId>
-            <version>${pmd.plugin.version}</version>
             <dependencies>
               <dependency>
-                <groupId>net.sourceforge.pmd</groupId>
                 <artifactId>pmd-core</artifactId>
+                <groupId>net.sourceforge.pmd</groupId>
                 <version>${pmd.plugin.dependency.version}</version>
               </dependency>
               <dependency>
-                <groupId>net.sourceforge.pmd</groupId>
                 <artifactId>pmd-java</artifactId>
+                <groupId>net.sourceforge.pmd</groupId>
                 <version>${pmd.plugin.dependency.version}</version>
               </dependency>
             </dependencies>
             <executions>
               <execution>
-                <id>pmd</id>
-                <phase>compile</phase>
-                <goals>
-                  <goal>pmd</goal>
-                </goals>
                 <configuration>
+                  <includeTests>true</includeTests>
                   <linkXRef>true</linkXRef>
                   <skipPmdError>false</skipPmdError>
                   <targetJdk>${java.version}</targetJdk>
-                  <includeTests>true</includeTests>
                 </configuration>
+                <goals>
+                  <goal>pmd</goal>
+                </goals>
+                <id>pmd</id>
+                <phase>compile</phase>
               </execution>
               <execution>
-                <id>pmd-check</id>
-                <phase>compile</phase>
                 <goals>
                   <goal>check</goal>
                 </goals>
+                <id>pmd-check</id>
+                <phase>compile</phase>
               </execution>
               <execution>
-                <id>cpd</id>
-                <phase>compile</phase>
-                <goals>
-                  <goal>cpd</goal>
-                </goals>
                 <configuration>
                   <includeTests>true</includeTests>
                 </configuration>
+                <goals>
+                  <goal>cpd</goal>
+                </goals>
+                <id>cpd</id>
+                <phase>compile</phase>
               </execution>
               <execution>
-                <id>cpd-check</id>
-                <phase>compile</phase>
                 <goals>
                   <goal>cpd-check</goal>
                 </goals>
+                <id>cpd-check</id>
+                <phase>compile</phase>
               </execution>
             </executions>
+            <groupId>org.apache.maven.plugins</groupId>
+            <version>${pmd.plugin.version}</version>
           </plugin>
           <plugin>
-            <groupId>com.github.spotbugs</groupId>
             <artifactId>spotbugs-maven-plugin</artifactId>
-            <version>${spotbugs.plugin.version}</version>
             <dependencies>
               <!-- overwrite dependency on spotbugs if you want to specify the version of spotbugs -->
               <dependency>
-                <groupId>com.github.spotbugs</groupId>
                 <artifactId>spotbugs</artifactId>
+                <groupId>com.github.spotbugs</groupId>
                 <version>${spotbugs.plugin.dependency.version}</version>
               </dependency>
             </dependencies>
             <executions>
               <execution>
-                <id>spotbugs</id>
-                <phase>compile</phase>
-                <goals>
-                  <goal>spotbugs</goal>
-                </goals>
                 <configuration>
                   <includeTests>true</includeTests>
                 </configuration>
+                <goals>
+                  <goal>spotbugs</goal>
+                </goals>
+                <id>spotbugs</id>
+                <phase>compile</phase>
               </execution>
               <execution>
-                <id>spotbugs-check</id>
-                <phase>compile</phase>
                 <goals>
                   <goal>check</goal>
                 </goals>
+                <id>spotbugs-check</id>
+                <phase>compile</phase>
               </execution>
             </executions>
+            <groupId>com.github.spotbugs</groupId>
+            <version>${spotbugs.plugin.version}</version>
           </plugin>
           <plugin>
-            <groupId>org.apache.maven.plugins</groupId>
             <artifactId>maven-checkstyle-plugin</artifactId>
-            <version>${maven.checkstyle.plugin.version}</version>
             <dependencies>
               <dependency>
-                <groupId>com.puppycrawl.tools</groupId>
                 <artifactId>checkstyle</artifactId>
+                <groupId>com.puppycrawl.tools</groupId>
                 <version>${maven.checkstyle.plugin.dependency.version}</version>
               </dependency>
             </dependencies>
             <executions>
               <execution>
-                <id>checkstyle-check</id>
-                <phase>compile</phase>
-                <goals>
-                  <goal>check</goal>
-                </goals>
                 <configuration>
                   <configLocation>google_checks.xml</configLocation>
-                  <suppressionsLocation>${maven.multiModuleProjectDirectory}/checkstyle-suppressions.xml</suppressionsLocation>
-                  <suppressionsFileExpression>checkstyle.suppressions.file</suppressionsFileExpression>
                   <failsOnError>true</failsOnError>
                   <includeTestSourceDirectory>true</includeTestSourceDirectory>
                   <sourceDirectories>
                     <sourceDirectory>${project.build.sourceDirectory}</sourceDirectory>
                   </sourceDirectories>
+                  <suppressionsFileExpression>checkstyle.suppressions.file</suppressionsFileExpression>
+                  <suppressionsLocation>${maven.multiModuleProjectDirectory}/checkstyle-suppressions.xml</suppressionsLocation>
                 </configuration>
-              </execution>
-              <execution>
-                <id>checkstyle-custom</id>
-                <phase>compile</phase>
                 <goals>
                   <goal>check</goal>
                 </goals>
+                <id>checkstyle-check</id>
+                <phase>compile</phase>
+              </execution>
+              <execution>
                 <configuration>
                   <configLocation>${maven.multiModuleProjectDirectory}/checkstyle.xml</configLocation>
                   <failsOnError>true</failsOnError>
@@ -314,43 +286,43 @@
                     <sourceDirectory>${project.build.sourceDirectory}</sourceDirectory>
                   </sourceDirectories>
                 </configuration>
+                <goals>
+                  <goal>check</goal>
+                </goals>
+                <id>checkstyle-custom</id>
+                <phase>compile</phase>
               </execution>
             </executions>
+            <groupId>org.apache.maven.plugins</groupId>
+            <version>${maven.checkstyle.plugin.version}</version>
           </plugin>
         </plugins>
       </build>
+      <id>code-quality</id>
     </profile>
     <profile>
-      <id>code-coverage-test</id>
       <activation>
         <activeByDefault>true</activeByDefault>
       </activation>
       <build>
         <plugins>
           <plugin>
-            <groupId>org.jacoco</groupId>
             <artifactId>jacoco-maven-plugin</artifactId>
-            <version>${jacoco.plugin.version}</version>
             <executions>
               <execution>
-                <id>default-prepare-agent</id>
                 <goals>
                   <goal>prepare-agent</goal>
                 </goals>
+                <id>default-prepare-agent</id>
               </execution>
               <execution>
-                <id>default-report-agent</id>
-                <phase>test</phase>
                 <goals>
                   <goal>report</goal>
                 </goals>
+                <id>default-report-agent</id>
+                <phase>test</phase>
               </execution>
               <execution>
-                <id>jacoco-check</id>
-                <phase>test</phase>
-                <goals>
-                  <goal>check</goal>
-                </goals>
                 <configuration>
                   <rules>
                     <rule>
@@ -358,50 +330,50 @@
                       <limits>
                         <limit>
                           <counter>LINE</counter>
-                          <value>COVEREDRATIO</value>
                           <minimum>${jacoco.plugin.coverage.min.ratio}</minimum>
+                          <value>COVEREDRATIO</value>
                         </limit>
                       </limits>
                     </rule>
                   </rules>
                 </configuration>
+                <goals>
+                  <goal>check</goal>
+                </goals>
+                <id>jacoco-check</id>
+                <phase>test</phase>
               </execution>
             </executions>
+            <groupId>org.jacoco</groupId>
+            <version>${jacoco.plugin.version}</version>
           </plugin>
         </plugins>
       </build>
+      <id>code-coverage-test</id>
     </profile>
     <profile>
-      <id>code-coverage-integration-test</id>
       <activation>
         <activeByDefault>true</activeByDefault>
       </activation>
       <build>
         <plugins>
           <plugin>
-            <groupId>org.jacoco</groupId>
             <artifactId>jacoco-maven-plugin</artifactId>
-            <version>${jacoco.plugin.version}</version>
             <executions>
               <execution>
-                <id>default-prepare-agent-integration</id>
                 <goals>
                   <goal>prepare-agent-integration</goal>
                 </goals>
+                <id>default-prepare-agent-integration</id>
               </execution>
               <execution>
-                <id>default-report-agent-integration</id>
-                <phase>test</phase>
                 <goals>
                   <goal>report-integration</goal>
                 </goals>
+                <id>default-report-agent-integration</id>
+                <phase>test</phase>
               </execution>
               <execution>
-                <id>jacoco-check-integration</id>
-                <phase>integration-test</phase>
-                <goals>
-                  <goal>check</goal>
-                </goals>
                 <configuration>
                   <haltOnFailure>true</haltOnFailure>
                   <rules>
@@ -410,18 +382,49 @@
                       <limits>
                         <limit>
                           <counter>LINE</counter>
-                          <value>COVEREDRATIO</value>
                           <minimum>${jacoco.plugin.coverage.min.ratio}</minimum>
+                          <value>COVEREDRATIO</value>
                         </limit>
                       </limits>
                     </rule>
                   </rules>
                 </configuration>
+                <goals>
+                  <goal>check</goal>
+                </goals>
+                <id>jacoco-check-integration</id>
+                <phase>integration-test</phase>
               </execution>
             </executions>
+            <groupId>org.jacoco</groupId>
+            <version>${jacoco.plugin.version}</version>
           </plugin>
         </plugins>
       </build>
+      <id>code-coverage-integration-test</id>
     </profile>
   </profiles>
+
+  <properties>
+    <jacoco.plugin.coverage.element.name>BUNDLE</jacoco.plugin.coverage.element.name>
+    <!-- code quality. static analysis-->
+    <jacoco.plugin.coverage.min.ratio>0.900</jacoco.plugin.coverage.min.ratio>
+    <jacoco.plugin.version>0.8.5</jacoco.plugin.version>
+    <java.version>11</java.version>
+    <maven.checkstyle.plugin.dependency.version>8.35</maven.checkstyle.plugin.dependency.version>
+    <maven.checkstyle.plugin.version>3.1.1</maven.checkstyle.plugin.version>
+    <maven.failsafe.plugin.version>3.0.0-M5</maven.failsafe.plugin.version>
+    <maven.surefire.plugin.version>3.0.0-M5</maven.surefire.plugin.version>
+    <pmd.plugin.dependency.version>6.26.0</pmd.plugin.dependency.version>
+    <!--code quality. tests -->
+    <pmd.plugin.version>3.13.0</pmd.plugin.version>
+    <spotbugs.plugin.dependency.version>4.1.2</spotbugs.plugin.dependency.version>
+    <!--BUNDLE is default element for coverage.
+     Definition of BUNDLE
+      BUNDLE is a set of classes/packages under analysis. Only with the Ant report task it is possible to split the classes under test into multiple bundles
+       (with the "group" tag). With Maven currently all classes of a module form a bundle (once we get multi-module reports
+       I would prefer to have a bundle per module).-->
+    <spotbugs.plugin.version>4.0.4</spotbugs.plugin.version>
+  </properties>
+  <version>0.0.1-SNAPSHOT</version>
 </project>
