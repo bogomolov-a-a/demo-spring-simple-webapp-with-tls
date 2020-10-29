@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://maven.apache.org/POM/4.0.0"
   xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
-  <artifactId>demo-webapp-with-tls</artifactId>
+  <artifactId>demo-spring-simple-webapp-with-tls</artifactId>
   <build>
     <plugins>
       <plugin>
@@ -454,6 +454,7 @@
     <!-- Optional URL to server. Default value is http://localhost:9000 -->
     <sonar.maven.plugin.version>3.7.0.1746</sonar.maven.plugin.version>
     <sonar.organization>bogomolov-a-a</sonar.organization>
+    <sonar.projectKey>${project.artifactId}</sonar.projectKey>
   </properties>
   <version>0.0.1-SNAPSHOT</version>
 </project>
