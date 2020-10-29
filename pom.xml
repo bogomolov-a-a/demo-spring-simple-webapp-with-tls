@@ -454,7 +454,7 @@
     <!-- Optional URL to server. Default value is http://localhost:9000 -->
     <sonar.maven.plugin.version>3.7.0.1746</sonar.maven.plugin.version>
     <sonar.organization>bogomolov-a-a</sonar.organization>
-    <sonar.projectKey>${project.artifactId}</sonar.projectKey>
+    <sonar.projectKey>bogomolov-a-a_${project.artifactId}</sonar.projectKey>
     <sonar.moduleKey>${project.groupId}:${project.artifactId}</sonar.moduleKey>
   </properties>
   <version>0.0.1-SNAPSHOT</version>
