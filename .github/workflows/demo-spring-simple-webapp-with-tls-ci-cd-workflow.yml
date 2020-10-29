@@ -19,7 +19,7 @@ jobs:
          chmod +x ./certificate/cert-build.sh &&./certificate/cert-build.sh                    
      - name: Build with Maven in docker
        run: |
-        mvn -B package verify --file pom.xml -Dsonar.login=${{ secrets.SONAR_TOKEN }}
+        mvn -B package verify --file pom.xml -Dsonar.login=${{ secrets.SONAR_TOKEN }} -X
         mkdir coverage 
      - name: Upload coverage to Codecov
        uses: codecov/codecov-action@v1
