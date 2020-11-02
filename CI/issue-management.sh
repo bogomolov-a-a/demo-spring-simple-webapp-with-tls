@@ -12,11 +12,11 @@ function createIssue() {
 }
 sonarCommand='curl '$(echo -e "$SONAR_QUBE_PROJECT_ISSUE_URL")
 echo 'executing "'$sonarCommand'"'
-curlResult=$(sonarCommand)
+curlResult=$($sonarCommand)
 if [[ $? -ne 0 ]]; then
   exit 1
 fi
-sonarIssueList=$( $curlResult| jq -c '.issues[]' | jq -c '{message,pullRequest,rule, component,line,textRange}')
+sonarIssueList=$($curlResult | jq -c '.issues[]' | jq -c '{message,pullRequest,rule, component,line,textRange}')
 if [[ $? -ne 0 ]]; then
   exit 1
 fi
