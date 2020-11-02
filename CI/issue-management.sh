@@ -16,7 +16,7 @@ $sonarCommand >./output.json
 if [[ $? -ne 0 ]]; then
   exit 1
 fi
-sonarIssueList=$(cat ./output.json |jq -c '.issues[]' | jq -c '{message,pullRequest,rule, component,line,textRange}')
+sonarIssueList=$(cat ./output.json | jq -c '.issues[]' | jq -c '{message,pullRequest,rule, component,line,textRange}')
 if [[ $? -ne 0 ]]; then
   exit 1
 fi
