@@ -4,7 +4,9 @@ function createIssue() {
   issueData='{"title":"Fix:'$(echo -e "$(echo $1 | jq -cr '.message')")'","body":"'$body'"''}'
   curl -H 'Accept: application/vnd.github.v3+json' $(echo -e"$GITHUB_REPO_ISSUE_URL") -d $issueData
 }
-sonarIssueList=$(curl $(echo -e "$SONAR_QUBE_PROJECT_ISSUE_URL") | jq -c '.issues[]' | jq -c '{message,pullRequest,rule, component,line,textRange}')
+curlCommand='curl'$(echo -e "$SONAR_QUBE_PROJECT_ISSUE_URL");
+echo 'executing '$curlCommand
+sonarIssueList=$( $curlCommand | jq -c '.issues[]' | jq -c '{message,pullRequest,rule, component,line,textRange}')
 while IFS="}}" read -ra ADDR; do
   for i in "${ADDR[@]}"; do
     if [[ -n $i ]]; then
