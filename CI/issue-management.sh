@@ -16,12 +16,12 @@ $sonarCommand >./output.json
 if [[ $? -ne 0 ]]; then
   exit 1
 fi
-sonarIssueList=$(jq ./output.json -c '.issues[]'  | jq -c '{message,pullRequest,rule, component,line,textRange}')
+sonarIssueList=$(cat ./output.json |jq -c '.issues[]' | jq -c '{message,pullRequest,rule, component,line,textRange}')
 if [[ $? -ne 0 ]]; then
   exit 1
 fi
-while IFS="}}" read -ra ADDR; do
-  for i in "${ADDR[@]}"; do
+while IFS="}}" read -ra issues; do
+  for i in "${issues[@]}"; do
     if [[ -n $i ]]; then
       createIssue "$i"'}}'
       if [[ $? -ne 0 ]]; then
