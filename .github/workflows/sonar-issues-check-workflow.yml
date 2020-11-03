@@ -14,4 +14,5 @@ jobs:
         env:
           GITHUB_REPO_ISSUE_URL: ${{ github.api_url }}/repos/${{ github.repository }}/issues
           SONAR_QUBE_PROJECT_ISSUE_URL: https://sonarcloud.io/api/issues/search?projectKeys=bogomolov-a-a_demo-spring-simple-webapp-with-tls
+          GITHUB_AUTH_TOKEN: ${{ secrets.ISSUES_TOKEN }}
         run: chmod +x ./CI/issue-management.sh&&./CI/issue-management.sh
