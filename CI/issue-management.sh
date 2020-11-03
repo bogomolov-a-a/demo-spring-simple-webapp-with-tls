@@ -1,6 +1,6 @@
 #!/bin/bash
 function createIssue() {
-  body=$(echo -e 'Cause:'"$(echo $1 | jq -cr '.message')\n'Rule:'$(echo $1 | jq -cr '.rule')"\n)
+  body=$(echo -e "Cause:$(echo $1 | jq -cr '.message')\nRule:$(echo $1 | jq -cr '.rule')"\n)
   issueData='{\"title\":\"Fix:'$(echo -e "$(echo $1 | jq -cr '.message')")'\",\"body":\"'$body'\"}'
   githubIssuesCommand="curl -H \"Accept: application/vnd.github.v3+json\""$(echo -e "$GITHUB_REPO_ISSUE_URL")"' -d '"$issueData"'"
   echo 'executing "'$githubIssuesCommand'"'
