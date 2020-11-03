@@ -1,8 +1,11 @@
 #!/bin/bash
 function createIssue() {
-  body=$(echo -e "Cause:$(echo $1 | jq -cr '.message')\nRule:$(echo $1 | jq -cr '.rule')"\n)
-  issueData='{"title":"Fix:'$(echo -e "$(echo $1 | jq -cr '.message')")'","body":"'$body'"}'
-  githubIssuesCommand="curl -X POST -H 'Accept: application/vnd.github.v3+json' -d '"$issueData"' $(echo -e "$GITHUB_REPO_ISSUE_URL")"
+  body=$(echo -e "Cause_$(echo $1 | jq -cr '.message')Rule $(echo $1 | jq -cr '.message')" | tr ' ' '_' | tr ''\''' '_' | tr ''\"'' '_' | tr ':' '_')
+  #, )
+  title=$(echo -e $(echo $1 | jq -cr '.message') | tr ' ' '_' | tr ''\''' '_' | tr ''\"'' '_' | tr ':' '_')
+  issueData='{"title":"Fix_'$title'","body":"'$body'"}'
+  githubIssuesCommand="curl -X POST -d '"$issueData"' -H 'Accept: application/vnd.github.v3+json' https://api.github.com/repos/bogomolov-a-a/demo-spring-simple-webapp-with-tls/issues"
+  # $(echo -e "$GITHUB_REPO_ISSUE_URL")"
   echo 'executing "'$githubIssuesCommand'"'
   $githubIssuesCommand
   if [[ $? -ne 0 ]]; then
@@ -10,7 +13,7 @@ function createIssue() {
   fi
   echo '"'$githubIssuesCommand'" success executed'
 }
-sonarCommand='curl '$(echo -e "$SONAR_QUBE_PROJECT_ISSUE_URL")
+sonarCommand='curl  https://sonarcloud.io/api/issues/search?projectKeys=bogomolov-a-a_demo-spring-simple-webapp-with-tls' #$(echo -e "$SONAR_QUBE_PROJECT_ISSUE_URL")
 echo 'executing "'$sonarCommand'"'
 $sonarCommand >./output.json
 if [[ $? -ne 0 ]]; then
