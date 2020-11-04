@@ -26,7 +26,7 @@ function createGithubIssue() {
   body=$(echo -e "Cause_$(echo $1 | jq -cr '.message')Rule $(echo $1 | jq -cr '.message')" |
     tr ' ' '_' | tr ''\''' '_' | tr ''\"'' '_' | tr ':' '_')
   echo with body $body
-  code=$(curl -s -X -o $exchangeFileName -w '%{http_code}' -d '{"title":"Fix_'$title'","body":"'$body'"}' \
+  code=$(curl -v -s -X -o $exchangeFileName -w '%{http_code}' -d '{"title":"Fix_'$title'","body":"'$body'"}' \
     -H 'Authorization: token '$ISSUES_TOKEN -H 'Accept: application/vnd.github.v3+json' $(echo -e "$GITHUB_REPO_ISSUE_URL"))
   if [[ "$code" -ne "$gitHubExceptedCode" ]]; then
     echo Code "$code" don\'t valid code for github issue response. Excepted "$gitHubExceptedCode"
