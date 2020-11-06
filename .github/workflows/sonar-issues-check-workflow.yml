@@ -13,6 +13,7 @@ jobs:
       - name: create github issues from sonar issues.
         env:
           GITHUB_REPO_ISSUE_URL: ${{ github.api_url }}/repos/${{ github.repository }}/issues
+          GITHUB_REPO_LABEL_URL: ${{ github.api_url }}/repos/${{ github.repository }}/labels
           SONAR_QUBE_PROJECT_ISSUE_URL: https://sonarcloud.io/api/issues/search?projectKeys=bogomolov-a-a_demo-spring-simple-webapp-with-tls
-          ISSUES_TOKEN: ${{ secrets.ISSUES_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: chmod +x ./CI/issue-management.sh&&./CI/issue-management.sh
