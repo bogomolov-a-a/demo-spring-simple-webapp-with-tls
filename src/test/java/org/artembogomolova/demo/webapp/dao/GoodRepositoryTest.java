@@ -1,13 +1,14 @@
 package org.artembogomolova.demo.webapp.dao;
 
-import java.util.ArrayList;
-import java.util.List;
 import org.artembogomolova.demo.webapp.model.Good;
 import org.junit.jupiter.api.Assertions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.repository.CrudRepository;
 
-public class GoodRepositoryTest extends AbstractDaoTest<Good>{
+import java.util.ArrayList;
+import java.util.List;
+
+public class GoodRepositoryTest extends AbstractDaoTest<Good> {
 
   @Autowired
   private IGoodRepository goodRepository;
@@ -39,9 +40,9 @@ public class GoodRepositoryTest extends AbstractDaoTest<Good>{
 
   @Override
   protected void validateAnotherRepositoryEmpty() {
-    Assertions.assertEquals(producerRepository.count(),0);
-    Assertions.assertEquals(physicalAddressRepository.count(),0);
+    Assertions.assertEquals(0, producerRepository.count());
+    Assertions.assertEquals(0, physicalAddressRepository.count());
     categoryRepository.deleteAll();
-    Assertions.assertEquals(categoryRepository.count(),0);
+    Assertions.assertEquals(0, categoryRepository.count());
   }
 }

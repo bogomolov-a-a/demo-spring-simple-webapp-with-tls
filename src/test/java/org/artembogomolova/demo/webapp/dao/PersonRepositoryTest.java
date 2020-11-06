@@ -1,13 +1,14 @@
 package org.artembogomolova.demo.webapp.dao;
 
-import java.util.ArrayList;
-import java.util.List;
 import org.artembogomolova.demo.webapp.model.Person;
 import org.junit.jupiter.api.Assertions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.repository.CrudRepository;
 
-public class PersonRepositoryTest extends AbstractDaoTest<Person>{
+import java.util.ArrayList;
+import java.util.List;
+
+public class PersonRepositoryTest extends AbstractDaoTest<Person> {
 
   @Autowired
   private IPersonRepository personRepository;
@@ -15,6 +16,7 @@ public class PersonRepositoryTest extends AbstractDaoTest<Person>{
   private IPhysicalAddressRepository physicalAddressRepository;
   @Autowired
   private IOrderRepository orderRepository;
+
   @Override
   protected List<Person> updateEntities(List<Person> savedCollection) {
     Person person = savedCollection.get(0);
@@ -38,8 +40,8 @@ public class PersonRepositoryTest extends AbstractDaoTest<Person>{
   @Override
   protected void validateAnotherRepositoryEmpty() {
     /*address repository must be empty after successful delete person.*/
-    Assertions.assertEquals(physicalAddressRepository.count(),0);
-    Assertions.assertEquals(orderRepository.count(),0);
+    Assertions.assertEquals(0, physicalAddressRepository.count());
+    Assertions.assertEquals(0, orderRepository.count());
   }
 
 }

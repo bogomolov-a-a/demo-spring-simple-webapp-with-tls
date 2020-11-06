@@ -1,9 +1,5 @@
 package org.artembogomolova.demo.webapp.dao;
 
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.List;
-import java.util.stream.Collectors;
 import lombok.extern.slf4j.Slf4j;
 import org.artembogomolova.demo.webapp.model.IdentifiedEntity;
 import org.junit.jupiter.api.Assertions;
@@ -15,11 +11,16 @@ import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.test.context.ActiveProfiles;
 
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.List;
+import java.util.stream.Collectors;
+
 @DataJpaTest
 @ActiveProfiles({"test"})
 @Slf4j
 @AutoConfigureTestDatabase(replace = Replace.NONE, connection = EmbeddedDatabaseConnection.NONE)
-public abstract class AbstractDaoTest<T extends IdentifiedEntity> {
+abstract class AbstractDaoTest<T extends IdentifiedEntity> {
 
   protected static final Comparator ID_COMPARATOR = Comparator.comparing(IdentifiedEntity::getId);
 
@@ -42,7 +43,7 @@ public abstract class AbstractDaoTest<T extends IdentifiedEntity> {
       receivedCollection.addAll((List<T>) repository.findAllById(identifierCollection));
       validateSaveOperationData(updatedCollection, receivedCollection);
       repository.deleteAll(receivedCollection);
-      Assertions.assertTrue(repository.count() == 0, "exists entities not deleted from repository " + repository.findAll());
+      Assertions.assertEquals(0, repository.count(), "exists entities not deleted from repository " + repository.findAll());
       validateAnotherRepositoryEmpty();
     } finally {
       if (repository != null) {
