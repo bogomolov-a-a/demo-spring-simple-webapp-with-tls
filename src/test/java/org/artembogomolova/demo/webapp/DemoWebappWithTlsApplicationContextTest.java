@@ -1,8 +1,8 @@
 package org.artembogomolova.demo.webapp;
 
-import java.io.IOException;
 import lombok.extern.slf4j.Slf4j;
 import org.artembogomolova.demo.webapp.util.RestTemplateUtil;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -19,7 +19,7 @@ import org.springframework.test.context.ActiveProfiles;
 @AutoConfigureMockMvc
 @ActiveProfiles(value = {"test"})
 @Slf4j
-public class DemoWebappWithTlsApplicationContextTest {
+class DemoWebappWithTlsApplicationContextTest {
 
   @LocalServerPort
   private int serverPort;
@@ -37,18 +37,16 @@ public class DemoWebappWithTlsApplicationContextTest {
 
   @Test
   void contextLoads() {
-    log.info("application started at port {}",serverPort);
+    Assertions.assertNotEquals(0, serverPort, "Port is 0! This is wrong way!");
+    log.info("application started at port {}", serverPort);
   }
+
   @Test
-  void tlsValidate() throws IOException {
-    TestRestTemplate restTemplate=restTemplateUtil.getSecureRestTemplate(trustedKeystoreFile,trustedKeystoreType,trustedKeystorePassword,trustedKeyPassword);
+  void tlsValidate() {
+    TestRestTemplate restTemplate = restTemplateUtil.getSecureRestTemplate(trustedKeystoreFile, trustedKeystoreType, trustedKeystorePassword, trustedKeyPassword);
     ResponseEntity<String> data = restTemplate.getForEntity("https://localhost:" + serverPort, String.class);
     String result = data.getBody();
-    if(!data.getStatusCode().equals(HttpStatus.OK)) {
-      log.error(result);
-      throw new RuntimeException(result);
-    }
-
+    Assertions.assertEquals(HttpStatus.OK, data.getStatusCode(), result);
   }
 
 }
