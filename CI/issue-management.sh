@@ -38,8 +38,8 @@ function sendSonarRequest() {
 }
 
 function formGithubMessageBody() {
-  message=$(echo $1 | jq -cr $jqCurrentItemPrefix$messagePart)
-  rule=$(echo $1 | jq -cr $jqCurrentItemPrefix$rulePart)
+  message=$(echo $1 | jq -cr $jqCurrentItemPrefix$messagePart | tr '"' '*')
+  rule=$(echo $1 | jq -cr $jqCurrentItemPrefix$rulePart | tr '"' '*')
   component=$(echo $1 | jq -cr $jqCurrentItemPrefix$componentPart)
   line=$(echo $1 | jq -cr $jqCurrentItemPrefix$linePart)
   echo $automaticCreatedIssueHeader$causeMessagePart \
@@ -60,7 +60,7 @@ function buildLabels() {
 }
 
 function formFullMessageJson() {
-  title=$(echo $1 | jq -cr $jqCurrentItemPrefix$messagePart)
+  title=$(echo $1 | jq -cr $jqCurrentItemPrefix$messagePart | tr '"' '*')
   body=$(formGithubMessageBody "$1")
   echo $fullMessageJsonPrefix$(echo $title) \
     $fullMessageJsonBodyPrefix$(echo $body)$fullMessageJsonLabelPrefix$(echo $(buildLabels "$1" "$2"))$fullMessageJsonSuffix
@@ -125,8 +125,8 @@ function createGithubIssue() {
     rm $exchangeFileName
     return 1
   fi
-  rm $exchangeGithubFileName
-  rm $exchangeFileName
+  #rm $exchangeGithubFileName
+  #rm $exchangeFileName
   echo github issue success created
 }
 # for each sonar issue create github issue
