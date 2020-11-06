@@ -158,4 +158,4 @@ if [[ $? -ne 0 ]]; then
   rm $exchangeFileName
   exit $?
 fi
-rm $exchangeFileName
+#rm $exchangeFileName
