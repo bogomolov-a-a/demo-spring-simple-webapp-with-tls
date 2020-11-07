@@ -14,11 +14,14 @@ import java.sql.Types;
 public class SQLLiteDialect extends Dialect {
 
   private static final String SUBSTRING_FUNCTION = "substr";
+  private static final String INTEGER_TYPE = "integer";
+  private static final String BLOB_TYPE = "blob";
+
   public SQLLiteDialect() {
-    registerColumnType(Types.BIT, "integer");
+    registerColumnType(Types.BIT, INTEGER_TYPE);
     registerColumnType(Types.TINYINT, "tinyint");
     registerColumnType(Types.SMALLINT, "smallint");
-    registerColumnType(Types.INTEGER, "integer");
+    registerColumnType(Types.INTEGER, INTEGER_TYPE);
     registerColumnType(Types.BIGINT, "bigint");
     registerColumnType(Types.FLOAT, "float");
     registerColumnType(Types.REAL, "real");
@@ -31,10 +34,10 @@ public class SQLLiteDialect extends Dialect {
     registerColumnType(Types.DATE, "date");
     registerColumnType(Types.TIME, "time");
     registerColumnType(Types.TIMESTAMP, "timestamp");
-    registerColumnType(Types.BINARY, "blob");
-    registerColumnType(Types.VARBINARY, "blob");
-    registerColumnType(Types.LONGVARBINARY, "blob");
-    registerColumnType(Types.BLOB, "blob");
+    registerColumnType(Types.BINARY, BLOB_TYPE);
+    registerColumnType(Types.VARBINARY, BLOB_TYPE);
+    registerColumnType(Types.LONGVARBINARY, BLOB_TYPE);
+    registerColumnType(Types.BLOB, BLOB_TYPE);
     registerColumnType(Types.CLOB, "clob");
     registerColumnType(Types.BOOLEAN, "integer");
     registerFunction("concat", new VarArgsSQLFunction(StringType.INSTANCE, "", "||", ""));
