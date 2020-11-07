@@ -27,7 +27,7 @@ jobs:
       - name: Build with Maven in docker
         run: |
           mvn -B package verify --file pom.xml \
-          -Psonar-check,code-coverage-integration-test,code-coverage-test,code-quality\
+          -Psonar-check,code-coverage-integration-test,code-coverage-test,code-quality \
           -Dsonar.login=${{ secrets.SONAR_TOKEN }} -Dsonar.organization=${{ github.repository_owner }} \
           -Dsonar.host.url=https://sonarcloud.io
           mkdir coverage
