@@ -11,8 +11,8 @@ jobs:
       - uses: zwaldowski/match-label-action@v2
         with:
           allowed: >
-            type:fix
-            type:features
-            type:documentation
-            type:tests
-            type:config
+            fix
+            feature
+            documentation
+            tests
+            config
