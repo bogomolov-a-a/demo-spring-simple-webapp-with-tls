@@ -1,4 +1,4 @@
-name: "Verify type labels for repository"
+name: "Verify type labels"
 
 on:
   pull_request:
@@ -10,4 +10,9 @@ jobs:
     steps:
       - uses: zwaldowski/match-label-action@v2
         with:
-          allowed: 'fix, feature, documentation, tests, config'
+          allowed: >
+            type:fix
+            type:features
+            type:documentation
+            type:tests
+            type:config
