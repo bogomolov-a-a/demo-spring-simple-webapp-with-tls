@@ -27,7 +27,7 @@ jobs:
       - name: Build with Maven in docker
         run: |
           mvn -B package verify --file pom.xml -Psonar-check -Dsonar.login=${{ secrets.SONAR_TOKEN }} \
-          -Dsonar.organization=${{ github.repository_owner }} -Dsonar.host.url=https://sonarcloud.ip
+          -Dsonar.organization=${{ github.repository_owner }} -Dsonar.host.url=https://sonarcloud.io
           mkdir coverage
       - name: Upload coverage to Codecov
         uses: codecov/codecov-action@v1
