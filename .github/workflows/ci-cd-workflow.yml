@@ -2,6 +2,9 @@ name: CI
 on:
   push:
     branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
 jobs:
   build-test-check-coverage:
     continue-on-error: false
@@ -23,7 +26,8 @@ jobs:
           chmod +x ./certificate/cert-build.sh &&./certificate/cert-build.sh
       - name: Build with Maven in docker
         run: |
-          mvn -B package verify --file pom.xml -Dsonar.login=${{ secrets.SONAR_TOKEN }}
+          mvn -B package verify --file pom.xml -Psonar-check -Dsonar.login=${{ secrets.SONAR_TOKEN }} \
+          -Dsonar.organization=${{ github.repository_owner }} -Dsonar.host.url=https://sonarcloud.ip
           mkdir coverage
       - name: Upload coverage to Codecov
         uses: codecov/codecov-action@v1
