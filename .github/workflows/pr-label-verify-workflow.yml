@@ -1,4 +1,4 @@
-name: "Verify type labels"
+name: "Verify type labels for repository"
 
 on:
   pull_request:
