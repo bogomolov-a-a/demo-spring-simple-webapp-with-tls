@@ -39,7 +39,7 @@ public class SQLLiteDialect extends Dialect {
     registerColumnType(Types.LONGVARBINARY, BLOB_TYPE);
     registerColumnType(Types.BLOB, BLOB_TYPE);
     registerColumnType(Types.CLOB, "clob");
-    registerColumnType(Types.BOOLEAN, "integer");
+    registerColumnType(Types.BOOLEAN, INTEGER_TYPE);
     registerFunction("concat", new VarArgsSQLFunction(StringType.INSTANCE, "", "||", ""));
     registerFunction("mod", new SQLFunctionTemplate(StringType.INSTANCE, "?1 % ?2"));
     registerFunction(SUBSTRING_FUNCTION, new StandardSQLFunction(SUBSTRING_FUNCTION, StringType.INSTANCE));
