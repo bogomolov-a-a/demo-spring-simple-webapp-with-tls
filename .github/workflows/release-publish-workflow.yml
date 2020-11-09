@@ -15,6 +15,9 @@ jobs:
         uses: actions/setup-java@v1
         with:
           java-version: 11
+      - name: build test certificates
+        run: |
+          chmod +x ./certificate/cert-build.sh &&./certificate/cert-build.sh
       - name: build app
         run: mvn -B package verify --file pom.xml
       - name: Build image
@@ -22,7 +25,6 @@ jobs:
           docker build . --file Dockerfile
 
       - name: Log into GitHub Container Registry
-        # TODO: Create a PAT with `read:packages` and `write:packages` scopes and save it as an Actions secret `CR_PAT`
         run: echo "${{ secrets.CR_PAT }}" | docker login https://ghcr.io -u ${{ github.actor }} --password-stdin
 
       - name: Push image to GitHub Container Registry
