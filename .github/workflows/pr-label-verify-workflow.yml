@@ -6,8 +6,8 @@ on:
 
 jobs:
   triage:
-    runs-on: ubuntu:latest
+    runs-on: ubuntu-latest
     steps:
       - uses: zwaldowski/match-label-action@v2
         with:
-          allowed: 'fix,feature,documentation,tests,config'
+          allowed: 'fix, feature, documentation, tests, config'
