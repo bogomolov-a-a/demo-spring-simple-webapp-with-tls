@@ -4,7 +4,7 @@ on:
     tags: [ v* ]
 
 env:
-  IMAGE_NAME: ${{ github.repository_name }}
+  IMAGE_NAME: ${{ github.event.repository.name }}
 jobs:
   realease-image-push:
     runs-on: ubuntu-latest
