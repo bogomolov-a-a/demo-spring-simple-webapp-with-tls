@@ -2,7 +2,7 @@ name: "Create draft release"
 
 on:
   push:
-    tags: [ v* ]
+    branches: [ main ]
 
 jobs:
   update_draft_release:
