@@ -29,7 +29,8 @@ jobs:
 
       - name: Push image to GitHub Container Registry
         run: |
-          IMAGE_ID=ghcr.io/${{ github.repository_owner }}/$IMAGE_NAME
+          LIBRARY_IMAGE_ID=${{ github.repository_owner }}/$IMAGE_NAME;
+          IMAGE_ID=ghcr.io/$LIBRARY_IMAGE_ID
 
           # Change all uppercase to lowercase
           IMAGE_ID=$(echo $IMAGE_ID | tr '[A-Z]' '[a-z]')
@@ -45,6 +46,7 @@ jobs:
 
           echo IMAGE_ID=$IMAGE_ID
           echo VERSION=$VERSION
-
-          docker tag $IMAGE_NAME $IMAGE_ID:$VERSION
-          docker push $IMAGE_ID:$VERSION
+          # Step 2: Tag
+          docker tag $IMAGE_ID docker.pkg.github.com/$LIBRARY_IMAGE_ID/$IMAGE_NAME:$VERSION
+          # Step 3: Publish
+          docker push docker.pkg.github.com/$LIBRARY_IMAGE_ID/$IMAGE_NAME:$VERSION
