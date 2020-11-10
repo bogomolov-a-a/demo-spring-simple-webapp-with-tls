@@ -22,7 +22,7 @@ jobs:
         run: mvn -B package verify --file pom.xml
       - name: Build image
         run: |
-          docker build . --file Dockerfile
+          docker build . --file Dockerfile -t $IMAGE_NAME
 
       - name: Log into GitHub Container Registry
         run: echo "${{ secrets.CR_PAT }}" | docker login https://ghcr.io -u ${{ github.actor }} --password-stdin
