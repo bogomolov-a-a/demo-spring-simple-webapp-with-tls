@@ -8,4 +8,4 @@
 
 This demo application implement pet supplies store.
 
-Test 'release' workflow
+Test 'release' workflow,2
