@@ -15,7 +15,7 @@ import org.springframework.security.web.authentication.logout.LogoutSuccessHandl
 
 @EnableWebSecurity
 @RequiredArgsConstructor
-public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
+public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
   public static final String LOGIN_URL = "/login";
   private static final String LOGOUT_URL = "/logout";
@@ -45,30 +45,27 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
         .antMatchers(UNSECURED_RESOURCES)
         .permitAll()
         .and()
-        /*login page with failure callback*/
-        .formLogin()
-        .loginPage(LOGIN_URL)
-        .permitAll()
-        .successHandler(loginSuccessfulHandler)
-        .failureHandler(loginFailureHandler)
-        .and()
-        /*logout page*/
-        .logout()
-        .permitAll()
-        .and()
-        .logout()
-        .logoutUrl(LOGOUT_URL)
-        .logoutSuccessUrl(LOGIN_URL)
-        .logoutSuccessHandler(logoutSuccessHandler)
-        .invalidateHttpSession(true)
-        .addLogoutHandler(logoutHandler)
-        .and()
-        /*user service with detail data about logged user*/
-        .userDetailsService(userDetailsService)
-        .exceptionHandling()
-        .and()
-        .csrf()
-        .disable();
+            /*login page with failure callback*/
+            .formLogin()
+            .loginPage(LOGIN_URL)
+            .permitAll()
+            .successHandler(loginSuccessfulHandler)
+            .failureHandler(loginFailureHandler)
+            .and()
+            /*logout page*/
+            .logout()
+            .permitAll()
+            .and()
+            .logout()
+            .logoutUrl(LOGOUT_URL)
+            .logoutSuccessUrl(LOGIN_URL)
+            .logoutSuccessHandler(logoutSuccessHandler)
+            .invalidateHttpSession(true)
+            .addLogoutHandler(logoutHandler)
+            .and()
+            /*user service with detail data about logged user*/
+            .userDetailsService(userDetailsService)
+            .exceptionHandling();
   }
 
 }
