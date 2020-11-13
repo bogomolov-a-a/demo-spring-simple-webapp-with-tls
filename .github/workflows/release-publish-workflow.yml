@@ -43,9 +43,9 @@ jobs:
           echo IMAGE_ID=$IMAGE_ID
           echo VERSION=$VERSION
           # Step 2: Tag
-          $ docker tag $IMAGE_NAME $IMAGE_ID:$VERSION
+          docker tag $IMAGE_NAME $IMAGE_ID:$VERSION
           # Step 3: Publish
-          $ docker push $IMAGE_ID:$VERSION
+          docker push $IMAGE_ID:$VERSION
       - name: logout form registry
         run: |
           docker logout $REGISTRY_URL
