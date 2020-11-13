@@ -25,12 +25,15 @@ jobs:
           docker build . --file Dockerfile -t $IMAGE_NAME
 
       - name: Log into GitHub Container Registry
-        run: echo "${{ secrets.CR_PAT }}" | docker login https://ghcr.io -u ${{ github.actor }} --password-stdin
+        run:
 
       - name: Push image to GitHub Container Registry
+        env:
+          REGISTRY_URL: docker.pkg.github.com
         run: |
-          LIBRARY_IMAGE_ID=${{ github.repository_owner }}/$IMAGE_NAME;
-          IMAGE_ID=ghcr.io/$LIBRARY_IMAGE_ID
+
+          LIBRARY_IMAGE_ID=${{ github.repository_owner }}/$IMAGE_NAME/$IMAGE_NAME;
+          IMAGE_ID=$REGISTRY_URL/$LIBRARY_IMAGE_ID
 
           # Change all uppercase to lowercase
           IMAGE_ID=$(echo $IMAGE_ID | tr '[A-Z]' '[a-z]')
@@ -46,7 +49,9 @@ jobs:
 
           echo IMAGE_ID=$IMAGE_ID
           echo VERSION=$VERSION
+          # Step 1: Authenticate
+          $ echo "${{ secrets.CR_PAT }}" | docker login $REGISTRY_URL -u bogomolov-a-a --password-stdin
           # Step 2: Tag
-          docker tag $IMAGE_ID docker.pkg.github.com/$LIBRARY_IMAGE_ID/$IMAGE_NAME:$VERSION
+          $ docker tag $IMAGE_NAME $IMAGE_ID:$VERSION
           # Step 3: Publish
-          docker push docker.pkg.github.com/$LIBRARY_IMAGE_ID/$IMAGE_NAME:$VERSION
+          $ docker push $IMAGE_ID:$VERSION
