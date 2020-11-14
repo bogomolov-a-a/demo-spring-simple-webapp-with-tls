@@ -11,12 +11,18 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
-import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
 import org.artembogomolova.demo.webapp.model.business.Order;
 
 @Entity
 @Table(name = "persons")
-@Data
+@Getter
+@Setter
+@ToString(exclude = {"estateAddress", "orders"})
+@EqualsAndHashCode
 public class Person extends IdentifiedEntity {
 
   private String name;
