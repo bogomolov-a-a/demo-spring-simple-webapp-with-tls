@@ -1,4 +1,4 @@
-FROM openjdk:11.0.9-jre
+FROM openjdk:11.0.9.1-jre
 
 ENV PORT=8443
 ENV ENVIRONMENT_NAME=develop
