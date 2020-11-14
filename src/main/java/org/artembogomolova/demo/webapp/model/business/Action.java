@@ -1,4 +1,4 @@
-package org.artembogomolova.demo.webapp.model;
+package org.artembogomolova.demo.webapp.model.business;
 
 import java.util.Date;
 import javax.persistence.CascadeType;
@@ -9,11 +9,12 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import lombok.Data;
+import org.artembogomolova.demo.webapp.model.core.IdentifiedEntity;
 
 @Entity
-@Table(name="actions")
+@Table(name = "actions")
 @Data
-public class Action  extends IdentifiedEntity{
+public class Action extends IdentifiedEntity {
 
   private String name;
   private String description;
@@ -23,16 +24,15 @@ public class Action  extends IdentifiedEntity{
   private Date endDate;
   private Float discountFixed;
   private Float discountPercent;
-  @ManyToOne(cascade = {CascadeType.PERSIST,CascadeType.MERGE,CascadeType.REMOVE,CascadeType.DETACH})
-  @JoinColumn(name="category_id",columnDefinition = "bigint")
+  @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REMOVE, CascadeType.DETACH})
+  @JoinColumn(name = "category_id", columnDefinition = "bigint")
   private Category category;
-  @ManyToOne(cascade = {CascadeType.PERSIST,CascadeType.MERGE,CascadeType.REMOVE,CascadeType.DETACH})
-  @JoinColumn(name="good_id",columnDefinition = "bigint")
+  @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REMOVE, CascadeType.DETACH})
+  @JoinColumn(name = "good_id", columnDefinition = "bigint")
   private Good good;
 
   public Date getStartDate() {
-    if(startDate==null)
-    {
+    if (startDate == null) {
       return null;
     }
     return new Date(startDate.getTime());
@@ -43,8 +43,7 @@ public class Action  extends IdentifiedEntity{
   }
 
   public Date getEndDate() {
-    if(endDate==null)
-    {
+    if (endDate == null) {
       return null;
     }
     return new Date(endDate.getTime());

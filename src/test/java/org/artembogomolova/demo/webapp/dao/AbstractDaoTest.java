@@ -1,7 +1,11 @@
 package org.artembogomolova.demo.webapp.dao;
 
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.List;
+import java.util.stream.Collectors;
 import lombok.extern.slf4j.Slf4j;
-import org.artembogomolova.demo.webapp.model.IdentifiedEntity;
+import org.artembogomolova.demo.webapp.model.core.IdentifiedEntity;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.jdbc.EmbeddedDatabaseConnection;
@@ -10,11 +14,6 @@ import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabas
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.test.context.ActiveProfiles;
-
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.List;
-import java.util.stream.Collectors;
 
 @DataJpaTest
 @ActiveProfiles({"test"})

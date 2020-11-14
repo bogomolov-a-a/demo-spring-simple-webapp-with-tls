@@ -1,8 +1,15 @@
 databaseChangeLog:
   - changeSet:
-     id: init-db
-     author: bogomolov-a-a
-     sqlFile:
-       path: sql/init-db.sql
-       relativeToChangelogFile: true
-       endDelitimiter: /
+      id: init-db
+      author: bogomolov-a-a
+      sqlFile:
+        path: sql/init-db.sql
+        relativeToChangelogFile: true
+        endDelitimiter: /
+  - changeset:
+      id: add-user-auth-model
+      author: bogomolov-a-a
+      sqlFile:
+        path: sql/add-user-auth-model.sql
+          relativeToChangelogFile: true
+          endDelitimiter: /

@@ -1,4 +1,4 @@
-package org.artembogomolova.demo.webapp.model;
+package org.artembogomolova.demo.webapp.model.core;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -12,9 +12,10 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import lombok.Data;
+import org.artembogomolova.demo.webapp.model.business.Order;
 
 @Entity
-@Table(name="persons")
+@Table(name = "persons")
 @Data
 public class Person extends IdentifiedEntity {
 
@@ -24,17 +25,16 @@ public class Person extends IdentifiedEntity {
   @Temporal(TemporalType.TIMESTAMP)
   private Date birthDate;
   private String phone;
-  @ManyToOne(cascade = {CascadeType.PERSIST,CascadeType.MERGE,CascadeType.REMOVE,CascadeType.DETACH})
-  @JoinColumn(name="estate_address_id",columnDefinition = "bigint")
+  @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REMOVE, CascadeType.DETACH})
+  @JoinColumn(name = "estate_address_id", columnDefinition = "bigint")
   private PhysicalAddress estateAddress;
-  @OneToMany(cascade = {CascadeType.PERSIST,CascadeType.MERGE,CascadeType.REMOVE,CascadeType.DETACH},
+  @OneToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REMOVE, CascadeType.DETACH},
       mappedBy = "person",
       orphanRemoval = true)
-  private List<Order> orders=new ArrayList<>();
+  private List<Order> orders = new ArrayList<>();
 
   public Date getBirthDate() {
-    if(birthDate==null)
-    {
+    if (birthDate == null) {
       return null;
     }
     return new Date(birthDate.getTime());

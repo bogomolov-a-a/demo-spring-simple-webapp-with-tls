@@ -1,11 +1,11 @@
-package org.artembogomolova.demo.webapp.model;
+package org.artembogomolova.demo.webapp.model.core;
 
 import javax.persistence.Entity;
 import javax.persistence.Table;
 import lombok.Data;
 
 @Entity
-@Table(name="addresses")
+@Table(name = "addresses")
 @Data
 public class PhysicalAddress extends IdentifiedEntity {
 

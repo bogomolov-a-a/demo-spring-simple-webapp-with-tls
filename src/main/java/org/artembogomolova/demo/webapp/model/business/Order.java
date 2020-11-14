@@ -1,4 +1,4 @@
-package org.artembogomolova.demo.webapp.model;
+package org.artembogomolova.demo.webapp.model.business;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -17,15 +17,18 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
+import org.artembogomolova.demo.webapp.model.core.IdentifiedEntity;
+import org.artembogomolova.demo.webapp.model.core.Person;
+import org.artembogomolova.demo.webapp.model.core.PhysicalAddress;
 
 @Entity
-@Table(name="orders")
+@Table(name = "orders")
 @Getter
 @Setter
 @NoArgsConstructor
 @EqualsAndHashCode
-@ToString(exclude = {"person","tickets","orderPositions"})
-public class Order extends IdentifiedEntity{
+@ToString(exclude = {"person", "tickets", "orderPositions"})
+public class Order extends IdentifiedEntity {
 
   @Temporal(TemporalType.TIMESTAMP)
   @Column(insertable = false)
@@ -33,22 +36,22 @@ public class Order extends IdentifiedEntity{
   @Temporal(TemporalType.TIMESTAMP)
   private Date deliverDate;
   private String orderAddressPlain;
-  @ManyToOne(cascade = {CascadeType.PERSIST,CascadeType.MERGE,CascadeType.REMOVE,CascadeType.DETACH})
-  @JoinColumn(name="order_address_id",columnDefinition = "bigint")
+  @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REMOVE, CascadeType.DETACH})
+  @JoinColumn(name = "order_address_id", columnDefinition = "bigint")
   private PhysicalAddress address;
   private String description;
   @Column(columnDefinition = "integer")
   private boolean payed;
-  @OneToMany(cascade = {CascadeType.PERSIST,CascadeType.MERGE,CascadeType.DETACH,CascadeType.REMOVE},mappedBy = "order",orphanRemoval = true)
-  private List<Ticket> tickets=new ArrayList<>();
-  @OneToMany(cascade = {CascadeType.PERSIST,CascadeType.MERGE,CascadeType.DETACH,CascadeType.REMOVE},mappedBy = "order",orphanRemoval = true)
-  private List<OrderPosition> orderPositions=new ArrayList<>();
-  @ManyToOne(cascade = {CascadeType.PERSIST,CascadeType.MERGE,CascadeType.DETACH,CascadeType.REMOVE})
-  @JoinColumn(name="person_id",columnDefinition = "bigint")
+  @OneToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.DETACH, CascadeType.REMOVE}, mappedBy = "order", orphanRemoval = true)
+  private List<Ticket> tickets = new ArrayList<>();
+  @OneToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.DETACH, CascadeType.REMOVE}, mappedBy = "order", orphanRemoval = true)
+  private List<OrderPosition> orderPositions = new ArrayList<>();
+  @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.DETACH, CascadeType.REMOVE})
+  @JoinColumn(name = "person_id", columnDefinition = "bigint")
   private Person person;
+
   public Date getOrderDate() {
-    if(orderDate==null)
-    {
+    if (orderDate == null) {
       return null;
     }
     return new Date(orderDate.getTime());
@@ -59,8 +62,7 @@ public class Order extends IdentifiedEntity{
   }
 
   public Date getDeliverDate() {
-    if(deliverDate==null)
-    {
+    if (deliverDate == null) {
       return null;
     }
     return new Date(deliverDate.getTime());

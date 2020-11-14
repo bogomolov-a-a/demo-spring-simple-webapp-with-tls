@@ -17,7 +17,7 @@ server:
     enabled: true
   ssl:
     enabled: true
-    client-auth:  none
+    client-auth: none
     enabled-protocols:
       - TLSv1.2
       - TLSv1.3
