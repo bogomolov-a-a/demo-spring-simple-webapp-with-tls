@@ -16,6 +16,9 @@
               <includes>
                 <include>**/*Test.java</include>
               </includes>
+              <environmentVariables>
+                <spring_profiles_active>test</spring_profiles_active>
+              </environmentVariables>
             </configuration>
             <goals>
               <goal>test</goal>
