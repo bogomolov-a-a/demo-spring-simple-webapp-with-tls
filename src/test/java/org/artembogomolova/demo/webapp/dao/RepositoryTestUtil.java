@@ -4,15 +4,15 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import lombok.extern.slf4j.Slf4j;
-import org.artembogomolova.demo.webapp.model.business.Action;
-import org.artembogomolova.demo.webapp.model.business.Category;
-import org.artembogomolova.demo.webapp.model.business.Good;
-import org.artembogomolova.demo.webapp.model.business.Order;
-import org.artembogomolova.demo.webapp.model.business.OrderPosition;
-import org.artembogomolova.demo.webapp.model.business.Producer;
-import org.artembogomolova.demo.webapp.model.business.Ticket;
-import org.artembogomolova.demo.webapp.model.core.Person;
-import org.artembogomolova.demo.webapp.model.core.PhysicalAddress;
+import org.artembogomolova.demo.webapp.domain.business.Action;
+import org.artembogomolova.demo.webapp.domain.business.Category;
+import org.artembogomolova.demo.webapp.domain.business.Good;
+import org.artembogomolova.demo.webapp.domain.business.Order;
+import org.artembogomolova.demo.webapp.domain.business.OrderPosition;
+import org.artembogomolova.demo.webapp.domain.business.Producer;
+import org.artembogomolova.demo.webapp.domain.business.Ticket;
+import org.artembogomolova.demo.webapp.domain.core.Person;
+import org.artembogomolova.demo.webapp.domain.core.PhysicalAddress;
 
 @Slf4j
 public class RepositoryTestUtil {

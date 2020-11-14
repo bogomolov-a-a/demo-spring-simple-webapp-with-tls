@@ -1,4 +1,4 @@
-package org.artembogomolova.demo.webapp.model.business;
+package org.artembogomolova.demo.webapp.domain.business;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
@@ -6,7 +6,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import lombok.Data;
-import org.artembogomolova.demo.webapp.model.core.IdentifiedEntity;
+import org.artembogomolova.demo.webapp.domain.core.IdentifiedEntity;
 
 @Entity
 @Table(name = "tickets")

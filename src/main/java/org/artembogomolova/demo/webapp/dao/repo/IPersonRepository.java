@@ -1,6 +1,6 @@
-package org.artembogomolova.demo.webapp.dao;
+package org.artembogomolova.demo.webapp.dao.repo;
 
-import org.artembogomolova.demo.webapp.model.core.Person;
+import org.artembogomolova.demo.webapp.domain.core.Person;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 

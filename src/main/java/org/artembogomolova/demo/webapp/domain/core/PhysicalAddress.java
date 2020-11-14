@@ -1,4 +1,4 @@
-package org.artembogomolova.demo.webapp.model.core;
+package org.artembogomolova.demo.webapp.domain.core;
 
 import javax.persistence.Entity;
 import javax.persistence.Table;

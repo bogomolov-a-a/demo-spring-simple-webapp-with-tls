@@ -2,7 +2,11 @@ package org.artembogomolova.demo.webapp.dao;
 
 import java.util.ArrayList;
 import java.util.List;
-import org.artembogomolova.demo.webapp.model.business.Good;
+import org.artembogomolova.demo.webapp.dao.repo.ICategoryRepository;
+import org.artembogomolova.demo.webapp.dao.repo.IGoodRepository;
+import org.artembogomolova.demo.webapp.dao.repo.IPhysicalAddressRepository;
+import org.artembogomolova.demo.webapp.dao.repo.IProducerRepository;
+import org.artembogomolova.demo.webapp.domain.business.Good;
 import org.junit.jupiter.api.Assertions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.repository.CrudRepository;

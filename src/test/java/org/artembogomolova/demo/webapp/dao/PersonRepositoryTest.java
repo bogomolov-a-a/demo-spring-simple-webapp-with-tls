@@ -2,7 +2,10 @@ package org.artembogomolova.demo.webapp.dao;
 
 import java.util.ArrayList;
 import java.util.List;
-import org.artembogomolova.demo.webapp.model.core.Person;
+import org.artembogomolova.demo.webapp.dao.repo.IOrderRepository;
+import org.artembogomolova.demo.webapp.dao.repo.IPersonRepository;
+import org.artembogomolova.demo.webapp.dao.repo.IPhysicalAddressRepository;
+import org.artembogomolova.demo.webapp.domain.core.Person;
 import org.junit.jupiter.api.Assertions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.repository.CrudRepository;

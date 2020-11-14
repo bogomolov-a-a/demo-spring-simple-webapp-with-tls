@@ -5,7 +5,7 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
 import lombok.extern.slf4j.Slf4j;
-import org.artembogomolova.demo.webapp.model.core.IdentifiedEntity;
+import org.artembogomolova.demo.webapp.domain.core.IdentifiedEntity;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.jdbc.EmbeddedDatabaseConnection;

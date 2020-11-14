@@ -1,4 +1,4 @@
-package org.artembogomolova.demo.webapp.model.auth;
+package org.artembogomolova.demo.webapp.domain.auth;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -14,8 +14,8 @@ import javax.persistence.Table;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
-import org.artembogomolova.demo.webapp.model.core.IdentifiedEntity;
-import org.artembogomolova.demo.webapp.model.core.Person;
+import org.artembogomolova.demo.webapp.domain.core.IdentifiedEntity;
+import org.artembogomolova.demo.webapp.domain.core.Person;
 
 @Entity
 @Table(name = "users")

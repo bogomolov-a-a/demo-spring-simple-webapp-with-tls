@@ -1,4 +1,4 @@
-package org.artembogomolova.demo.webapp.model.core;
+package org.artembogomolova.demo.webapp.domain.core;
 
 import java.io.Serializable;
 import javax.persistence.Basic;

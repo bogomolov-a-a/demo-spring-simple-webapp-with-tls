@@ -1,4 +1,4 @@
-package org.artembogomolova.demo.webapp.model.core;
+package org.artembogomolova.demo.webapp.domain.core;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -15,7 +15,7 @@ import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
-import org.artembogomolova.demo.webapp.model.business.Order;
+import org.artembogomolova.demo.webapp.domain.business.Order;
 
 @Entity
 @Table(name = "persons")

@@ -1,4 +1,4 @@
-package org.artembogomolova.demo.webapp.model.auth;
+package org.artembogomolova.demo.webapp.domain.auth;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -10,7 +10,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
-import org.artembogomolova.demo.webapp.model.core.IdentifiedEntity;
+import org.artembogomolova.demo.webapp.domain.core.IdentifiedEntity;
 import org.springframework.security.core.GrantedAuthority;
 
 @Entity

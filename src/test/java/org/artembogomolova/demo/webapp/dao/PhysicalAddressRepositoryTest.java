@@ -2,7 +2,8 @@ package org.artembogomolova.demo.webapp.dao;
 
 import java.util.ArrayList;
 import java.util.List;
-import org.artembogomolova.demo.webapp.model.core.PhysicalAddress;
+import org.artembogomolova.demo.webapp.dao.repo.IPhysicalAddressRepository;
+import org.artembogomolova.demo.webapp.domain.core.PhysicalAddress;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.repository.CrudRepository;
 

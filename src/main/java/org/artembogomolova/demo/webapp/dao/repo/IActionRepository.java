@@ -1,6 +1,6 @@
-package org.artembogomolova.demo.webapp.dao;
+package org.artembogomolova.demo.webapp.dao.repo;
 
-import org.artembogomolova.demo.webapp.model.business.Action;
+import org.artembogomolova.demo.webapp.domain.business.Action;
 import org.springframework.data.repository.PagingAndSortingRepository;
 import org.springframework.stereotype.Repository;
 

@@ -2,7 +2,8 @@ package org.artembogomolova.demo.webapp.dao;
 
 import java.util.ArrayList;
 import java.util.List;
-import org.artembogomolova.demo.webapp.model.business.Order;
+import org.artembogomolova.demo.webapp.dao.repo.IOrderRepository;
+import org.artembogomolova.demo.webapp.domain.business.Order;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.repository.CrudRepository;
 

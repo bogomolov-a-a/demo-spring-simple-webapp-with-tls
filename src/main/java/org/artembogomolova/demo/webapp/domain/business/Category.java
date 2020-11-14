@@ -1,4 +1,4 @@
-package org.artembogomolova.demo.webapp.model.business;
+package org.artembogomolova.demo.webapp.domain.business;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -11,7 +11,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
-import org.artembogomolova.demo.webapp.model.core.IdentifiedEntity;
+import org.artembogomolova.demo.webapp.domain.core.IdentifiedEntity;
 
 @Entity
 @Table(name = "categories")

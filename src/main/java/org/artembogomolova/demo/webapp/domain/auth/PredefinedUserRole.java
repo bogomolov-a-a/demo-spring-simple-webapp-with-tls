@@ -1,15 +1,15 @@
-package org.artembogomolova.demo.webapp.model.auth;
+package org.artembogomolova.demo.webapp.domain.auth;
 
 import java.util.Set;
 import lombok.Getter;
-import org.artembogomolova.demo.webapp.model.business.Action;
-import org.artembogomolova.demo.webapp.model.business.Category;
-import org.artembogomolova.demo.webapp.model.business.Good;
-import org.artembogomolova.demo.webapp.model.business.Order;
-import org.artembogomolova.demo.webapp.model.business.OrderPosition;
-import org.artembogomolova.demo.webapp.model.business.Producer;
-import org.artembogomolova.demo.webapp.model.business.Ticket;
-import org.artembogomolova.demo.webapp.model.core.Person;
+import org.artembogomolova.demo.webapp.domain.business.Action;
+import org.artembogomolova.demo.webapp.domain.business.Category;
+import org.artembogomolova.demo.webapp.domain.business.Good;
+import org.artembogomolova.demo.webapp.domain.business.Order;
+import org.artembogomolova.demo.webapp.domain.business.OrderPosition;
+import org.artembogomolova.demo.webapp.domain.business.Producer;
+import org.artembogomolova.demo.webapp.domain.business.Ticket;
+import org.artembogomolova.demo.webapp.domain.core.Person;
 
 /**
  * all users can be edit, delete it profiles, send messages to another user.

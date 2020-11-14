@@ -1,4 +1,4 @@
-package org.artembogomolova.demo.webapp.model.business;
+package org.artembogomolova.demo.webapp.domain.business;
 
 import java.util.Date;
 import javax.persistence.CascadeType;
@@ -9,7 +9,7 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import lombok.Data;
-import org.artembogomolova.demo.webapp.model.core.IdentifiedEntity;
+import org.artembogomolova.demo.webapp.domain.core.IdentifiedEntity;
 
 @Entity
 @Table(name = "actions")
