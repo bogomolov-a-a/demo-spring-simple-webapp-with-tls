@@ -3,6 +3,8 @@ package org.artembogomolova.demo.webapp.config;
 import lombok.RequiredArgsConstructor;
 import org.artembogomolova.demo.webapp.security.authrorize.request.SecurityExpressionHandlerImpl;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.ComponentScan;
+import org.springframework.context.annotation.Configuration;
 import org.springframework.security.access.AccessDecisionManager;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -15,8 +17,10 @@ import org.springframework.security.web.authentication.AuthenticationSuccessHand
 import org.springframework.security.web.authentication.logout.LogoutHandler;
 import org.springframework.security.web.authentication.logout.LogoutSuccessHandler;
 
+@Configuration
 @EnableWebSecurity
 @RequiredArgsConstructor
+@ComponentScan(value = {"org.artembogomolova.demo.webapp.security", "org.artembogomolova.demo.webapp.controller"})
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
   public static final String LOGIN_URL = "/login";
