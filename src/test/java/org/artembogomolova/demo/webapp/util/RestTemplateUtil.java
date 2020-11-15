@@ -45,7 +45,8 @@ public class RestTemplateUtil {
     private final String keyStorePass;
     private final String keyPass;
 
-    @Override public ClientHttpRequestFactory get() {
+    @Override
+    public ClientHttpRequestFactory get() {
       return buildHttpRequestFactory(keyStoreFile, trustedKeystoreType, keyStorePass, keyPass);
     }
 

@@ -2,14 +2,16 @@ package org.artembogomolova.demo.webapp.dao;
 
 import java.util.ArrayList;
 import java.util.List;
-import org.artembogomolova.demo.webapp.model.PhysicalAddress;
+import org.artembogomolova.demo.webapp.dao.repo.IPhysicalAddressRepository;
+import org.artembogomolova.demo.webapp.domain.core.PhysicalAddress;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.repository.CrudRepository;
 
-public class PhysicalAddressRepositoryTest extends AbstractDaoTest<PhysicalAddress>{
+public class PhysicalAddressRepositoryTest extends AbstractDaoTest<PhysicalAddress> {
 
   @Autowired
   private IPhysicalAddressRepository physicalAddressRepository;
+
   @Override
   protected List<PhysicalAddress> updateEntities(List<PhysicalAddress> savedCollection) {
     PhysicalAddress address = savedCollection.get(0);
