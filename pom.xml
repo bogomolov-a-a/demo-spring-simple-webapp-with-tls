@@ -91,6 +91,7 @@
       <artifactId>lombok</artifactId>
       <groupId>org.projectlombok</groupId>
       <optional>true</optional>
+      <!-- for intellij idea lombok plugin -->
       <version>1.18.16</version>
     </dependency>
     <dependency>
@@ -433,7 +434,7 @@
   <properties>
     <jacoco.plugin.coverage.element.name>BUNDLE</jacoco.plugin.coverage.element.name>
     <!-- code quality. static analysis-->
-    <jacoco.plugin.coverage.min.ratio>0.850</jacoco.plugin.coverage.min.ratio>
+    <jacoco.plugin.coverage.min.ratio>0.900</jacoco.plugin.coverage.min.ratio>
     <jacoco.plugin.version>0.8.5</jacoco.plugin.version>
     <java.version>11</java.version>
     <maven.checkstyle.plugin.dependency.version>8.35</maven.checkstyle.plugin.dependency.version>
