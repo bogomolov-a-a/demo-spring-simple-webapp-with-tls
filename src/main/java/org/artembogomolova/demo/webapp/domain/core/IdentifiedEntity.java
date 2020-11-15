@@ -1,4 +1,4 @@
-package org.artembogomolova.demo.webapp.model;
+package org.artembogomolova.demo.webapp.domain.core;
 
 import java.io.Serializable;
 import javax.persistence.Basic;
@@ -12,8 +12,9 @@ import lombok.Setter;
 
 @MappedSuperclass
 public class IdentifiedEntity implements Serializable {
+
   @Id
-  @GeneratedValue(strategy= GenerationType.IDENTITY)
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
   @Basic
   @Column(columnDefinition = "integer not null primary key autoincrement")
   @Getter

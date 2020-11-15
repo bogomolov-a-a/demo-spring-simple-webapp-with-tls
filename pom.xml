@@ -16,6 +16,9 @@
               <includes>
                 <include>**/*Test.java</include>
               </includes>
+              <environmentVariables>
+                <spring_profiles_active>test</spring_profiles_active>
+              </environmentVariables>
             </configuration>
             <goals>
               <goal>test</goal>
@@ -87,8 +90,9 @@
     <dependency>
       <artifactId>lombok</artifactId>
       <groupId>org.projectlombok</groupId>
-      <version>1.18.16</version>
       <optional>true</optional>
+      <!-- for intellij idea lombok plugin -->
+      <version>1.18.16</version>
     </dependency>
     <dependency>
       <artifactId>hibernate-core</artifactId>
@@ -142,8 +146,8 @@
       <scope>test</scope>
     </dependency>
     <dependency>
-      <groupId>org.springframework.security</groupId>
       <artifactId>spring-security-config</artifactId>
+      <groupId>org.springframework.security</groupId>
     </dependency>
   </dependencies>
   <groupId>org.artembogomolova</groupId>
@@ -430,7 +434,7 @@
   <properties>
     <jacoco.plugin.coverage.element.name>BUNDLE</jacoco.plugin.coverage.element.name>
     <!-- code quality. static analysis-->
-    <jacoco.plugin.coverage.min.ratio>0.850</jacoco.plugin.coverage.min.ratio>
+    <jacoco.plugin.coverage.min.ratio>0.900</jacoco.plugin.coverage.min.ratio>
     <jacoco.plugin.version>0.8.5</jacoco.plugin.version>
     <java.version>11</java.version>
     <maven.checkstyle.plugin.dependency.version>8.35</maven.checkstyle.plugin.dependency.version>
@@ -440,16 +444,16 @@
     <pmd.plugin.dependency.version>6.26.0</pmd.plugin.dependency.version>
     <!--code quality. tests -->
     <pmd.plugin.version>3.13.0</pmd.plugin.version>
-    <spotbugs.plugin.dependency.version>4.1.2</spotbugs.plugin.dependency.version>
+    <sonar.maven.plugin.version>3.7.0.1746</sonar.maven.plugin.version>
     <!--BUNDLE is default element for coverage.
      Definition of BUNDLE
       BUNDLE is a set of classes/packages under analysis. Only with the Ant report task it is possible to split the classes under test into multiple bundles
        (with the "group" tag). With Maven currently all classes of a module form a bundle (once we get multi-module reports
        I would prefer to have a bundle per module).-->
-    <spotbugs.plugin.version>4.0.4</spotbugs.plugin.version>
-    <sonar.maven.plugin.version>3.7.0.1746</sonar.maven.plugin.version>
-    <sonar.projectKey>${sonar.organization}_${project.artifactId}</sonar.projectKey>
     <sonar.moduleKey>${project.groupId}:${project.artifactId}</sonar.moduleKey>
+    <sonar.projectKey>${sonar.organization}_${project.artifactId}</sonar.projectKey>
+    <spotbugs.plugin.dependency.version>4.1.2</spotbugs.plugin.dependency.version>
+    <spotbugs.plugin.version>4.0.4</spotbugs.plugin.version>
   </properties>
-  <version>0.0.1-SNAPSHOT</version>
+  <version>0.1.5</version>
 </project>

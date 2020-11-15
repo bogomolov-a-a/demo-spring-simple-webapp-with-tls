@@ -44,9 +44,9 @@ class DemoWebappWithTlsApplicationContextTest {
   @Test
   void tlsValidate() {
     TestRestTemplate restTemplate = restTemplateUtil.getSecureRestTemplate(trustedKeystoreFile,
-            trustedKeystoreType,
-            trustedKeystorePassword,
-            trustedKeyPassword);
+        trustedKeystoreType,
+        trustedKeystorePassword,
+        trustedKeyPassword);
     ResponseEntity<String> data = restTemplate.getForEntity("https://localhost:" + serverPort, String.class);
     String result = data.getBody();
     Assertions.assertEquals(HttpStatus.OK, data.getStatusCode(), result);

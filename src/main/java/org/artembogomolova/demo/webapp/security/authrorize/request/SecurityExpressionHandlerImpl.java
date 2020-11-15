@@ -10,13 +10,14 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class SecurityExpressionHandlerImpl implements SecurityExpressionHandler<FilterInvocation> {
-    @Override
-    public ExpressionParser getExpressionParser() {
-        return new SpelExpressionParser();
-    }
 
-    @Override
-    public EvaluationContext createEvaluationContext(Authentication authentication, FilterInvocation invocation) {
-        return null;
-    }
+  @Override
+  public ExpressionParser getExpressionParser() {
+    return new SpelExpressionParser();
+  }
+
+  @Override
+  public EvaluationContext createEvaluationContext(Authentication authentication, FilterInvocation invocation) {
+    return null;
+  }
 }

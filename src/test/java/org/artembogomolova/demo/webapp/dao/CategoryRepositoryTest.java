@@ -2,19 +2,19 @@ package org.artembogomolova.demo.webapp.dao;
 
 import java.util.ArrayList;
 import java.util.List;
-import org.artembogomolova.demo.webapp.model.Category;
+import org.artembogomolova.demo.webapp.dao.repo.ICategoryRepository;
+import org.artembogomolova.demo.webapp.domain.business.Category;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.repository.CrudRepository;
 
-public class CategoryRepositoryTest extends AbstractDaoTest<Category>{
+public class CategoryRepositoryTest extends AbstractDaoTest<Category> {
 
   @Autowired
   private ICategoryRepository categoryRepository;
 
 
-
   @Override
-  protected CrudRepository<Category,Long> getCrudRepository() {
+  protected CrudRepository<Category, Long> getCrudRepository() {
     return categoryRepository;
   }
 
