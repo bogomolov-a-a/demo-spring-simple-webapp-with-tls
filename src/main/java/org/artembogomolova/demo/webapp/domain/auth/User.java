@@ -33,7 +33,7 @@ public class User extends IdentifiedEntity {
   private Role role;
   @Column(insertable = false)
   private Boolean active;
-  @OneToOne
+  @OneToOne(cascade = {CascadeType.PERSIST, CascadeType.DETACH, CascadeType.MERGE, CascadeType.REMOVE}, orphanRemoval = true)
   @JoinColumn(name = "person_id", columnDefinition = "bigint")
   private Person person;
   @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.DETACH, CascadeType.MERGE, CascadeType.REMOVE})

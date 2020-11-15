@@ -8,6 +8,7 @@ import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -15,6 +16,7 @@ import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
+import org.artembogomolova.demo.webapp.domain.auth.User;
 import org.artembogomolova.demo.webapp.domain.business.Order;
 
 @Entity
@@ -38,6 +40,9 @@ public class Person extends IdentifiedEntity {
       mappedBy = "person",
       orphanRemoval = true)
   private List<Order> orders = new ArrayList<>();
+  @OneToOne
+  @JoinColumn(name = "id")
+  private User user;
 
   public Date getBirthDate() {
     if (birthDate == null) {
