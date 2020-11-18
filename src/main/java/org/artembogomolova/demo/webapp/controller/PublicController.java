@@ -8,6 +8,6 @@ public class PublicController {
 
   @GetMapping("/")
   public String getIndexPage() {
-    return "forward:/static/public/index.html";
+    return "fragments/public/index";
   }
 }
