@@ -10,8 +10,8 @@ public enum BasicAuthorityEnum {
   BAT_DELETE("delete"),
   BAT_GRANT("grant"),
   BAT_REVOKE("revoke");
-  private String name;
   private static final String AUTHORITY_FORMAT = "%s:%s";
+  private String name;
 
   BasicAuthorityEnum(String name) {
     this.name = name;

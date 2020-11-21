@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org" th:fragment="layout(title, navbar_items, content, footer)">
+<html th:fragment="layout(title, navbar_items, content, footer)" xmlns:th="http://www.thymeleaf.org">
 <head>
   <title th:replace="${title}"/>
-  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
-  <link th:href="@{/css/index.css}" rel="stylesheet" media="screen"/>
+  <meta content="text/html; charset=UTF-8" http-equiv="Content-Type"/>
+  <link media="screen" rel="stylesheet" th:href="@{/css/index.css}"/>
   <script th:src="@{/webjars/jquery/3.5.1/jquery.min.js}"></script>
   <script th:src="@{/webjars/popper.js/1.16.0/popper.min.js}"></script>
   <script th:src="@{/webjars/bootstrap/4.5.3/js/bootstrap.min.js}"></script>
@@ -13,11 +13,11 @@
 <table class="table-custom">
   <tbody>
   <tr>
-    <td style="width:10%" rowspan="2">
+    <td rowspan="2" style="width:10%">
       <nav class="navbar navbar-dark bg-dark navbar-expand-xs ">
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown" aria-controls="navbarNavDropdown"
-                aria-expanded="false"
-                aria-label="Toggle navigation">
+        <button aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation" class="navbar-toggler" data-target="#navbarNavDropdown"
+                data-toggle="collapse"
+                type="button">
           <span class="navbar-toggler-icon"></span>
         </button>
         <div th:replace="${navbar_items}"/>

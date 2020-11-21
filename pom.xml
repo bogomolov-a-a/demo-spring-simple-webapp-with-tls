@@ -13,12 +13,12 @@
         <executions>
           <execution>
             <configuration>
-              <includes>
-                <include>**/*Test.java</include>
-              </includes>
               <environmentVariables>
                 <spring_profiles_active>test</spring_profiles_active>
               </environmentVariables>
+              <includes>
+                <include>**/*Test.java</include>
+              </includes>
             </configuration>
             <goals>
               <goal>test</goal>
@@ -66,8 +66,8 @@
       <groupId>org.springframework.boot</groupId>
     </dependency>
     <dependency>
-      <groupId>org.webjars</groupId>
       <artifactId>bootstrap</artifactId>
+      <groupId>org.webjars</groupId>
       <version>${bootstrap.version}</version>
     </dependency>
     <dependency>
@@ -307,34 +307,34 @@
             <version>${maven.checkstyle.plugin.version}</version>
           </plugin>
           <plugin>
-            <groupId>nl.geodienstencentrum.maven</groupId>
             <artifactId>sass-maven-plugin</artifactId>
-            <version>3.7.2</version>
             <executions>
               <execution>
-                <id>css-build</id>
-                <phase>process-resources</phase>
-                <goals>
-                  <goal>update-stylesheets</goal>
-                </goals>
                 <configuration>
+                  <destination>${project.build.outputDirectory}/css</destination>
                   <resources>
                     <resource>
+                      <destination>${project.build.outputDirectory}/css</destination>
+                      <relativeOutputDirectory>..</relativeOutputDirectory>
                       <source>
                         <directory>${project.build.sourceDirectory}/../resources/sass</directory>
                         <includes>
                           <includes>index.scss</includes>
                         </includes>
                       </source>
-                      <relativeOutputDirectory>..</relativeOutputDirectory>
-                      <destination>${project.build.outputDirectory}/css</destination>
                     </resource>
                   </resources>
                   <sassSourceDirectory>${project.build.sourceDirectory}/../resources/sass</sassSourceDirectory>
-                  <destination>${project.build.outputDirectory}/css</destination>
                 </configuration>
+                <goals>
+                  <goal>update-stylesheets</goal>
+                </goals>
+                <id>css-build</id>
+                <phase>process-resources</phase>
               </execution>
             </executions>
+            <groupId>nl.geodienstencentrum.maven</groupId>
+            <version>3.7.2</version>
           </plugin>
         </plugins>
       </build>
@@ -467,8 +467,9 @@
   </profiles>
 
   <properties>
-    <jacoco.plugin.coverage.element.name>BUNDLE</jacoco.plugin.coverage.element.name>
+    <bootstrap.version>4.5.3</bootstrap.version>
     <!-- code quality. static analysis-->
+    <jacoco.plugin.coverage.element.name>BUNDLE</jacoco.plugin.coverage.element.name>
     <jacoco.plugin.coverage.min.ratio>0.900</jacoco.plugin.coverage.min.ratio>
     <jacoco.plugin.version>0.8.5</jacoco.plugin.version>
     <java.version>11</java.version>
@@ -476,21 +477,20 @@
     <maven.checkstyle.plugin.version>3.1.1</maven.checkstyle.plugin.version>
     <maven.failsafe.plugin.version>3.0.0-M5</maven.failsafe.plugin.version>
     <maven.surefire.plugin.version>3.0.0-M5</maven.surefire.plugin.version>
-    <pmd.plugin.dependency.version>6.26.0</pmd.plugin.dependency.version>
     <!--code quality. tests -->
+    <pmd.plugin.dependency.version>6.26.0</pmd.plugin.dependency.version>
     <pmd.plugin.version>3.13.0</pmd.plugin.version>
-    <sonar.maven.plugin.version>3.7.0.1746</sonar.maven.plugin.version>
     <!--BUNDLE is default element for coverage.
      Definition of BUNDLE
       BUNDLE is a set of classes/packages under analysis. Only with the Ant report task it is possible to split the classes under test into multiple bundles
        (with the "group" tag). With Maven currently all classes of a module form a bundle (once we get multi-module reports
        I would prefer to have a bundle per module).-->
+    <sonar.maven.plugin.version>3.7.0.1746</sonar.maven.plugin.version>
     <sonar.moduleKey>${project.groupId}:${project.artifactId}</sonar.moduleKey>
     <sonar.projectKey>${sonar.organization}_${project.artifactId}</sonar.projectKey>
     <spotbugs.plugin.dependency.version>4.1.2</spotbugs.plugin.dependency.version>
-    <spotbugs.plugin.version>4.0.4</spotbugs.plugin.version>
     <!-- -->
-    <bootstrap.version>4.5.3</bootstrap.version>
+    <spotbugs.plugin.version>4.0.4</spotbugs.plugin.version>
   </properties>
   <version>0.1.5</version>
 </project>

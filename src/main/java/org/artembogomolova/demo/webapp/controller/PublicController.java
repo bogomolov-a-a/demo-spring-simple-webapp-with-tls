@@ -7,12 +7,12 @@ import org.springframework.web.bind.annotation.GetMapping;
 @Controller
 public class PublicController {
 
-  private static final String ROOT_URL = "/";
-  private static final String INDEX_PAGE_URL = "/index";
   public static final String LOGIN_URL = "/login";
   public static final String TEMPLATE_RESOURCES_URL = "/templates/**";
   public static final String CSS_RESOURCES_URL = "/css/**";
   public static final String WEBJARS_RESOURCES_URL = "/webjars/**";
+  private static final String ROOT_URL = "/";
+  private static final String INDEX_PAGE_URL = "/index";
   private static final String PUBLIC_PAGE_TEMPLATE_PREFIX = "fragments/public";
   private static final String[] UNSECURED_RESOURCES = {
       /*public resources*/

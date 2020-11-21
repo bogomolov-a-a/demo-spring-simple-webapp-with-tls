@@ -11,7 +11,7 @@ import org.springframework.context.ConfigurableApplicationContext;
     /*Exclude. Cause - conflicts with custom configuration*/
     SecurityAutoConfiguration.class})
 public class DemoWebappWithTlsApplication extends SpringBootServletInitializer {
-  
+
   public static void main(String[] args) {
     SpringApplication application = new SpringApplication(DemoWebappWithTlsApplication.class);
     /*for start context*/
