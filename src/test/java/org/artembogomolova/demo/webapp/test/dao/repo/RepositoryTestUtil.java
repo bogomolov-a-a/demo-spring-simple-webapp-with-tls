@@ -1,4 +1,4 @@
-package org.artembogomolova.demo.webapp.test.dao;
+package org.artembogomolova.demo.webapp.test.dao.repo;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;

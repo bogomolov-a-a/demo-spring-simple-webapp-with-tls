@@ -1,4 +1,4 @@
-package org.artembogomolova.demo.webapp.test.dao;
+package org.artembogomolova.demo.webapp.test.dao.repo;
 
 import java.util.ArrayList;
 import java.util.List;

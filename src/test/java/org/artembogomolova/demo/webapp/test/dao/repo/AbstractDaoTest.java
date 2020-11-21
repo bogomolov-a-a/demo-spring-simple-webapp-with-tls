@@ -1,25 +1,16 @@
-package org.artembogomolova.demo.webapp.test.dao;
+package org.artembogomolova.demo.webapp.test.dao.repo;
 
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
-import lombok.extern.slf4j.Slf4j;
 import org.artembogomolova.demo.webapp.domain.core.IdentifiedEntity;
+import org.artembogomolova.demo.webapp.test.dao.AbstractDatabaseTest;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
-import org.springframework.boot.jdbc.EmbeddedDatabaseConnection;
-import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
-import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase.Replace;
-import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.data.repository.CrudRepository;
-import org.springframework.test.context.ActiveProfiles;
 
-@DataJpaTest
-@ActiveProfiles({"test"})
-@Slf4j
-@AutoConfigureTestDatabase(replace = Replace.NONE, connection = EmbeddedDatabaseConnection.NONE)
-abstract class AbstractDaoTest<T extends IdentifiedEntity> {
+abstract class AbstractDaoTest<T extends IdentifiedEntity> extends AbstractDatabaseTest {
 
   protected static final Comparator ID_COMPARATOR = Comparator.comparing(IdentifiedEntity::getId);
 
