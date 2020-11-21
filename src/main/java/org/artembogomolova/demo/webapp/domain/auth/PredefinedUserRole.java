@@ -168,4 +168,8 @@ public enum PredefinedUserRole {
     this.id = id;
     this.privileges = privileges;
   }
+
+  public String[] getPrivilegesAsArray() {
+    return privileges.toArray(new String[0]);
+  }
 }

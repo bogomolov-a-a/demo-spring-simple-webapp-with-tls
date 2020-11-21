@@ -15,6 +15,8 @@ import org.artembogomolova.demo.webapp.domain.auth.Role;
 import org.artembogomolova.demo.webapp.domain.auth.User;
 import org.artembogomolova.demo.webapp.domain.core.Person;
 import org.artembogomolova.demo.webapp.domain.core.PhysicalAddress;
+import org.springframework.security.authentication.AnonymousAuthenticationToken;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
@@ -119,5 +121,11 @@ public class UserRepoService {
     return userRepository.count() == 0 &&
         userRoleRepository.count() == 0 &&
         authorityRepository.count() == 0;
+  }
+
+  public Authentication getGuestUserToken() {
+    User user = userRepository.findByLogin(PREDEFINED_GUEST_ACCOUNT_LOGIN);
+    String userLogin = user.getLogin();
+    return new AnonymousAuthenticationToken(userLogin, userLogin, user.getRole().getAuthorities());
   }
 }
