@@ -1,4 +1,4 @@
-package org.artembogomolova.demo.webapp.dao;
+package org.artembogomolova.demo.webapp.test.dao;
 
 import java.util.Collections;
 import java.util.Comparator;

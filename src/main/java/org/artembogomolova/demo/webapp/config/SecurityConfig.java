@@ -1,17 +1,18 @@
 package org.artembogomolova.demo.webapp.config;
 
 import lombok.RequiredArgsConstructor;
-import org.artembogomolova.demo.webapp.security.authrorize.request.SecurityExpressionHandlerImpl;
+import org.artembogomolova.demo.webapp.controller.PublicController;
+import org.artembogomolova.demo.webapp.domain.auth.PredefinedUserRole;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.security.access.AccessDecisionManager;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.authentication.AnonymousAuthenticationFilter;
 import org.springframework.security.web.authentication.AuthenticationFailureHandler;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.springframework.security.web.authentication.logout.LogoutHandler;
@@ -20,12 +21,11 @@ import org.springframework.security.web.authentication.logout.LogoutSuccessHandl
 @Configuration
 @EnableWebSecurity
 @RequiredArgsConstructor
-@ComponentScan(value = {"org.artembogomolova.demo.webapp.security", "org.artembogomolova.demo.webapp.controller"})
+@ComponentScan(value = {"org.artembogomolova.demo.webapp.security", "org.artembogomolova.demo.webapp.controller",
+    "org.artembogomolova.demo.webapp.filter"})
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
-  public static final String LOGIN_URL = "/login";
   private static final String LOGOUT_URL = "/logout";
-  private static final String[] UNSECURED_RESOURCES = {"/webjars/**", "/css/**", "/resources/**"};
   private static final String[] SECURED_RESOURCES = {"/api/**"};
 
   private final AuthenticationSuccessHandler loginSuccessfulHandler;
@@ -33,9 +33,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
   private final LogoutSuccessHandler logoutSuccessHandler;
   private final LogoutHandler logoutHandler;
   private final UserDetailsService userDetailsService;
-  private final AccessDecisionManager accessDecisionManager;
-  private final SecurityExpressionHandlerImpl securityExpressionHandlerImpl;
-
+  private final AnonymousAuthenticationFilter anonymousAuthenticationFilterImpl;
 
   @Bean
   public PasswordEncoder getPasswordEncoder() {
@@ -46,38 +44,36 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
   protected void configure(HttpSecurity http)
       throws
       Exception {
+    configureLoginProcess(http);
+    configureLogoutProcess(http);
+    configurePublicResources(http);
+  }
+
+  private void configurePublicResources(HttpSecurity http) throws Exception {
     http.authorizeRequests()
-        .accessDecisionManager(accessDecisionManager)
-        .expressionHandler(securityExpressionHandlerImpl)
-        .filterSecurityInterceptorOncePerRequest(true)
-        /* api methods need authorization*/
-        .antMatchers(SECURED_RESOURCES)
-        .authenticated()
-        /*but unsecured resources(css, static resources) don't need*/
-        .antMatchers(UNSECURED_RESOURCES)
-        .anonymous()
-        .and()
-        /*login page with failure callback*/
-        .formLogin()
-        .loginPage(LOGIN_URL)
-        .permitAll()
-        .successHandler(loginSuccessfulHandler)
-        .failureHandler(loginFailureHandler)
-        .and()
-        /*logout page*/
-        .logout()
-        .permitAll()
-        .and()
-        .logout()
+        .antMatchers(PublicController.getUnsecuredResources())
+        .hasAnyAuthority(PredefinedUserRole.GUEST.getPrivilegesAsArray());
+    /*For guest main page*/
+    http.addFilterAt(anonymousAuthenticationFilterImpl, AnonymousAuthenticationFilter.class);
+  }
+
+  private void configureLogoutProcess(HttpSecurity http) throws Exception {
+    http.logout()
         .logoutUrl(LOGOUT_URL)
-        .logoutSuccessUrl(LOGIN_URL)
+        .logoutSuccessUrl(PublicController.LOGIN_URL)
         .logoutSuccessHandler(logoutSuccessHandler)
         .invalidateHttpSession(true)
-        .addLogoutHandler(logoutHandler)
-        .and()
-        /*user service with detail data about logged user*/
-        .userDetailsService(userDetailsService)
-        .exceptionHandling();
+        .addLogoutHandler(logoutHandler);
+  }
+
+  /**
+   * login page with failure callback
+   */
+  private void configureLoginProcess(HttpSecurity http) throws Exception {
+    http.formLogin()
+        .loginPage(PublicController.LOGIN_URL)
+        .successHandler(loginSuccessfulHandler)
+        .failureHandler(loginFailureHandler);
   }
 
 }

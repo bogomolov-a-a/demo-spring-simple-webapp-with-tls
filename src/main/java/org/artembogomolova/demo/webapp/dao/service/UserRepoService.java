@@ -15,6 +15,8 @@ import org.artembogomolova.demo.webapp.domain.auth.Role;
 import org.artembogomolova.demo.webapp.domain.auth.User;
 import org.artembogomolova.demo.webapp.domain.core.Person;
 import org.artembogomolova.demo.webapp.domain.core.PhysicalAddress;
+import org.springframework.security.authentication.AnonymousAuthenticationToken;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
@@ -22,6 +24,7 @@ import org.springframework.transaction.annotation.Transactional;
 @Component
 @RequiredArgsConstructor
 @Slf4j
+@Transactional()
 public class UserRepoService {
 
   private static final String PREDEFINED_ADMIN_ACCOUNT_LOGIN = "admin";
@@ -29,12 +32,13 @@ public class UserRepoService {
   private static final String PREDEFINED_ADMIN_ACCOUNT_POSTAL_CODE = "190000";
   private static final String PREDEFINED_ADMIN_ACCOUNT_CITY_NAME = "Saint Petersburg";
   private static final String CHANGE_IT = "changeit";
+  private static final String PREDEFINED_GUEST_ACCOUNT_LOGIN = "guest";
 
   private final IUserRepository userRepository;
   private final IUserRoleRepository userRoleRepository;
   private final IAuthorityRepository authorityRepository;
 
-  @Transactional()
+
   public void createPredefinedSuperUser(PasswordEncoder passwordEncoder) {
     User result = new User();
     result.setLogin(PREDEFINED_ADMIN_ACCOUNT_LOGIN);
@@ -43,7 +47,7 @@ public class UserRepoService {
     log.info("created person: {}", person.toString());
     result.setPerson(person);
     person.setUser(result);
-    Role role = userRoleRepository.findByName(PredefinedUserRole.ROLE_ADMIN.name());
+    Role role = userRoleRepository.findByName(PredefinedUserRole.ADMIN.name());
     result.setRole(role);
     role.getUsers().add(result);
     result.setClientCertificateData(CHANGE_IT);
@@ -61,11 +65,11 @@ public class UserRepoService {
     result.setSurname(CHANGE_IT);
     result.setPatronymic(CHANGE_IT);
     result.setPhone(CHANGE_IT);
-    result.setEstateAddress(buildAddress());
+    result.setEstateAddress(buildSuperUserAddress());
     return result;
   }
 
-  private PhysicalAddress buildAddress() {
+  private PhysicalAddress buildSuperUserAddress() {
     PhysicalAddress result = new PhysicalAddress();
     result.setCountry(PREDEFINED_ADMIN_ACCOUNT_COUNTRY);
     result.setPostalCode(PREDEFINED_ADMIN_ACCOUNT_POSTAL_CODE);
@@ -74,9 +78,54 @@ public class UserRepoService {
     return result;
   }
 
+  public void createPredefinedGuestUser(PasswordEncoder passwordEncoder) {
+    User result = new User();
+    result.setLogin(PREDEFINED_GUEST_ACCOUNT_LOGIN);
+    result.setPassword(passwordEncoder.encode(PREDEFINED_GUEST_ACCOUNT_LOGIN));
+    Person person = createPredefinedGuestPerson();
+    log.info("created person: {}", person.toString());
+    result.setPerson(person);
+    person.setUser(result);
+    Role role = userRoleRepository.findByName(PredefinedUserRole.GUEST.name());
+    result.setRole(role);
+    role.getUsers().add(result);
+    result.setClientCertificateData(PREDEFINED_GUEST_ACCOUNT_LOGIN);
+    log.info("super user role: {}", role.toString());
+    role.getAuthorities().stream()
+        .sorted(Comparator.comparing(Authority::getName))
+        .forEach(x -> log.info("authority enabled: {}", x));
+    userRepository.save(result);
+  }
+
+  private Person createPredefinedGuestPerson() {
+    Person result = new Person();
+    result.setBirthDate(new Date(LocalDateTime.now().toInstant(ZoneOffset.UTC).getEpochSecond()));
+    result.setName(PREDEFINED_GUEST_ACCOUNT_LOGIN);
+    result.setSurname(PREDEFINED_GUEST_ACCOUNT_LOGIN);
+    result.setPatronymic(PREDEFINED_GUEST_ACCOUNT_LOGIN);
+    result.setPhone(PREDEFINED_GUEST_ACCOUNT_LOGIN);
+    result.setEstateAddress(buildGuestAddress());
+    return result;
+  }
+
+  private PhysicalAddress buildGuestAddress() {
+    PhysicalAddress result = new PhysicalAddress();
+    result.setCountry(PREDEFINED_GUEST_ACCOUNT_LOGIN);
+    result.setPostalCode(PREDEFINED_GUEST_ACCOUNT_LOGIN);
+    result.setCity(PREDEFINED_GUEST_ACCOUNT_LOGIN);
+    result.setHouse(PREDEFINED_GUEST_ACCOUNT_LOGIN);
+    return result;
+  }
+
   public boolean isFirstStart() {
     return userRepository.count() == 0 &&
         userRoleRepository.count() == 0 &&
         authorityRepository.count() == 0;
+  }
+
+  public Authentication getGuestUserToken() {
+    User user = userRepository.findByLogin(PREDEFINED_GUEST_ACCOUNT_LOGIN);
+    String userLogin = user.getLogin();
+    return new AnonymousAuthenticationToken(userLogin, userLogin, user.getRole().getAuthorities());
   }
 }

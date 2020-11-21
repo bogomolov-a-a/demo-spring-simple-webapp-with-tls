@@ -20,7 +20,7 @@ public enum PredefinedUserRole {
   /**
    * super user, view all users, grant authorities, revoke authorities, block user...
    */
-  ROLE_ADMIN(1L, Set.of(
+  ADMIN(1L, Set.of(
       /*Person*/
       /*profile authorities*/
       BasicAuthorityEnum.getAuthorityByEntityAndAction(Person.class, BasicAuthorityEnum.BAT_CREATE.name()),
@@ -43,7 +43,7 @@ public enum PredefinedUserRole {
   /**
    * control orders and goods, view all orders, view all good request, good storage status...
    */
-  ROLE_MODERATOR(2L, Set.of(
+  MODERATOR(2L, Set.of(
       /*Person*/
       BasicAuthorityEnum.getAuthorityByEntityAndAction(Person.class, BasicAuthorityEnum.BAT_CREATE.name()),
       BasicAuthorityEnum.getAuthorityByEntityAndAction(Person.class, BasicAuthorityEnum.BAT_UPDATE.name()),
@@ -95,7 +95,7 @@ public enum PredefinedUserRole {
   /**
    * can be create order, pay order, view all orders...
    */
-  ROLE_CUSTOMER(3L, Set.of(
+  CUSTOMER(3L, Set.of(
       /*Person*/
       BasicAuthorityEnum.getAuthorityByEntityAndAction(Person.class, BasicAuthorityEnum.BAT_CREATE.name()),
       BasicAuthorityEnum.getAuthorityByEntityAndAction(Person.class, BasicAuthorityEnum.BAT_UPDATE.name()),
@@ -127,7 +127,7 @@ public enum PredefinedUserRole {
   /**
    * create good request, view it good status...
    */
-  ROLE_PRODUCER(4L, Set.of(
+  PRODUCER(4L, Set.of(
       /*Person*/
       BasicAuthorityEnum.getAuthorityByEntityAndAction(Person.class, BasicAuthorityEnum.BAT_CREATE.name()),
       BasicAuthorityEnum.getAuthorityByEntityAndAction(Person.class, BasicAuthorityEnum.BAT_READ.name()),
@@ -149,7 +149,7 @@ public enum PredefinedUserRole {
   /**
    * guest can view categories,providers,goods.
    */
-  ROLE_GUEST(3L, Set.of(
+  GUEST(5L, Set.of(
       /*Action*/
       BasicAuthorityEnum.getAuthorityByEntityAndAction(Action.class, BasicAuthorityEnum.BAT_READ.name()),
       /*Category*/
@@ -167,5 +167,9 @@ public enum PredefinedUserRole {
   PredefinedUserRole(Long id, Set<String> privileges) {
     this.id = id;
     this.privileges = privileges;
+  }
+
+  public String[] getPrivilegesAsArray() {
+    return privileges.toArray(new String[0]);
   }
 }

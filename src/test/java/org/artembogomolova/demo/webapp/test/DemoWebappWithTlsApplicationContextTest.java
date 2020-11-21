@@ -1,7 +1,9 @@
-package org.artembogomolova.demo.webapp;
+package org.artembogomolova.demo.webapp.test;
 
 import lombok.extern.slf4j.Slf4j;
-import org.artembogomolova.demo.webapp.util.RestTemplateUtil;
+import org.artembogomolova.demo.webapp.DemoWebappWithTlsApplication;
+import org.artembogomolova.demo.webapp.test.event.EventPublishingListener;
+import org.artembogomolova.demo.webapp.test.util.RestTemplateUtil;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,11 +16,15 @@ import org.springframework.boot.web.server.LocalServerPort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.test.context.ActiveProfiles;
+import org.springframework.test.context.TestExecutionListeners;
+import org.springframework.test.context.support.DependencyInjectionTestExecutionListener;
 
 @SpringBootTest(webEnvironment = WebEnvironment.RANDOM_PORT, classes = {DemoWebappWithTlsApplication.class})
 @AutoConfigureMockMvc
 @ActiveProfiles(value = {"test"})
 @Slf4j
+@TestExecutionListeners({DependencyInjectionTestExecutionListener.class,
+    EventPublishingListener.class})
 class DemoWebappWithTlsApplicationContextTest {
 
   @LocalServerPort
@@ -47,7 +53,7 @@ class DemoWebappWithTlsApplicationContextTest {
         trustedKeystoreType,
         trustedKeystorePassword,
         trustedKeyPassword);
-    ResponseEntity<String> data = restTemplate.getForEntity("https://localhost:" + serverPort, String.class);
+    ResponseEntity<String> data = restTemplate.getForEntity("https://localhost:" + serverPort + "/", String.class);
     String result = data.getBody();
     Assertions.assertEquals(HttpStatus.OK, data.getStatusCode(), result);
   }

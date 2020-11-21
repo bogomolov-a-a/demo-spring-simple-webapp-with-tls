@@ -11,14 +11,12 @@ import org.springframework.context.ConfigurableApplicationContext;
     /*Exclude. Cause - conflicts with custom configuration*/
     SecurityAutoConfiguration.class})
 public class DemoWebappWithTlsApplication extends SpringBootServletInitializer {
-
-  static ConfigurableApplicationContext context;
-
+  
   public static void main(String[] args) {
     SpringApplication application = new SpringApplication(DemoWebappWithTlsApplication.class);
     /*for start context*/
     application.setBannerMode(Mode.OFF);
-    context = application.run(args);
+    ConfigurableApplicationContext context = application.run(args);
     context.start();
   }
 
