@@ -29,6 +29,8 @@ public class ContextStartedEventListener {
     log.info("authorities, roles initialized");
     userRepoService.createPredefinedSuperUser(passwordEncoder);
     log.info(" super user for log into system created");
+    userRepoService.createPredefinedGuestUser(passwordEncoder);
+    log.info(" guest user for log into system created");
   }
 
 }
