@@ -1,4 +1,4 @@
-package org.artembogomolova.demo.webapp.util;
+package org.artembogomolova.demo.webapp.test.util;
 
 import java.io.File;
 import java.io.InputStream;
