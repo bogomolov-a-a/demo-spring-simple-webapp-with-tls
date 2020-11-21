@@ -6,7 +6,6 @@ import java.util.Comparator;
 import java.util.Date;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.artembogomolova.demo.webapp.dao.repo.IAuthorityRepository;
 import org.artembogomolova.demo.webapp.dao.repo.IUserRepository;
 import org.artembogomolova.demo.webapp.dao.repo.IUserRoleRepository;
 import org.artembogomolova.demo.webapp.domain.auth.Authority;
@@ -27,17 +26,15 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional()
 public class UserRepoService {
 
-  private static final String PREDEFINED_ADMIN_ACCOUNT_LOGIN = "admin";
+  public static final String PREDEFINED_ADMIN_ACCOUNT_LOGIN = "admin";
   private static final String PREDEFINED_ADMIN_ACCOUNT_COUNTRY = "Russia";
   private static final String PREDEFINED_ADMIN_ACCOUNT_POSTAL_CODE = "190000";
   private static final String PREDEFINED_ADMIN_ACCOUNT_CITY_NAME = "Saint Petersburg";
   private static final String CHANGE_IT = "changeit";
-  private static final String PREDEFINED_GUEST_ACCOUNT_LOGIN = "guest";
+  public static final String PREDEFINED_GUEST_ACCOUNT_LOGIN = "guest";
 
   private final IUserRepository userRepository;
   private final IUserRoleRepository userRoleRepository;
-  private final IAuthorityRepository authorityRepository;
-
 
   public void createPredefinedSuperUser(PasswordEncoder passwordEncoder) {
     User result = new User();
@@ -118,14 +115,18 @@ public class UserRepoService {
   }
 
   public boolean isFirstStart() {
-    return userRepository.count() == 0 &&
-        userRoleRepository.count() == 0 &&
-        authorityRepository.count() == 0;
+    return userRoleRepository.count() == 0;
   }
 
   public Authentication getGuestUserToken() {
     User user = userRepository.findByLogin(PREDEFINED_GUEST_ACCOUNT_LOGIN);
     String userLogin = user.getLogin();
     return new AnonymousAuthenticationToken(userLogin, userLogin, user.getRole().getAuthorities());
+  }
+
+  public boolean corruptedDatabase() {
+    return userRoleRepository.count() > 0 &&
+        (userRepository.findByLogin(PREDEFINED_ADMIN_ACCOUNT_LOGIN) == null ||
+            userRepository.findByLogin(PREDEFINED_GUEST_ACCOUNT_LOGIN) == null);
   }
 }
