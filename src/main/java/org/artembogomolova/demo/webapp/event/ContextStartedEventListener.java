@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.artembogomolova.demo.webapp.dao.service.RoleRepoService;
 import org.artembogomolova.demo.webapp.dao.service.UserRepoService;
+import org.springframework.context.ApplicationContextException;
 import org.springframework.context.event.ContextStartedEvent;
 import org.springframework.context.event.EventListener;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -21,6 +22,9 @@ public class ContextStartedEventListener {
   @EventListener()
   public void onApplicationEvent(ContextStartedEvent contextStartedEvent) {
     log.info("application successful started");
+    if (userRepoService.corruptedDatabase()) {
+      throw new ApplicationContextException("Database corrupted! Predefined admin and guest user deleted with unauthorized access!!!");
+    }
     if (!userRepoService.isFirstStart()) {
       return;
     }

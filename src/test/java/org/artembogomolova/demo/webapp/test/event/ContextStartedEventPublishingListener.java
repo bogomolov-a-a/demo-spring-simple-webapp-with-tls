@@ -9,11 +9,15 @@ import org.springframework.context.event.ContextStartedEvent;
 import org.springframework.test.context.TestContext;
 import org.springframework.test.context.event.EventPublishingTestExecutionListener;
 
-public class EventPublishingListener extends EventPublishingTestExecutionListener {
+public class ContextStartedEventPublishingListener extends EventPublishingTestExecutionListener {
 
   @Override
   public void beforeTestMethod(TestContext testContext) {
     super.beforeTestExecution(testContext);
+    publishStartedEvent(testContext);
+  }
+
+  protected void publishStartedEvent(TestContext testContext) {
     ApplicationContext applicationContext = testContext.getApplicationContext();
     applicationContext.publishEvent(new ContextStartedEvent(applicationContext));
   }
