@@ -1,4 +1,4 @@
-package org.artembogomolova.demo.webapp.test.dao;
+package org.artembogomolova.demo.webapp.test.domain;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.jdbc.EmbeddedDatabaseConnection;
@@ -7,7 +7,7 @@ import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabas
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.test.context.ActiveProfiles;
 
-@DataJpaTest
+@DataJpaTest()
 @ActiveProfiles({"test"})
 @Slf4j
 @AutoConfigureTestDatabase(replace = Replace.NONE, connection = EmbeddedDatabaseConnection.NONE)
