@@ -2,20 +2,29 @@ package org.artembogomolova.demo.webapp.domain.business;
 
 import java.util.Date;
 import javax.persistence.CascadeType;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
-import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
 import org.artembogomolova.demo.webapp.domain.core.IdentifiedEntity;
 
 @Entity
 @Table(name = "actions")
-@Data
+@Getter
+@Setter
+@ToString(exclude = {"category", "good"})
+@EqualsAndHashCode(onlyExplicitlyIncluded = true)
 public class Action extends IdentifiedEntity {
 
+  @EqualsAndHashCode.Include
+  @Column(unique = true)
   private String name;
   private String description;
   @Temporal(TemporalType.TIMESTAMP)
