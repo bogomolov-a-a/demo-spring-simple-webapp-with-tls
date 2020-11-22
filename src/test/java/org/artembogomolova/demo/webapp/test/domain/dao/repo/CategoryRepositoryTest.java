@@ -1,9 +1,10 @@
-package org.artembogomolova.demo.webapp.test.dao.repo;
+package org.artembogomolova.demo.webapp.test.domain.dao.repo;
 
 import java.util.ArrayList;
 import java.util.List;
 import org.artembogomolova.demo.webapp.dao.repo.ICategoryRepository;
 import org.artembogomolova.demo.webapp.domain.business.Category;
+import org.artembogomolova.demo.webapp.test.domain.DomainTestUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.repository.CrudRepository;
 
@@ -21,9 +22,9 @@ public class CategoryRepositoryTest extends AbstractDaoTest<Category> {
   @Override
   protected List<Category> generateEntities() {
     List<Category> result = new ArrayList<>();
-    Category category1 = RepositoryTestUtil.buildCategory1();
+    Category category1 = DomainTestUtil.buildCategory1();
     result.add(category1);
-    Category category2 = RepositoryTestUtil.buildCategory2();
+    Category category2 = DomainTestUtil.buildCategory2();
     result.add(category2);
     Category category11 = new Category();
     category11.setName("Category11");

@@ -3,6 +3,7 @@ package org.artembogomolova.demo.webapp.domain.business;
 import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.CascadeType;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
@@ -15,14 +16,19 @@ import org.artembogomolova.demo.webapp.domain.core.IdentifiedEntity;
 
 @Entity
 @Table(name = "categories")
-@Getter
-@Setter
 @NoArgsConstructor
-@EqualsAndHashCode
+@Getter
 @ToString(exclude = {"goods", "actions"})
+@EqualsAndHashCode(onlyExplicitlyIncluded = true)
 public class Category extends IdentifiedEntity {
 
+  @Setter
+  @EqualsAndHashCode.Include
+  @Column(unique = true)
   private String name;
+  @Setter
+  @EqualsAndHashCode.Include
+  @Column(unique = true)
   private Long parentCategoryId;
   @OneToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REMOVE, CascadeType.DETACH}, orphanRemoval = true, mappedBy = "producer")
   private List<Good> goods = new ArrayList<>();
