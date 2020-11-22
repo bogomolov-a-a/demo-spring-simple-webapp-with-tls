@@ -1,4 +1,4 @@
-package org.artembogomolova.demo.webapp.test.dao.repo;
+package org.artembogomolova.demo.webapp.test.domain;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -15,7 +15,7 @@ import org.artembogomolova.demo.webapp.domain.core.Person;
 import org.artembogomolova.demo.webapp.domain.core.PhysicalAddress;
 
 @Slf4j
-public class RepositoryTestUtil {
+public class DomainTestUtil {
 
   public static Category buildCategory1() {
     Category result = new Category();
@@ -89,13 +89,15 @@ public class RepositoryTestUtil {
     result.setSurname("Surname1");
     result.setName("Name1");
     result.setPatronymic("Patronymic1");
-    try {
-      result.setBirthDate(new SimpleDateFormat("yyyy-MM-dd").parse("2010-10-27"));
-    } catch (ParseException e) {
-      log.warn(e.getMessage());
+    if (result.getBirthDate() == null) {
+      try {
+        result.setBirthDate(new SimpleDateFormat("yyyy-MM-dd").parse("2010-10-27"));
+      } catch (ParseException e) {
+        log.warn(e.getMessage());
+      }
     }
     result.setPhone("+78*********");
-    result.setEstateAddress(RepositoryTestUtil.buildTestAddress());
+    result.setEstateAddress(DomainTestUtil.buildTestAddress());
     return result;
   }
 
@@ -146,7 +148,7 @@ public class RepositoryTestUtil {
     result.setDescription("test action 1 description");
     result.setStartDate(Calendar.getInstance().getTime());
     result.setEndDate(Calendar.getInstance().getTime());
-    result.setName("test action 1");
+    result.setName("test action 2");
     Category category1 = buildCategory1();
     result.setCategory(category1);
     category1.getActions().add(result);
