@@ -154,6 +154,11 @@
       <artifactId>spring-security-config</artifactId>
       <groupId>org.springframework.security</groupId>
     </dependency>
+    <!-- jpa validation-->
+    <dependency>
+      <artifactId>spring-boot-starter-validation</artifactId>
+      <groupId>org.springframework.boot</groupId>
+    </dependency>
   </dependencies>
   <groupId>org.artembogomolova</groupId>
   <modelVersion>4.0.0</modelVersion>
@@ -375,6 +380,11 @@
                         </limit>
                         <limit>
                           <counter>BRANCH</counter>
+                          <minimum>${jacoco.plugin.coverage.min.ratio}</minimum>
+                          <value>COVEREDRATIO</value>
+                        </limit>
+                        <limit>
+                          <counter>CLASS</counter>
                           <minimum>${jacoco.plugin.coverage.min.ratio}</minimum>
                           <value>COVEREDRATIO</value>
                         </limit>
