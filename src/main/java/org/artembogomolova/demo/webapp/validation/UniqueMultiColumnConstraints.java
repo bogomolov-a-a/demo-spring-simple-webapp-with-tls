@@ -2,27 +2,16 @@ package org.artembogomolova.demo.webapp.validation;
 
 import java.lang.annotation.Documented;
 import java.lang.annotation.ElementType;
-import java.lang.annotation.Repeatable;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 import javax.validation.Constraint;
-import javax.validation.Payload;
 
 @Documented
 @Constraint(validatedBy = UniqueMultiColumnConstraintValidator.class)
 @Target({ElementType.TYPE})
 @Retention(RetentionPolicy.RUNTIME)
-@Repeatable(UniqueMultiColumnConstraints.class)
-public @interface UniqueMultiColumnConstraint {
+public @interface UniqueMultiColumnConstraints {
 
-  String message() default "org.artembogomolova.demo.webapp.dao.validation.unique";
-
-  Class<?>[] groups() default {};
-
-  Class<? extends Payload>[] payload() default {};
-
-  String[] columnList();
-
-  Class<?> repository();
+  UniqueMultiColumnConstraint[] value();
 }
