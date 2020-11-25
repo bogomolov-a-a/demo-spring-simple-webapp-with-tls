@@ -17,23 +17,29 @@ import org.artembogomolova.demo.webapp.domain.core.IdentifiedEntity;
 
 @Entity
 @Table(name = "goods")
-@Getter
-@Setter
-@EqualsAndHashCode
 @NoArgsConstructor
+@Getter
 @ToString(exclude = {"producer", "category", "actions", "orderPositions"})
+@EqualsAndHashCode(onlyExplicitlyIncluded = true)
 public class Good extends IdentifiedEntity {
 
+  @Setter
   private String name;
+  @Setter
   private String description;
+  @Setter
   private Float price;
+  @Setter
   private String imgFilePath;
+  @Setter
   private Float quantity;
   @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REMOVE, CascadeType.DETACH})
   @JoinColumn(name = "producer_id", columnDefinition = "bigint")
+  @Setter
   private Producer producer;
   @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REMOVE, CascadeType.DETACH})
   @JoinColumn(name = "category_id", columnDefinition = "bigint")
+  @Setter
   private Category category;
   @OneToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REMOVE, CascadeType.DETACH}, orphanRemoval = true, mappedBy = "good")
   private List<Action> actions = new ArrayList<>();

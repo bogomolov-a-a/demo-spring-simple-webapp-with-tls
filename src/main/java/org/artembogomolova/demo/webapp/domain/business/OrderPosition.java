@@ -5,13 +5,20 @@ import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
-import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import lombok.ToString;
 import org.artembogomolova.demo.webapp.domain.core.IdentifiedEntity;
 
 @Entity
 @Table(name = "order_positions")
-@Data
-
+@NoArgsConstructor
+@Getter
+@Setter
+@ToString(onlyExplicitlyIncluded = true)
+@EqualsAndHashCode(onlyExplicitlyIncluded = true)
 public class OrderPosition extends IdentifiedEntity {
 
   private Float discount = 0f;

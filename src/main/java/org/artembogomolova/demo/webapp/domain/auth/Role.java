@@ -14,7 +14,6 @@ import javax.persistence.Table;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
 import lombok.ToString;
 import org.artembogomolova.demo.webapp.domain.core.IdentifiedEntity;
 
@@ -22,9 +21,8 @@ import org.artembogomolova.demo.webapp.domain.core.IdentifiedEntity;
 @Table(name = "roles")
 @NoArgsConstructor
 @Getter
-@Setter
-@ToString(exclude = "authorities")
-@EqualsAndHashCode
+@ToString(onlyExplicitlyIncluded = true)
+@EqualsAndHashCode(onlyExplicitlyIncluded = true)
 public class Role extends IdentifiedEntity {
 
   private String name;

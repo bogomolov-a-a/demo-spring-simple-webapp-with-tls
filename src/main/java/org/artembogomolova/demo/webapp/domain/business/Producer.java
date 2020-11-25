@@ -8,13 +8,21 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
-import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import lombok.ToString;
 import org.artembogomolova.demo.webapp.domain.core.IdentifiedEntity;
 import org.artembogomolova.demo.webapp.domain.core.PhysicalAddress;
 
 @Entity
 @Table(name = "producers")
-@Data
+@NoArgsConstructor
+@Getter
+@Setter
+@ToString(onlyExplicitlyIncluded = true)
+@EqualsAndHashCode(onlyExplicitlyIncluded = true)
 public class Producer extends IdentifiedEntity {
 
   private String name;

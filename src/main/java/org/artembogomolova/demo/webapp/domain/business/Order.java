@@ -23,11 +23,11 @@ import org.artembogomolova.demo.webapp.domain.core.PhysicalAddress;
 
 @Entity
 @Table(name = "orders")
+@NoArgsConstructor
 @Getter
 @Setter
-@NoArgsConstructor
-@EqualsAndHashCode
-@ToString(exclude = {"person", "tickets", "orderPositions"})
+@ToString(onlyExplicitlyIncluded = true)
+@EqualsAndHashCode(onlyExplicitlyIncluded = true)
 public class Order extends IdentifiedEntity {
 
   @Temporal(TemporalType.TIMESTAMP)

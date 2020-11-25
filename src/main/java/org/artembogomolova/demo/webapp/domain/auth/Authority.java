@@ -8,7 +8,6 @@ import javax.persistence.Table;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
 import lombok.ToString;
 import org.artembogomolova.demo.webapp.domain.core.IdentifiedEntity;
 import org.springframework.security.core.GrantedAuthority;
@@ -17,9 +16,8 @@ import org.springframework.security.core.GrantedAuthority;
 @Table(name = "authorities")
 @NoArgsConstructor
 @Getter
-@Setter
-@ToString(exclude = {"roles", "users"})
-@EqualsAndHashCode
+@ToString(onlyExplicitlyIncluded = true)
+@EqualsAndHashCode(onlyExplicitlyIncluded = true)
 public class Authority extends IdentifiedEntity implements GrantedAuthority {
 
   private String name;

@@ -12,10 +12,12 @@ import org.artembogomolova.demo.webapp.validation.UniqueMultiColumnConstraint.Un
 @Data
 @UniqueMultiColumnConstraint(repository = IPhysicalAddressRepository.class,
     constraints = {
-        @UniqueMultiColumnConstraintColumns({"postalCode", "country", "state", "city", "district", "street", "house", "room", "specificPart"})
+        @UniqueMultiColumnConstraintColumns(name = PhysicalAddress.BASIC_CONSTRAINT_NAME,
+            value = {"postalCode", "country", "state", "city", "district", "street", "house", "room", "specificPart"})
     })
 public class PhysicalAddress extends IdentifiedEntity {
 
+  public static final String BASIC_CONSTRAINT_NAME = "basicConstraint";
   private String postalCode;
   private String country;
   private String state;

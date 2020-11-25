@@ -30,11 +30,15 @@ import org.artembogomolova.demo.webapp.validation.UniqueMultiColumnConstraint.Un
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
 @UniqueMultiColumnConstraint(repository = IPersonRepository.class,
     constraints = {
-        @UniqueMultiColumnConstraintColumns({"name", "surname", "patronymic", "birthDate"}),
-        @UniqueMultiColumnConstraintColumns({"phone"})}
+        @UniqueMultiColumnConstraintColumns(name = Person.BASIC_CONSTRAINT_NAME,
+            value = {"name", "surname", "patronymic", "birthDate"}),
+        @UniqueMultiColumnConstraintColumns(name = Person.PHONE_CONSTRAINT_NAME,
+            value = {"phone"})}
 )
 public class Person extends IdentifiedEntity {
 
+  public static final String BASIC_CONSTRAINT_NAME = "basicConstraint";
+  public static final String PHONE_CONSTRAINT_NAME = "phoneConstraint";
   @EqualsAndHashCode.Include
   private String name;
   @EqualsAndHashCode.Include

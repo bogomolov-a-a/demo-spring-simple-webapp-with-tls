@@ -11,6 +11,7 @@ import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
@@ -21,7 +22,8 @@ import org.artembogomolova.demo.webapp.domain.core.Person;
 @Table(name = "users")
 @Getter
 @Setter
-@ToString(exclude = {"person", "role"})
+@ToString(onlyExplicitlyIncluded = true)
+@EqualsAndHashCode(onlyExplicitlyIncluded = true)
 public class User extends IdentifiedEntity {
 
   private String login;
