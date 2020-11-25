@@ -33,7 +33,8 @@ public class EntityModifier<T extends IdentifiedEntity> {
         .collect(Collectors.toList());
   }
 
-  protected List<T> getSavedEntityCollection(CrudRepository repository, List<T> entities,
+  protected List<T> getSavedEntityCollection(CrudRepository repository,
+      List<T> entities,
       BiFunction<Exception, List<T>, Boolean> handleExceptions) {
     try {
       return (List<T>) repository.saveAll(entities);
@@ -45,7 +46,8 @@ public class EntityModifier<T extends IdentifiedEntity> {
     }
   }
 
-  protected void validateSaveOperationData(List<T> savedEntityCollection, List<T> receivedEntityCollection,
+  protected void validateSaveOperationData(List<T> savedEntityCollection,
+      List<T> receivedEntityCollection,
       Comparator<T> comparator) {
     Assertions.assertNotNull(savedEntityCollection, "entitySavedCollection can't not be null!");
     Assertions.assertNotNull(receivedEntityCollection, "receivedEntityCollection can't not be null!");
@@ -55,8 +57,8 @@ public class EntityModifier<T extends IdentifiedEntity> {
         "collections are different!\nExpected: " + savedEntityCollection + "\nGot:" + receivedEntityCollection);
   }
 
-  @Transactional(propagation = Propagation.REQUIRES_NEW)
-  public void transactionalUpdate(CrudRepository repository, List<T> receivedCollection,
+  public void transactionalUpdate(CrudRepository repository,
+      List<T> receivedCollection,
       Function<List<T>, List<T>> updateEntities,
       Comparator<T> comparator,
       BiFunction<Exception, List<T>, Boolean> handleExceptions) {
