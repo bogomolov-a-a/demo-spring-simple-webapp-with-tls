@@ -27,12 +27,11 @@ import org.springframework.transaction.annotation.Transactional;
 public class UserRepoService {
 
   public static final String PREDEFINED_ADMIN_ACCOUNT_LOGIN = "admin";
+  public static final String PREDEFINED_GUEST_ACCOUNT_LOGIN = "guest";
   private static final String PREDEFINED_ADMIN_ACCOUNT_COUNTRY = "Russia";
   private static final String PREDEFINED_ADMIN_ACCOUNT_POSTAL_CODE = "190000";
   private static final String PREDEFINED_ADMIN_ACCOUNT_CITY_NAME = "Saint Petersburg";
   private static final String CHANGE_IT = "changeit";
-  public static final String PREDEFINED_GUEST_ACCOUNT_LOGIN = "guest";
-
   private final IUserRepository userRepository;
   private final IUserRoleRepository userRoleRepository;
 
