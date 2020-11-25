@@ -5,6 +5,7 @@ import java.util.List;
 import org.artembogomolova.demo.webapp.dao.repo.ICategoryRepository;
 import org.artembogomolova.demo.webapp.domain.business.Category;
 import org.artembogomolova.demo.webapp.test.domain.DomainTestUtil;
+import org.artembogomolova.demo.webapp.validation.UniqueMultiColumnConstraint.UniqueMultiColumnConstraintColumns;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.repository.CrudRepository;
 
@@ -13,6 +14,9 @@ public class CategoryRepositoryTest extends AbstractDaoTest<Category> {
   @Autowired
   private ICategoryRepository categoryRepository;
 
+  protected CategoryRepositoryTest() {
+    super(Category.class);
+  }
 
   @Override
   protected CrudRepository<Category, Long> getCrudRepository() {
@@ -30,6 +34,11 @@ public class CategoryRepositoryTest extends AbstractDaoTest<Category> {
     category11.setName("Category11");
     result.add(category11);
     return result;
+  }
+
+  @Override
+  protected Category doDuplicateDeniedTestEntity(UniqueMultiColumnConstraintColumns columns) {
+    return null;
   }
 
   @Override
