@@ -13,7 +13,10 @@ import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
+import org.artembogomolova.demo.webapp.dao.repo.IActionRepository;
 import org.artembogomolova.demo.webapp.domain.core.IdentifiedEntity;
+import org.artembogomolova.demo.webapp.validation.UniqueMultiColumnConstraint;
+import org.artembogomolova.demo.webapp.validation.UniqueMultiColumnConstraint.UniqueMultiColumnConstraintColumns;
 
 @Entity
 @Table(name = "actions")
@@ -21,13 +24,19 @@ import org.artembogomolova.demo.webapp.domain.core.IdentifiedEntity;
 @Setter
 @ToString(exclude = {"category", "good"})
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
+@UniqueMultiColumnConstraint(repository = IActionRepository.class,
+    constraints = {@UniqueMultiColumnConstraintColumns(name = Action.BASIC_CONSTRAINT,
+        value = {"name", "categoryId", "goodId", "startDate"}
+    )}
+)
 public class Action extends IdentifiedEntity {
 
+  public static final String BASIC_CONSTRAINT = "actionUniqueConstraint";
   @EqualsAndHashCode.Include
-  @Column(unique = true)
   private String name;
   private String description;
   @Temporal(TemporalType.TIMESTAMP)
+  @EqualsAndHashCode.Include
   private Date startDate;
   @Temporal(TemporalType.TIMESTAMP)
   private Date endDate;
@@ -39,6 +48,12 @@ public class Action extends IdentifiedEntity {
   @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REMOVE, CascadeType.DETACH})
   @JoinColumn(name = "good_id", columnDefinition = "bigint")
   private Good good;
+  @EqualsAndHashCode.Include
+  @Column(name = "good_id", columnDefinition = "bigint", insertable = false, updatable = false)
+  private Long goodId;
+  @EqualsAndHashCode.Include
+  @Column(name = "category_id", columnDefinition = "bigint", insertable = false, updatable = false)
+  private Long categoryId;
 
   public Date getStartDate() {
     if (startDate == null) {
@@ -48,7 +63,7 @@ public class Action extends IdentifiedEntity {
   }
 
   public void setStartDate(Date startDate) {
-    this.startDate = new Date(startDate.getTime());
+    this.startDate = startDate != null ? new Date(startDate.getTime()) : null;
   }
 
   public Date getEndDate() {
@@ -59,6 +74,6 @@ public class Action extends IdentifiedEntity {
   }
 
   public void setEndDate(Date endDate) {
-    this.endDate = new Date(endDate.getTime());
+    this.endDate = endDate != null ? new Date(endDate.getTime()) : null;
   }
 }

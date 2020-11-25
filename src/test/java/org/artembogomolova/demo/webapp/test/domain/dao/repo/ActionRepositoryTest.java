@@ -5,6 +5,7 @@ import java.util.List;
 import org.artembogomolova.demo.webapp.dao.repo.IActionRepository;
 import org.artembogomolova.demo.webapp.domain.business.Action;
 import org.artembogomolova.demo.webapp.test.domain.DomainTestUtil;
+import org.artembogomolova.demo.webapp.validation.UniqueMultiColumnConstraint.UniqueMultiColumnConstraintColumns;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.repository.CrudRepository;
 
@@ -12,6 +13,10 @@ public class ActionRepositoryTest extends AbstractDaoTest<Action> {
 
   @Autowired
   private IActionRepository actionRepository;
+
+  ActionRepositoryTest() {
+    super(Action.class);
+  }
 
   @Override
   protected List<Action> updateEntities(List<Action> savedCollection) {
@@ -32,4 +37,13 @@ public class ActionRepositoryTest extends AbstractDaoTest<Action> {
     result.add(DomainTestUtil.buildCategoryAction());
     return result;
   }
+
+  @Override
+  protected Action doDuplicateDeniedTestEntity(UniqueMultiColumnConstraintColumns columns) {
+    if (Action.BASIC_CONSTRAINT.equals(columns.name())) {
+      return DomainTestUtil.buildGoodAction();
+    }
+    return null;
+  }
+
 }

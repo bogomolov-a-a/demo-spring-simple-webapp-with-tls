@@ -14,69 +14,160 @@ public class ActionEntityTest {
 
   @Test
   void testActionAccessors() {
-    Action action1 = new Action();
-    updateNameAndDescription(action1);
-    updateDiscountInfo(action1);
-    updateDateInfo(action1);
-    updateLinks(action1);
-    Action action2 = DomainTestUtil.buildCategoryAction();
-    log.info("action1: " + action1.toString());
-    log.info("action2: " + action2.toString());
-    Assertions.assertEquals(action1, action1);
-    Assertions.assertNotEquals(action1, action2);
-    Assertions.assertNotEquals(action2, action1);
-    Assertions.assertNotEquals(action1, new Object());
-    Assertions.assertNotEquals(action1, null);
-    Assertions.assertNotEquals(action1.hashCode(), action2.hashCode());
-    Assertions.assertEquals(action1.hashCode(), action1.hashCode());
-    Action action3 = new Action();
-    action3.setName(action1.getName());
-    Assertions.assertEquals(action1, action3);
-    Assertions.assertEquals(action1.hashCode(), action3.hashCode());
-    Action action4 = new Action();
-    Assertions.assertNotEquals(action1, action4);
-    Assertions.assertNotEquals(action4, action1);
-    Assertions.assertNotEquals(action1.hashCode(), action4.hashCode());
-    action4.setName(null);
-    action1.setName(null);
-    Assertions.assertEquals(action1, action4);
+    assertCategoryActionEquals(buildStandardAction());
+    assertFullEquals(buildStandardAction());
+    assertWithOutNameEquals(buildStandardAction());
+    assertWithOutCategoryId(buildStandardAction());
+    assertWithOutGoodId(buildStandardAction());
+    assertWithOutStartDate(buildStandardAction());
   }
 
-  private void updateLinks(Action action1) {
-    if (action1.getGood() == null) {
-      action1.setGood(new Good());
+
+  private Action buildStandardAction() {
+    Action result = new Action();
+    updateNameAndDescription(result);
+    updateDiscountInfo(result);
+    updateDateInfo(result);
+    updateLinks(result);
+    return result;
+  }
+
+  private void updateLinks(Action standard) {
+    if (standard.getGood() == null) {
+      standard.setGood(new Good());
+      standard.setGoodId(1l);
     }
-    if (action1.getCategory() == null) {
-      action1.setCategory(new Category());
+    if (standard.getCategory() == null) {
+      standard.setCategory(new Category());
+      standard.setCategoryId(1l);
     }
   }
 
-  private void updateDateInfo(Action action1) {
-    if (action1.getEndDate() == null) {
-      action1.setEndDate(Calendar.getInstance().getTime());
-      log.info("now set endDate is " + action1.getEndDate().toString());
+  private void updateDateInfo(Action standard) {
+    if (standard.getEndDate() == null) {
+      standard.setEndDate(Calendar.getInstance().getTime());
+      log.info("now set endDate is " + standard.getEndDate().toString());
+      standard.setEndDate(null);
     }
-    if (action1.getStartDate() == null) {
-      action1.setStartDate(Calendar.getInstance().getTime());
-      log.info("now set startDate is " + action1.getStartDate().toString());
-    }
-  }
-
-  private void updateDiscountInfo(Action action1) {
-    if (action1.getDiscountFixed() == null) {
-      action1.setDiscountFixed(420.0f);
-    }
-    if (action1.getDiscountPercent() == null) {
-      action1.setDiscountFixed(42.0f);
+    if (standard.getStartDate() == null) {
+      standard.setStartDate(Calendar.getInstance().getTime());
+      log.info("now set startDate is " + standard.getStartDate().toString());
     }
   }
 
-  private void updateNameAndDescription(Action action1) {
-    if (action1.getName() == null) {
-      action1.setName("dummy name");
+  private void updateDiscountInfo(Action standard) {
+    if (standard.getDiscountFixed() == null) {
+      standard.setDiscountFixed(420.0f);
     }
-    if (action1.getDescription() == null) {
-      action1.setDescription("dummy description");
+    if (standard.getDiscountPercent() == null) {
+      standard.setDiscountFixed(42.0f);
     }
   }
+
+  private void updateNameAndDescription(Action standard) {
+    if (standard.getName() == null) {
+      standard.setName("dummy name");
+    }
+    if (standard.getDescription() == null) {
+      standard.setDescription("dummy description");
+    }
+  }
+
+  private void assertWithOutStartDate(Action standard) {
+    Action action = new Action();
+    Assertions.assertNotEquals(standard, action);
+    Assertions.assertNotEquals(action, standard);
+    Assertions.assertNotEquals(standard.hashCode(), action.hashCode());
+    action.setName(standard.getName());
+    action.setCategoryId(standard.getCategoryId());
+    action.setGoodId(standard.getGoodId());
+    action.setStartDate(standard.getStartDate());
+    Assertions.assertEquals(standard, action);
+    action.setStartDate(null);
+    Assertions.assertNotEquals(standard, action);
+    action.setStartDate(standard.getStartDate());
+    standard.setStartDate(null);
+    Assertions.assertNotEquals(standard, action);
+    action.setStartDate(null);
+    Assertions.assertEquals(standard, action);
+  }
+
+  private void assertWithOutGoodId(Action standard) {
+    Action action = new Action();
+    Assertions.assertNotEquals(standard, action);
+    Assertions.assertNotEquals(action, standard);
+    Assertions.assertNotEquals(standard.hashCode(), action.hashCode());
+    action.setName(standard.getName());
+    action.setCategoryId(standard.getCategoryId());
+    action.setStartDate(standard.getStartDate());
+    action.setGoodId(standard.getGoodId());
+    Assertions.assertEquals(standard, action);
+    action.setGoodId(null);
+    Assertions.assertNotEquals(standard, action);
+    action.setGoodId(standard.getGoodId());
+    standard.setGoodId(null);
+    Assertions.assertNotEquals(standard, action);
+    action.setGoodId(null);
+    Assertions.assertEquals(standard, action);
+  }
+
+  private void assertWithOutCategoryId(Action standard) {
+    Action action = new Action();
+    Assertions.assertNotEquals(standard, action);
+    Assertions.assertNotEquals(action, standard);
+    Assertions.assertNotEquals(standard.hashCode(), action.hashCode());
+    action.setName(standard.getName());
+    action.setCategoryId(standard.getCategoryId());
+    action.setGoodId(standard.getGoodId());
+    action.setStartDate(standard.getStartDate());
+    Assertions.assertEquals(standard, action);
+    action.setCategoryId(null);
+    Assertions.assertNotEquals(standard, action);
+    action.setCategoryId(standard.getCategoryId());
+    standard.setCategoryId(null);
+    Assertions.assertNotEquals(standard, action);
+    action.setCategoryId(null);
+    Assertions.assertEquals(standard, action);
+  }
+
+  private void assertWithOutNameEquals(Action standard) {
+    Action action = new Action();
+    Assertions.assertNotEquals(standard, action);
+    Assertions.assertNotEquals(action, standard);
+    Assertions.assertNotEquals(standard.hashCode(), action.hashCode());
+    action.setName(null);
+    standard.setName(null);
+    action.setCategoryId(standard.getCategoryId());
+    action.setGoodId(standard.getGoodId());
+    action.setStartDate(standard.getStartDate());
+    Assertions.assertEquals(standard, action);
+  }
+
+  private void assertFullEquals(Action standard) {
+    Action action = new Action();
+    action.setName(standard.getName());
+    action.setCategoryId(standard.getCategoryId());
+    action.setGoodId(standard.getGoodId());
+    action.setStartDate(standard.getStartDate());
+    Assertions.assertEquals(standard, action);
+    Assertions.assertEquals(standard.hashCode(), action.hashCode());
+  }
+
+  private void assertCategoryActionEquals(Action standard) {
+    Action action = DomainTestUtil.buildCategoryAction();
+    evalToString(standard, action);
+    Assertions.assertEquals(standard, standard);
+    Assertions.assertNotEquals(standard, action);
+    Assertions.assertNotEquals(action, standard);
+    Assertions.assertNotEquals(standard, new Object());
+    Assertions.assertNotEquals(standard, null);
+    Assertions.assertNotEquals(standard.hashCode(), action.hashCode());
+    Assertions.assertEquals(standard.hashCode(), standard.hashCode());
+  }
+
+  private void evalToString(Action standard, Action customAction) {
+    log.info("action1: " + standard.toString());
+    log.info("action2: " + customAction.toString());
+  }
+
 }
