@@ -16,21 +16,33 @@ import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
+import org.artembogomolova.demo.webapp.dao.repo.IPersonRepository;
 import org.artembogomolova.demo.webapp.domain.auth.User;
 import org.artembogomolova.demo.webapp.domain.business.Order;
+import org.artembogomolova.demo.webapp.validation.UniqueMultiColumnConstraint;
+import org.artembogomolova.demo.webapp.validation.UniqueMultiColumnConstraint.UniqueMultiColumnConstraintColumns;
 
 @Entity
 @Table(name = "persons")
 @Getter
 @Setter
-@ToString(exclude = {"estateAddress", "orders"})
-@EqualsAndHashCode
+@ToString(exclude = {"estateAddress", "orders", "user"})
+@EqualsAndHashCode(onlyExplicitlyIncluded = true)
+@UniqueMultiColumnConstraint(repository = IPersonRepository.class,
+    constraints = {
+        @UniqueMultiColumnConstraintColumns({"name", "surname", "patronymic", "birthDate"}),
+        @UniqueMultiColumnConstraintColumns({"phone"})}
+)
 public class Person extends IdentifiedEntity {
 
+  @EqualsAndHashCode.Include
   private String name;
+  @EqualsAndHashCode.Include
   private String surname;
+  @EqualsAndHashCode.Include
   private String patronymic;
   @Temporal(TemporalType.TIMESTAMP)
+  @EqualsAndHashCode.Include
   private Date birthDate;
   private String phone;
   @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REMOVE, CascadeType.DETACH})
