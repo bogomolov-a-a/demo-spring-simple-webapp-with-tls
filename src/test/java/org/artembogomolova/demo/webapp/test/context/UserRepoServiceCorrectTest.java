@@ -2,7 +2,6 @@ package org.artembogomolova.demo.webapp.test.context;
 
 import lombok.extern.slf4j.Slf4j;
 import org.artembogomolova.demo.webapp.dao.repo.IUserRepository;
-import org.artembogomolova.demo.webapp.dao.repo.IUserRoleRepository;
 import org.artembogomolova.demo.webapp.dao.service.UserRepoService;
 import org.artembogomolova.demo.webapp.domain.auth.User;
 import org.artembogomolova.demo.webapp.event.ContextStartedEventListener;
@@ -26,8 +25,6 @@ class UserRepoServiceCorrectTest extends AbstractContextLoadTest {
   private IUserRepository userRepository;
   @Autowired
   private UserRepoService userRepoService;
-  @Autowired
-  private IUserRoleRepository userRoleRepository;
 
   @Autowired
   private ConfigurableApplicationContext applicationContext;
