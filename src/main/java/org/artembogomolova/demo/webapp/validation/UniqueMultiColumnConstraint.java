@@ -26,7 +26,10 @@ public @interface UniqueMultiColumnConstraint {
 
   Class<?> repository();
 
+
   @interface UniqueMultiColumnConstraintColumns {
+
+    String name();
 
     String[] value();
   }
