@@ -20,8 +20,9 @@ create table persons(
   birth_date TIMESTAMP not null,
   phone text not null,
   estate_address_id bigint not null,
-  foreign key (estate_address_id) references addresses(id) on delete cascade on update cascade,
-  unique (name,surname,patronymic,birth_date)
+  unique (name,surname,patronymic,birth_date),
+  unique (phone),
+  foreign key (estate_address_id) references addresses(id) on delete cascade on update cascade
 );
 /
 create table orders(
@@ -33,6 +34,7 @@ create table orders(
   payed integer default 0,
   order_address_id bigint,
   person_id bigint not null,
+  unique(person_id,order_address_id,order_address_plain,order_date),
   foreign key (order_address_id) references addresses(id) on delete cascade on update cascade,
   foreign key (person_id ) references persons(id) on delete cascade on update cascade
 );
@@ -43,16 +45,19 @@ create table tickets(
   order_id bigint not null,
   foreign key (order_id) references orders(id) on delete cascade on update cascade
 );
+/
 create table categories(
   id integer not null primary key autoincrement,
   name text not null,
-  parent_category_id bigint
+  parent_category_id bigint,
+  unique (name,parent_category_id)
 );
 /
 create table producers(
   id integer not null primary key autoincrement,
   name text not null,
   producer_address_id bigint not null,
+  unique(name,producer_address_id),
   foreign key (producer_address_id) references addresses(id)on delete cascade on update cascade
 );
 /
@@ -65,6 +70,7 @@ create table goods(
  quantity double not null default 0,
  producer_id bigint not null,
  category_id bigint not null,
+ unique (name,producer_id,category_id),
  foreign key (category_id) references categories(id) on delete cascade on update cascade,
  foreign key (producer_id) references producers(id) on delete cascade on update cascade
 );
@@ -79,6 +85,7 @@ create table actions(
   end_date TIMESTAMP not null,
   category_id bigint,
   good_id bigint ,
+  unique(name,category_id,good_id),
   foreign key (category_id) references categories(id) on delete cascade on update cascade,
   foreign key (good_id) references goods(id)on delete cascade on update cascade
 );
@@ -90,9 +97,11 @@ create table order_positions(
   order_id bigint not null,
   good_id bigint not null,
   action_id bigint,
+  unique (order_id,good_id),
   foreign key (order_id) references orders(id) on delete cascade on update cascade,
   foreign key (good_id) references goods(id) on delete cascade on update cascade,
-  foreign key (action_id) references actions(id)on delete cascade on update cascade
+  foreign key (action_id) references
+  actions(id)on delete cascade on update cascade
 );
 
 
