@@ -13,11 +13,16 @@ import org.springframework.context.ConfigurableApplicationContext;
 public class DemoWebappWithTlsApplication extends SpringBootServletInitializer {
 
   public static void main(String[] args) {
+    startContext(args);
+  }
+
+  public static ConfigurableApplicationContext startContext(String[] args) {
     SpringApplication application = new SpringApplication(DemoWebappWithTlsApplication.class);
     /*for start context*/
     application.setBannerMode(Mode.OFF);
-    ConfigurableApplicationContext context = application.run(args);
-    context.start();
+    ConfigurableApplicationContext result = application.run(args);
+    result.start();
+    return result;
   }
 
 }
