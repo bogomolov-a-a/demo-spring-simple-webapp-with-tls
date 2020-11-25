@@ -20,6 +20,7 @@ public class CustomHibernateValidatorConfiguration {
   public HibernatePropertiesCustomizer hibernatePropertiesCustomizer(final Validator validator) {
     return hibernateProperties -> {
       hibernateProperties.put("javax.persistence.validation.factory", validator);
+      /*flush only on committed transaction.*/
       hibernateProperties.put("org.hibernate.flushMode", FlushMode.COMMIT.name());
     };
   }
