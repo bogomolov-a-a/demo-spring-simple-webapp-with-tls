@@ -2,8 +2,8 @@ package org.artembogomolova.demo.webapp.event;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.artembogomolova.demo.webapp.dao.service.RoleRepoService;
-import org.artembogomolova.demo.webapp.dao.service.UserRepoService;
+import org.artembogomolova.demo.webapp.dao.service.auth.RoleRepoService;
+import org.artembogomolova.demo.webapp.dao.service.auth.UserRepoService;
 import org.springframework.context.ApplicationContextException;
 import org.springframework.context.event.ContextStartedEvent;
 import org.springframework.context.event.EventListener;

@@ -1,4 +1,4 @@
-package org.artembogomolova.demo.webapp.dao.repo;
+package org.artembogomolova.demo.webapp.dao.repo.business;
 
 import org.artembogomolova.demo.webapp.domain.business.OrderPosition;
 import org.springframework.data.repository.PagingAndSortingRepository;

@@ -1,4 +1,4 @@
-package org.artembogomolova.demo.webapp.dao.service;
+package org.artembogomolova.demo.webapp.dao.service.auth;
 
 import java.time.LocalDateTime;
 import java.time.ZoneOffset;
@@ -6,8 +6,8 @@ import java.util.Comparator;
 import java.util.Date;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.artembogomolova.demo.webapp.dao.repo.IUserRepository;
-import org.artembogomolova.demo.webapp.dao.repo.IUserRoleRepository;
+import org.artembogomolova.demo.webapp.dao.repo.auth.IUserRepository;
+import org.artembogomolova.demo.webapp.dao.repo.auth.IUserRoleRepository;
 import org.artembogomolova.demo.webapp.domain.auth.Authority;
 import org.artembogomolova.demo.webapp.domain.auth.PredefinedUserRole;
 import org.artembogomolova.demo.webapp.domain.auth.Role;

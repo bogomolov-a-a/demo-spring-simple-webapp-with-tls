@@ -1,4 +1,4 @@
-package org.artembogomolova.demo.webapp.dao.repo;
+package org.artembogomolova.demo.webapp.dao.repo.auth;
 
 import org.artembogomolova.demo.webapp.domain.auth.User;
 import org.springframework.data.repository.PagingAndSortingRepository;

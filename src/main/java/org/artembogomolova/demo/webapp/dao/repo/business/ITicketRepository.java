@@ -1,4 +1,4 @@
-package org.artembogomolova.demo.webapp.dao.repo;
+package org.artembogomolova.demo.webapp.dao.repo.business;
 
 import org.artembogomolova.demo.webapp.domain.business.Ticket;
 import org.springframework.data.repository.CrudRepository;

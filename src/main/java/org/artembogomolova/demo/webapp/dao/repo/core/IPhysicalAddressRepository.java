@@ -1,4 +1,4 @@
-package org.artembogomolova.demo.webapp.dao.repo;
+package org.artembogomolova.demo.webapp.dao.repo.core;
 
 import org.artembogomolova.demo.webapp.domain.core.PhysicalAddress;
 import org.springframework.data.repository.CrudRepository;
