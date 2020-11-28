@@ -41,8 +41,14 @@ public class Good extends IdentifiedEntity {
   @JoinColumn(name = "category_id", columnDefinition = "bigint")
   @Setter
   private Category category;
-  @OneToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REMOVE, CascadeType.DETACH}, orphanRemoval = true, mappedBy = "good")
-  private List<Action> actions = new ArrayList<>();
+  @ManyToOne()
+  @JoinColumn(name = "action_id", columnDefinition = "bigint")
+  @Setter
+  private Action action;
   @OneToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REMOVE, CascadeType.DETACH}, orphanRemoval = true, mappedBy = "good")
   private List<OrderPosition> orderPositions = new ArrayList<>();
+
+  public Good(Good good) {
+    super(good);
+  }
 }
