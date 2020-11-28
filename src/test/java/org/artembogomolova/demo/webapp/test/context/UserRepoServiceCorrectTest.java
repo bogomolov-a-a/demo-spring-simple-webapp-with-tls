@@ -1,8 +1,8 @@
 package org.artembogomolova.demo.webapp.test.context;
 
 import lombok.extern.slf4j.Slf4j;
-import org.artembogomolova.demo.webapp.dao.repo.IUserRepository;
-import org.artembogomolova.demo.webapp.dao.service.UserRepoService;
+import org.artembogomolova.demo.webapp.dao.repo.auth.IUserRepository;
+import org.artembogomolova.demo.webapp.dao.service.auth.UserRepoService;
 import org.artembogomolova.demo.webapp.domain.auth.User;
 import org.artembogomolova.demo.webapp.event.ContextStartedEventListener;
 import org.junit.jupiter.api.Assertions;
