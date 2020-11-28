@@ -110,7 +110,7 @@ public class DomainTestUtil {
 
   public static Good buildTestGood() {
     Good result = new Good();
-    Category category = buildCategory1();
+    Category category = buildCategory2();
     result.setCategory(category);
     category.getGoods().add(result);
     result.setDescription("test good 1 description");

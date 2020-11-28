@@ -19,7 +19,6 @@ public class ActionEntityTest extends AbstractAccessorEntityTest<Action> {
     super(Action.class);
   }
 
-
   @Override
   protected Action buildStandardEntityAndAccessorTest() {
     Action result = new Action();
