@@ -61,20 +61,6 @@ create table producers(
   foreign key (producer_address_id) references addresses(id)on delete cascade on update cascade
 );
 /
-create table goods(
- id integer not null primary key autoincrement,
- name text not null,
- description text not null,
- price real not null,
- img_file_path text,
- quantity double not null default 0,
- producer_id bigint not null,
- category_id bigint not null,
- unique (name,producer_id,category_id),
- foreign key (category_id) references categories(id) on delete cascade on update cascade,
- foreign key (producer_id) references producers(id) on delete cascade on update cascade
-);
-/
 create table actions(
   id integer not null primary key autoincrement,
   name text not null,
@@ -85,9 +71,24 @@ create table actions(
   end_date TIMESTAMP not null,
   category_id bigint,
   good_id bigint ,
-  unique(name,category_id,good_id,start_date),
-  foreign key (category_id) references categories(id) on delete cascade on update cascade,
-  foreign key (good_id) references goods(id)on delete cascade on update cascade
+  unique(name,start_date),
+  foreign key (category_id) references categories(id) on delete cascade on update cascade
+);
+/
+create table goods(
+ id integer not null primary key autoincrement,
+ name text not null,
+ description text not null,
+ price real not null,
+ img_file_path text,
+ quantity double not null default 0,
+ producer_id bigint not null,
+ category_id bigint not null,
+ action_id bigint not null,
+ unique (name,producer_id,category_id),
+ foreign key (category_id) references categories(id) on delete cascade on update cascade,
+ foreign key (producer_id) references producers(id) on delete cascade on update cascade,
+ foreign key (action_id) references action(id) on delete cascade on update cascade
 );
 /
 create table order_positions(
