@@ -8,16 +8,24 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.MappedSuperclass;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
+import lombok.ToString;
 
 @MappedSuperclass
+@ToString
+@NoArgsConstructor
+@Getter
+@Setter
 public class IdentifiedEntity implements Serializable {
 
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   @Basic
   @Column(columnDefinition = "integer not null primary key autoincrement")
-  @Getter
-  @Setter
   private Long id;
+
+  public IdentifiedEntity(IdentifiedEntity copyingEntity) {
+    this.id = copyingEntity.getId();
+  }
 }
