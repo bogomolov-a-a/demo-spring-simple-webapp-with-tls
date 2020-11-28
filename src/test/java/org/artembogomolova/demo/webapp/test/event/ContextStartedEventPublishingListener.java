@@ -1,8 +1,8 @@
 package org.artembogomolova.demo.webapp.test.event;
 
-import org.artembogomolova.demo.webapp.dao.repo.IAuthorityRepository;
-import org.artembogomolova.demo.webapp.dao.repo.IUserRepository;
-import org.artembogomolova.demo.webapp.dao.repo.IUserRoleRepository;
+import org.artembogomolova.demo.webapp.dao.repo.auth.IAuthorityRepository;
+import org.artembogomolova.demo.webapp.dao.repo.auth.IUserRepository;
+import org.artembogomolova.demo.webapp.dao.repo.auth.IUserRoleRepository;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.context.event.ContextStartedEvent;

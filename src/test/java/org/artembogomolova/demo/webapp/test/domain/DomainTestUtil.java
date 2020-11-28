@@ -137,8 +137,8 @@ public class DomainTestUtil {
     result.setEndDate(Calendar.getInstance().getTime());
     result.setName("test action 1");
     Good testGood = buildTestGood();
-    result.setGood(testGood);
-    testGood.getActions().add(result);
+    result.getGoods().add(testGood);
+    testGood.setAction(result);
     result.setDiscountFixed(500.0f);
     return result;
   }
@@ -151,7 +151,7 @@ public class DomainTestUtil {
     result.setName("test action 2");
     Category category1 = buildCategory1();
     result.setCategory(category1);
-    category1.getActions().add(result);
+    category1.setAction(result);
     result.setDiscountPercent(50.0f);
     return result;
   }
