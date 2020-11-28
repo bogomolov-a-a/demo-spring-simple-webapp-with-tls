@@ -1,17 +1,21 @@
-package org.artembogomolova.demo.webapp.test.domain.dao.repo;
+package org.artembogomolova.demo.webapp.test.domain.dao.repo.core;
 
 import java.util.ArrayList;
 import java.util.List;
-import org.artembogomolova.demo.webapp.dao.repo.IOrderRepository;
-import org.artembogomolova.demo.webapp.dao.repo.IPersonRepository;
-import org.artembogomolova.demo.webapp.dao.repo.IPhysicalAddressRepository;
+import java.util.Map;
+import org.artembogomolova.demo.webapp.dao.repo.business.IOrderRepository;
+import org.artembogomolova.demo.webapp.dao.repo.core.IPersonRepository;
+import org.artembogomolova.demo.webapp.dao.repo.core.IPhysicalAddressRepository;
 import org.artembogomolova.demo.webapp.domain.core.Person;
 import org.artembogomolova.demo.webapp.test.domain.DomainTestUtil;
+import org.artembogomolova.demo.webapp.test.domain.dao.repo.AbstractDaoTest;
 import org.artembogomolova.demo.webapp.validation.UniqueMultiColumnConstraint.UniqueMultiColumnConstraintColumns;
 import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.DisplayName;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.repository.CrudRepository;
 
+@DisplayName("Person entity repository test")
 public class PersonRepositoryTest extends AbstractDaoTest<Person> {
 
   @Autowired
@@ -46,7 +50,18 @@ public class PersonRepositoryTest extends AbstractDaoTest<Person> {
   }
 
   @Override
-  protected Person doDuplicateDeniedTestEntity(UniqueMultiColumnConstraintColumns columns) {
+  protected Map<String, Object> buildCommonFieldValues(UniqueMultiColumnConstraintColumns uniqueMultiColumnConstraintColumns) {
+    return null;
+  }
+
+  @Override
+  protected Person doPrepareDeniedTestEntity(UniqueMultiColumnConstraintColumns uniqueMultiColumnConstraintColumns,
+      Map<String, Object> commonValues) {
+    return null;
+  }
+
+  @Override
+  protected Person doDuplicateDeniedTestEntity(UniqueMultiColumnConstraintColumns columns, Map<String, Object> commonValues) {
     return null;
   }
 

@@ -1,14 +1,18 @@
-package org.artembogomolova.demo.webapp.test.domain.dao.repo;
+package org.artembogomolova.demo.webapp.test.domain.dao.repo.business;
 
 import java.util.ArrayList;
 import java.util.List;
-import org.artembogomolova.demo.webapp.dao.repo.IOrderRepository;
+import java.util.Map;
+import org.artembogomolova.demo.webapp.dao.repo.business.IOrderRepository;
 import org.artembogomolova.demo.webapp.domain.business.Order;
 import org.artembogomolova.demo.webapp.test.domain.DomainTestUtil;
+import org.artembogomolova.demo.webapp.test.domain.dao.repo.AbstractDaoTest;
 import org.artembogomolova.demo.webapp.validation.UniqueMultiColumnConstraint.UniqueMultiColumnConstraintColumns;
+import org.junit.jupiter.api.DisplayName;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.repository.CrudRepository;
 
+@DisplayName("Order entity repository test")
 public class OrderRepositoryTest extends AbstractDaoTest<Order> {
 
   @Autowired
@@ -44,7 +48,18 @@ public class OrderRepositoryTest extends AbstractDaoTest<Order> {
   }
 
   @Override
-  protected Order doDuplicateDeniedTestEntity(UniqueMultiColumnConstraintColumns columns) {
+  protected Map<String, Object> buildCommonFieldValues(UniqueMultiColumnConstraintColumns uniqueMultiColumnConstraintColumns) {
+    return null;
+  }
+
+  @Override
+  protected Order doPrepareDeniedTestEntity(UniqueMultiColumnConstraintColumns uniqueMultiColumnConstraintColumns,
+      Map<String, Object> commonValues) {
+    return null;
+  }
+
+  @Override
+  protected Order doDuplicateDeniedTestEntity(UniqueMultiColumnConstraintColumns columns, Map<String, Object> commonValues) {
     return null;
   }
 }
