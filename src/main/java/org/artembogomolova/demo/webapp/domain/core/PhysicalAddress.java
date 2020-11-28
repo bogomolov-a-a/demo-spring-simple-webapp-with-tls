@@ -3,7 +3,7 @@ package org.artembogomolova.demo.webapp.domain.core;
 import javax.persistence.Entity;
 import javax.persistence.Table;
 import lombok.Data;
-import org.artembogomolova.demo.webapp.dao.repo.IPhysicalAddressRepository;
+import org.artembogomolova.demo.webapp.dao.repo.core.IPhysicalAddressRepository;
 import org.artembogomolova.demo.webapp.validation.UniqueMultiColumnConstraint;
 import org.artembogomolova.demo.webapp.validation.UniqueMultiColumnConstraint.UniqueMultiColumnConstraintColumns;
 

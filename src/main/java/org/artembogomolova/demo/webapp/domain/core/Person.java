@@ -16,7 +16,7 @@ import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
-import org.artembogomolova.demo.webapp.dao.repo.IPersonRepository;
+import org.artembogomolova.demo.webapp.dao.repo.core.IPersonRepository;
 import org.artembogomolova.demo.webapp.domain.auth.User;
 import org.artembogomolova.demo.webapp.domain.business.Order;
 import org.artembogomolova.demo.webapp.validation.UniqueMultiColumnConstraint;
