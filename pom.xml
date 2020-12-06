@@ -3,6 +3,8 @@
   xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
   <artifactId>demo-spring-simple-webapp-with-tls</artifactId>
   <build>
+    <sourceDirectory>${processed.source.compile.path}</sourceDirectory>
+    <testSourceDirectory>${processed.source.test.compile.path}</testSourceDirectory>
     <plugins>
       <!--main spring maven plugin-->
       <plugin>
@@ -395,10 +397,10 @@
             <configuration>
               <failsOnError>true</failsOnError>
               <sourceDirectories>
-                <sourceDirectory>${project.basedir}/src/main/java</sourceDirectory>
+                <sourceDirectory>${real.source.compile.path}</sourceDirectory>
               </sourceDirectories>
               <testSourceDirectories>
-                <testSourceDirectory>${project.basedir}/src/test/java</testSourceDirectory>
+                <testSourceDirectory>${real.source.test.compile.path}</testSourceDirectory>
               </testSourceDirectories>
             </configuration>
             <groupId>org.apache.maven.plugins</groupId>
