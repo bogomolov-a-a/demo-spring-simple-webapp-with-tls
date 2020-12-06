@@ -16,6 +16,8 @@
       <Class name="org.artembogomolova.demo.webapp.domain.business.OrderPosition_"/>
       <Class name="org.artembogomolova.demo.webapp.domain.business.Producer_"/>
       <Class name="org.artembogomolova.demo.webapp.domain.business.Good_"/>
+      <Class name="org.artembogomolova.demo.webapp.domain.business.ActionGood_"/>
+      <Class name="org.artembogomolova.demo.webapp.domain.business.OrderGood_"/>
       <Class name="org.artembogomolova.demo.webapp.domain.business.StockGood_"/>
       <Class name="org.artembogomolova.demo.webapp.domain.business.Ticket_"/>
       <Class name="org.artembogomolova.demo.webapp.domain.core.PhysicalAddress_"/>
