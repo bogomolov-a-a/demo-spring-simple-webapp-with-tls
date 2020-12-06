@@ -17,7 +17,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
-import org.artembogomolova.demo.webapp.domain.core.IdentifiedEntity;
+import org.artembogomolova.demo.webapp.dao.repo.business.IOrderRepository;
+import org.artembogomolova.demo.webapp.domain.IdentifiedEntity;
 import org.artembogomolova.demo.webapp.domain.core.Person;
 import org.artembogomolova.demo.webapp.domain.core.PhysicalAddress;
 
@@ -61,14 +62,14 @@ public class Order extends IdentifiedEntity {
     this.orderDate = new Date(orderDate.getTime());
   }
 
-  public Date getDeliverDate() {
-    if (deliverDate == null) {
+  public Date getDeliveryDate() {
+    if (deliveryDate == null) {
       return null;
     }
-    return new Date(deliverDate.getTime());
+    return new Date(deliveryDate.getTime());
   }
 
-  public void setDeliverDate(Date deliverDate) {
-    this.deliverDate = new Date(deliverDate.getTime());
+  public void setDeliveryDate(Date deliveryDate) {
+    this.deliveryDate = new Date(deliveryDate.getTime());
   }
 }

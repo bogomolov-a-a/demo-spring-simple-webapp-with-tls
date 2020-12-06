@@ -13,9 +13,9 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 import org.artembogomolova.demo.webapp.dao.repo.business.ICategoryRepository;
-import org.artembogomolova.demo.webapp.domain.core.IdentifiedEntity;
-import org.artembogomolova.demo.webapp.validation.UniqueMultiColumnConstraint;
-import org.artembogomolova.demo.webapp.validation.UniqueMultiColumnConstraint.UniqueMultiColumnConstraintColumns;
+import org.artembogomolova.demo.webapp.domain.IdentifiedEntity;
+import org.artembogomolova.demo.webapp.validation.UniqueMultiColumn;
+import org.artembogomolova.demo.webapp.validation.UniqueMultiColumn.UniqueMultiColumnConstraint;
 
 @Entity
 @Table(name = "categories")

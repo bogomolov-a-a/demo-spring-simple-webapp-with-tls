@@ -1,13 +1,10 @@
 package org.artembogomolova.demo.webapp.domain.business;
 
-import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
-import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
@@ -18,9 +15,9 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 import org.artembogomolova.demo.webapp.dao.repo.business.IActionRepository;
-import org.artembogomolova.demo.webapp.domain.core.IdentifiedEntity;
-import org.artembogomolova.demo.webapp.validation.UniqueMultiColumnConstraint;
-import org.artembogomolova.demo.webapp.validation.UniqueMultiColumnConstraint.UniqueMultiColumnConstraintColumns;
+import org.artembogomolova.demo.webapp.domain.IdentifiedEntity;
+import org.artembogomolova.demo.webapp.validation.UniqueMultiColumn;
+import org.artembogomolova.demo.webapp.validation.UniqueMultiColumn.UniqueMultiColumnConstraint;
 
 @Entity
 @Table(name = "actions")
@@ -56,8 +53,8 @@ public class Action extends IdentifiedEntity {
   @JoinColumn(name = "category_id", columnDefinition = "bigint")
   @Setter
   private Category category;
-  @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, mappedBy = "action")
-  private List<Good> goods = new ArrayList<>();
+  /*@OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, mappedBy = "action")
+  private List<Good> goods = new ArrayList<>();*/
   @Column(name = "category_id", columnDefinition = "bigint", insertable = false, updatable = false)
   @Setter
   private Long categoryId;

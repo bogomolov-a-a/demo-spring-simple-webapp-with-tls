@@ -1,16 +1,16 @@
 package org.artembogomolova.demo.webapp.domain.business;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
-import org.artembogomolova.demo.webapp.domain.core.IdentifiedEntity;
+import org.artembogomolova.demo.webapp.domain.IdentifiedEntity;
 
 @Entity
 @Table(name = "order_positions")
@@ -21,15 +21,11 @@ import org.artembogomolova.demo.webapp.domain.core.IdentifiedEntity;
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
 public class OrderPosition extends IdentifiedEntity {
 
-  private Float discount = 0f;
-  private Float quantity = 1f;
-  @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.DETACH, CascadeType.REMOVE})
+  @ManyToOne()
   @JoinColumn(name = "order_id", columnDefinition = "bigint")
   private Order order;
-  @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.DETACH, CascadeType.REMOVE})
-  @JoinColumn(name = "good_id", columnDefinition = "bigint")
-  private Good good;
-  @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.DETACH, CascadeType.REMOVE})
-  @JoinColumn(name = "action_id", columnDefinition = "bigint")
-  private Action action;
+  @OneToOne()
+  @JoinColumn(name = "order_goods_id", columnDefinition = "bigint")
+  private OrderGood orderGood;
+
 }
