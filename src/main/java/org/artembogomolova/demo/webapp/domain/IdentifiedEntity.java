@@ -1,4 +1,4 @@
-package org.artembogomolova.demo.webapp.domain.core;
+package org.artembogomolova.demo.webapp.domain;
 
 import java.io.Serializable;
 import javax.persistence.Basic;
@@ -19,6 +19,7 @@ import lombok.ToString;
 @Setter
 public class IdentifiedEntity implements Serializable {
 
+  public static final String BASIC_CONSTRAINT_NAME = "basicConstraint";
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   @Basic
