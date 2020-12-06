@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<FindBugsFilter
+  xmlns="https://github.com/spotbugs/filter/3.0.0"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="https://github.com/spotbugs/filter/3.0.0 https://raw.githubusercontent.com/spotbugs/spotbugs/3.1.0/spotbugs/etc/findbugsfilter.xsd">
+  <!-- exclude metamodel checks-->
+  <Match>
+    <Or>
+      <Class name="org.artembogomolova.demo.webapp.domain.IdentifiedEntity_"/>
+      <Class name="org.artembogomolova.demo.webapp.domain.auth.Authority_"/>
+      <Class name="org.artembogomolova.demo.webapp.domain.auth.Role_"/>
+      <Class name="org.artembogomolova.demo.webapp.domain.auth.User_"/>
+      <Class name="org.artembogomolova.demo.webapp.domain.business.Action_"/>
+      <Class name="org.artembogomolova.demo.webapp.domain.business.Category_"/>
+      <Class name="org.artembogomolova.demo.webapp.domain.business.Order_"/>
+      <Class name="org.artembogomolova.demo.webapp.domain.business.OrderPosition_"/>
+      <Class name="org.artembogomolova.demo.webapp.domain.business.Producer_"/>
+      <Class name="org.artembogomolova.demo.webapp.domain.business.Good_"/>
+      <Class name="org.artembogomolova.demo.webapp.domain.business.StockGood_"/>
+      <Class name="org.artembogomolova.demo.webapp.domain.business.Ticket_"/>
+      <Class name="org.artembogomolova.demo.webapp.domain.core.PhysicalAddress_"/>
+      <Class name="org.artembogomolova.demo.webapp.domain.core.Person_"/>
+    </Or>
+  </Match>
+</FindBugsFilter>
