@@ -4,8 +4,9 @@ import javax.persistence.Entity;
 import javax.persistence.Table;
 import lombok.Data;
 import org.artembogomolova.demo.webapp.dao.repo.core.IPhysicalAddressRepository;
-import org.artembogomolova.demo.webapp.validation.UniqueMultiColumnConstraint;
-import org.artembogomolova.demo.webapp.validation.UniqueMultiColumnConstraint.UniqueMultiColumnConstraintColumns;
+import org.artembogomolova.demo.webapp.domain.IdentifiedEntity;
+import org.artembogomolova.demo.webapp.validation.UniqueMultiColumn;
+import org.artembogomolova.demo.webapp.validation.UniqueMultiColumn.UniqueMultiColumnConstraint;
 
 @Entity
 @Table(name = "addresses")
