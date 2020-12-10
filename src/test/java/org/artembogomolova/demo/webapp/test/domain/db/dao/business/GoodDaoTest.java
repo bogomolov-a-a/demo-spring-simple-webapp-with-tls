@@ -16,8 +16,8 @@ import org.junit.jupiter.api.DisplayName;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.repository.CrudRepository;
 
-@DisplayName("Good entity repository test")
-public class GoodRepositoryTest extends AbstractDaoTest<Good> {
+@DisplayName("Dao test: Good")
+class GoodDaoTest extends AbstractDaoTest<Good> {
 
   @Autowired
   private IGoodRepository goodRepository;
@@ -28,7 +28,7 @@ public class GoodRepositoryTest extends AbstractDaoTest<Good> {
   @Autowired
   private ICategoryRepository categoryRepository;
 
-  protected GoodRepositoryTest() {
+  GoodDaoTest() {
     super(Good.class);
   }
 

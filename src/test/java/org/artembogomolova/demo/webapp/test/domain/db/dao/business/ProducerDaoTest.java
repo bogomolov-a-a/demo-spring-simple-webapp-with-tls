@@ -12,13 +12,13 @@ import org.junit.jupiter.api.DisplayName;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.repository.CrudRepository;
 
-@DisplayName("Producer entity repository test")
-public class ProducerRepositoryTest extends AbstractDaoTest<Producer> {
+@DisplayName("Dao test: Producer")
+class ProducerDaoTest extends AbstractDaoTest<Producer> {
 
   @Autowired
   private IProducerRepository producerRepository;
 
-  protected ProducerRepositoryTest() {
+  ProducerDaoTest() {
     super(Producer.class);
   }
 

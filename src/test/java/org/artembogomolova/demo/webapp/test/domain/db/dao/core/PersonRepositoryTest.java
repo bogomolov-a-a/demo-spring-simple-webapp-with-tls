@@ -15,8 +15,8 @@ import org.junit.jupiter.api.DisplayName;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.repository.CrudRepository;
 
-@DisplayName("Person entity repository test")
-public class PersonRepositoryTest extends AbstractDaoTest<Person> {
+@DisplayName("Dao test: Person")
+class PersonRepositoryTest extends AbstractDaoTest<Person> {
 
   @Autowired
   private IPersonRepository personRepository;
@@ -25,7 +25,7 @@ public class PersonRepositoryTest extends AbstractDaoTest<Person> {
   @Autowired
   private IOrderRepository orderRepository;
 
-  protected PersonRepositoryTest() {
+  PersonRepositoryTest() {
     super(Person.class);
   }
 

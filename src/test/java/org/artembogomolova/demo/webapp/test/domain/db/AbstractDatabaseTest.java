@@ -14,7 +14,9 @@ import org.springframework.test.context.ActiveProfiles;
 @AutoConfigureTestDatabase(replace = Replace.NONE, connection = EmbeddedDatabaseConnection.NONE)
 public abstract class AbstractDatabaseTest<T> extends AbstractClassTest<T> {
 
-  protected AbstractDatabaseTest(Class<T> testingClass, String suffix) {
-    super(testingClass, suffix);
+  protected AbstractDatabaseTest(Class<T> testingClass,
+      String classNameSuffix,
+      String displayNamePrefix) {
+    super(testingClass, classNameSuffix, displayNamePrefix);
   }
 }

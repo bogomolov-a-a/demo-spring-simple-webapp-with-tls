@@ -16,13 +16,13 @@ import org.junit.jupiter.api.DisplayName;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.repository.CrudRepository;
 
-@DisplayName("Action entity repository test")
-public class ActionRepositoryTest extends AbstractDaoTest<Action> {
+@DisplayName("Dao test: Action")
+public class ActionDaoTest extends AbstractDaoTest<Action> {
 
   @Autowired
   private IActionRepository actionRepository;
 
-  ActionRepositoryTest() {
+  ActionDaoTest() {
     super(Action.class);
   }
 

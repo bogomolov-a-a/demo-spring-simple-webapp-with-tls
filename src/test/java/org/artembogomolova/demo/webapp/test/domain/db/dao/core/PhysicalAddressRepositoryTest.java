@@ -12,13 +12,13 @@ import org.junit.jupiter.api.DisplayName;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.repository.CrudRepository;
 
-@DisplayName("PhysicalAddress entity repository test")
-public class PhysicalAddressRepositoryTest extends AbstractDaoTest<PhysicalAddress> {
+@DisplayName("Dao test: PhysicalAddress")
+class PhysicalAddressRepositoryTest extends AbstractDaoTest<PhysicalAddress> {
 
   @Autowired
   private IPhysicalAddressRepository physicalAddressRepository;
 
-  protected PhysicalAddressRepositoryTest() {
+  PhysicalAddressRepositoryTest() {
     super(PhysicalAddress.class);
   }
 

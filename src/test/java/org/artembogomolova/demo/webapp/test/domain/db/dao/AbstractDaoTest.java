@@ -30,14 +30,15 @@ import org.springframework.transaction.annotation.Transactional;
 @Slf4j
 public abstract class AbstractDaoTest<T extends IdentifiedEntity> extends AbstractDatabaseTest<T> {
 
-  private static final String TEST_CLASS_SUFFIX = "DaoTest";
+  private static final String TEST_CLASS_NAME_SUFFIX = "DaoTest";
+  private static final String TEST_CLASS_DISPLAY_NAME_PREFIX = "Dao test: ";
   protected static final Comparator ID_COMPARATOR = Comparator.comparing(IdentifiedEntity::getId);
   @Autowired
   protected EntityModifier entityModifier;
   private Class<T> clazz;
 
   protected AbstractDaoTest(Class<T> clazz) {
-    super(clazz, TEST_CLASS_SUFFIX);
+    super(clazz, TEST_CLASS_NAME_SUFFIX, TEST_CLASS_DISPLAY_NAME_PREFIX);
   }
 
   @Test
