@@ -5,8 +5,8 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.web.server.LocalServerPort;
 
+@DisplayName("Basically test for application with all configuration")
 class DemoWebappWithTlsApplicationContextTest extends AbstractContextLoadTest {
-
 
   DemoWebappWithTlsApplicationContextTest(@LocalServerPort int serverPort) {
     super(serverPort);

@@ -14,6 +14,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
 @Slf4j
+@DisplayName("Basically test for data exchange through security channel(HTTPS)")
 class HttpsProtocolExchangeOnTest extends AbstractContextLoadTest {
 
   @Value("${test.ssl.trusted-keystore-file}")

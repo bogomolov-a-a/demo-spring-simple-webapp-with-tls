@@ -3,6 +3,7 @@ package org.artembogomolova.demo.webapp.test.context;
 import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
 import org.artembogomolova.demo.webapp.DemoWebappWithTlsApplication;
+import org.artembogomolova.demo.webapp.test.AbstractTest;
 import org.artembogomolova.demo.webapp.test.util.event.ContextStartedEventPublishingListener;
 import org.junit.jupiter.api.Assertions;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
@@ -17,7 +18,7 @@ import org.springframework.test.context.support.DependencyInjectionTestExecution
 @ActiveProfiles(value = {"test"})
 @Slf4j
 @TestExecutionListeners({DependencyInjectionTestExecutionListener.class, ContextStartedEventPublishingListener.class})
-public abstract class AbstractContextLoadTest {
+public abstract class AbstractContextLoadTest extends AbstractTest {
 
   @Getter
   private int serverPort;

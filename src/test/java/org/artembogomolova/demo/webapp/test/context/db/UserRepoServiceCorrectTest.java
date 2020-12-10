@@ -16,6 +16,7 @@ import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.context.event.ContextStartedEvent;
 
 @Slf4j
+@DisplayName("Validation for database corruption condition, full configuration loaded.")
 class UserRepoServiceCorrectTest extends AbstractContextLoadTest {
 
   UserRepoServiceCorrectTest(@LocalServerPort int serverPort) {

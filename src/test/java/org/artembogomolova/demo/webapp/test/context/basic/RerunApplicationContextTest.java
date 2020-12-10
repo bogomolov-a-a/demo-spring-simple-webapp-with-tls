@@ -8,6 +8,7 @@ import org.springframework.boot.web.server.LocalServerPort;
 import org.springframework.test.context.TestExecutionListeners;
 
 @TestExecutionListeners({DoubleTimeContextStartedEventPublisherListener.class})
+@DisplayName("Two time deploy test. Test with reboot application.")
 class RerunApplicationContextTest extends AbstractContextLoadTest {
 
   protected RerunApplicationContextTest(@LocalServerPort int serverPort) {
