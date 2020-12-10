@@ -3,8 +3,8 @@ package org.artembogomolova.demo.webapp.test.domain.entity.business;
 import java.util.Calendar;
 import lombok.extern.slf4j.Slf4j;
 import org.artembogomolova.demo.webapp.domain.business.Action;
+import org.artembogomolova.demo.webapp.domain.business.Action_;
 import org.artembogomolova.demo.webapp.domain.business.Category;
-import org.artembogomolova.demo.webapp.domain.business.Good;
 import org.artembogomolova.demo.webapp.test.domain.DomainTestUtil;
 import org.artembogomolova.demo.webapp.test.domain.entity.AbstractAccessorEntityTest;
 import org.junit.jupiter.api.Assertions;
@@ -12,10 +12,9 @@ import org.junit.jupiter.api.DisplayName;
 
 @Slf4j
 @DisplayName("Entity test: Action")
+class ActionEntityTest extends AbstractAccessorEntityTest<Action> {
 
-public class ActionEntityTest extends AbstractAccessorEntityTest<Action> {
-
-  protected ActionEntityTest() {
+  ActionEntityTest() {
     super(Action.class);
   }
 
@@ -35,7 +34,6 @@ public class ActionEntityTest extends AbstractAccessorEntityTest<Action> {
   }
 
   private void updateLinks(Action standard) {
-    standard.getGoods().add(new Good());
     if (standard.getCategory() == null) {
       standard.setCategory(new Category());
       standard.setCategoryId(1l);
@@ -88,11 +86,11 @@ public class ActionEntityTest extends AbstractAccessorEntityTest<Action> {
   protected void withoutPartOfUniqueConstraintEqualTest(Action standardEntity, String constraintName, String columnName) {
 
     switch (columnName) {
-      case Action.NAME_FIELD_NAME: {
+      case Action_.NAME: {
         assertWithOutNameEquals(standardEntity);
         return;
       }
-      case Action.START_DATE_FIELD_NAME: {
+      case Action_.START_DATE: {
         assertWithOutStartDate(standardEntity);
         return;
       }

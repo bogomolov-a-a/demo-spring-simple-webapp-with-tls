@@ -6,7 +6,7 @@ import java.util.List;
 import java.util.function.BiFunction;
 import java.util.function.Function;
 import java.util.stream.Collectors;
-import org.artembogomolova.demo.webapp.domain.core.IdentifiedEntity;
+import org.artembogomolova.demo.webapp.domain.IdentifiedEntity;
 import org.junit.jupiter.api.Assertions;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Component;

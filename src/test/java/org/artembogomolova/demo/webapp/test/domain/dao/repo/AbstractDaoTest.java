@@ -9,10 +9,10 @@ import javax.validation.ConstraintViolationException;
 import lombok.extern.slf4j.Slf4j;
 import org.artembogomolova.demo.webapp.config.CustomHibernateValidatorConfiguration;
 import org.artembogomolova.demo.webapp.config.ValidationConfig;
-import org.artembogomolova.demo.webapp.domain.core.IdentifiedEntity;
+import org.artembogomolova.demo.webapp.domain.IdentifiedEntity;
 import org.artembogomolova.demo.webapp.test.domain.AbstractDatabaseTest;
-import org.artembogomolova.demo.webapp.validation.UniqueMultiColumnConstraint;
-import org.artembogomolova.demo.webapp.validation.UniqueMultiColumnConstraint.UniqueMultiColumnConstraintColumns;
+import org.artembogomolova.demo.webapp.validation.UniqueMultiColumn;
+import org.artembogomolova.demo.webapp.validation.UniqueMultiColumn.UniqueMultiColumnConstraint;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -93,14 +93,14 @@ public abstract class AbstractDaoTest<T extends IdentifiedEntity> extends Abstra
   @Transactional
   @DisplayName("Testing for constraint violation exception for duplicate entity creating by unique constraint.")
   void duplicateDeniedTest() {
-    UniqueMultiColumnConstraint uniqueMultiColumnConstraint = clazz.getAnnotation(UniqueMultiColumnConstraint.class);
-    if (uniqueMultiColumnConstraint == null) {
+    UniqueMultiColumn uniqueMultiColumn = clazz.getAnnotation(UniqueMultiColumn.class);
+    if (uniqueMultiColumn == null) {
       log.info("entity has no multi column constraint. passed!");
       return;
     }
     CrudRepository<T, Long> repository = getCrudRepository();
     try {
-      Arrays.stream(uniqueMultiColumnConstraint.constraints()).forEach(
+      Arrays.stream(uniqueMultiColumn.constraints()).forEach(
           uniqueMultiColumnConstraintColumns -> duplicateDeniedTestForConstraint(repository, uniqueMultiColumnConstraintColumns)
       );
       validateAnotherRepositoryEmpty();
@@ -113,24 +113,24 @@ public abstract class AbstractDaoTest<T extends IdentifiedEntity> extends Abstra
   }
 
   private void duplicateDeniedTestForConstraint(CrudRepository<T, Long> repository,
-      UniqueMultiColumnConstraintColumns uniqueMultiColumnConstraintColumns) {
-    Map<String, Object> commonValues = buildCommonFieldValues(uniqueMultiColumnConstraintColumns);
+      UniqueMultiColumnConstraint uniqueMultiColumnConstraint) {
+    Map<String, Object> commonValues = buildCommonFieldValues(uniqueMultiColumnConstraint);
     if (commonValues == null) {
       commonValues = Collections.emptyMap();
     }
-    prepareConditions(repository, uniqueMultiColumnConstraintColumns, commonValues);
-    doDuplicateDeniedTestForConstraint(repository, uniqueMultiColumnConstraintColumns, commonValues);
+    prepareConditions(repository, uniqueMultiColumnConstraint, commonValues);
+    doDuplicateDeniedTestForConstraint(repository, uniqueMultiColumnConstraint, commonValues);
   }
 
   protected abstract Map<String, Object> buildCommonFieldValues(
-      UniqueMultiColumnConstraintColumns uniqueMultiColumnConstraintColumns);
+      UniqueMultiColumnConstraint uniqueMultiColumnConstraint);
 
-  private void doDuplicateDeniedTestForConstraint(CrudRepository<T, Long> repository, UniqueMultiColumnConstraintColumns uniqueMultiColumnConstraintColumns,
+  private void doDuplicateDeniedTestForConstraint(CrudRepository<T, Long> repository, UniqueMultiColumnConstraint uniqueMultiColumnConstraint,
       Map<String, Object> commonValues) {
-    String uniqueMultiColumnConstraintColumnsName = uniqueMultiColumnConstraintColumns.name();
+    String uniqueMultiColumnConstraintColumnsName = uniqueMultiColumnConstraint.name();
     /*second time to duplicate check*/
     try {
-      tryToPersistEntityDuplicate(repository, uniqueMultiColumnConstraintColumns, commonValues);
+      tryToPersistEntityDuplicate(repository, uniqueMultiColumnConstraint, commonValues);
     } catch (RuntimeException e) {
       if (!(e.getCause() instanceof ConstraintViolationException)) {
         throw e.getCause() != null ? new RuntimeException(e.getCause()) : e;
@@ -141,33 +141,33 @@ public abstract class AbstractDaoTest<T extends IdentifiedEntity> extends Abstra
     throw new RuntimeException("not implemented check for '" + uniqueMultiColumnConstraintColumnsName + "'");
   }
 
-  protected void prepareConditions(CrudRepository<T, Long> repository, UniqueMultiColumnConstraintColumns uniqueMultiColumnConstraintColumns,
+  protected void prepareConditions(CrudRepository<T, Long> repository, UniqueMultiColumnConstraint uniqueMultiColumnConstraint,
       Map<String, Object> commonValues) {
-    tryToPersistPreparedEntity(repository, uniqueMultiColumnConstraintColumns, commonValues);
+    tryToPersistPreparedEntity(repository, uniqueMultiColumnConstraint, commonValues);
   }
 
-  private void tryToPersistPreparedEntity(CrudRepository<T, Long> repository, UniqueMultiColumnConstraintColumns uniqueMultiColumnConstraintColumns,
+  private void tryToPersistPreparedEntity(CrudRepository<T, Long> repository, UniqueMultiColumnConstraint uniqueMultiColumnConstraint,
       Map<String, Object> commonValues) {
-    T entity = doPrepareDeniedTestEntity(uniqueMultiColumnConstraintColumns, commonValues);
+    T entity = doPrepareDeniedTestEntity(uniqueMultiColumnConstraint, commonValues);
     log.info("prepared entity {}", entity.toString());
     entityModifier.getSavedEntityCollection(repository,
         Collections.singletonList(entity),
         (x, y) -> this.handleExceptions((Exception) x, (List<T>) y));
   }
 
-  protected abstract T doPrepareDeniedTestEntity(UniqueMultiColumnConstraintColumns uniqueMultiColumnConstraintColumns,
+  protected abstract T doPrepareDeniedTestEntity(UniqueMultiColumnConstraint uniqueMultiColumnConstraint,
       Map<String, Object> commonValues);
 
   private void tryToPersistEntityDuplicate(CrudRepository repository,
-      UniqueMultiColumnConstraintColumns uniqueMultiColumnConstraintColumns,
+      UniqueMultiColumnConstraint uniqueMultiColumnConstraint,
       Map<String, Object> commonValues) {
-    T entity = doDuplicateDeniedTestEntity(uniqueMultiColumnConstraintColumns, commonValues);
+    T entity = doDuplicateDeniedTestEntity(uniqueMultiColumnConstraint, commonValues);
     log.info("entity with duplicated column values {}", entity.toString());
     entityModifier.getSavedEntityCollection(repository,
         Collections.singletonList(entity),
         (x, y) -> this.handleExceptions((Exception) x, (List<T>) y));
   }
 
-  protected abstract T doDuplicateDeniedTestEntity(UniqueMultiColumnConstraintColumns columns, Map<String, Object> commonValues);
+  protected abstract T doDuplicateDeniedTestEntity(UniqueMultiColumnConstraint columns, Map<String, Object> commonValues);
 
 }

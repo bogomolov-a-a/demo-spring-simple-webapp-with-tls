@@ -2,6 +2,7 @@ package org.artembogomolova.demo.webapp.test.domain.entity.business;
 
 import lombok.extern.slf4j.Slf4j;
 import org.artembogomolova.demo.webapp.domain.business.Category;
+import org.artembogomolova.demo.webapp.domain.business.Category_;
 import org.artembogomolova.demo.webapp.test.domain.DomainTestUtil;
 import org.artembogomolova.demo.webapp.test.domain.entity.AbstractAccessorEntityTest;
 import org.junit.jupiter.api.Assertions;
@@ -9,9 +10,9 @@ import org.junit.jupiter.api.DisplayName;
 
 @Slf4j
 @DisplayName("Entity test: Category")
-public class CategoryEntityTest extends AbstractAccessorEntityTest<Category> {
+class CategoryEntityTest extends AbstractAccessorEntityTest<Category> {
 
-  protected CategoryEntityTest() {
+  CategoryEntityTest() {
     super(Category.class);
   }
 
@@ -52,11 +53,11 @@ public class CategoryEntityTest extends AbstractAccessorEntityTest<Category> {
   @Override
   protected void withoutPartOfUniqueConstraintEqualTest(Category standardEntity, String constraintName, String columnName) {
     switch (columnName) {
-      case Category.NAME_FIELD_NAME: {
+      case Category_.NAME: {
         assertWithoutNameEquals(standardEntity);
         return;
       }
-      case Category.PARENT_CATEGORY_ID_NAME: {
+      case Category_.PARENT_CATEGORY_ID: {
         assertWithoutParentCategoryIdEquals(standardEntity);
         return;
       }

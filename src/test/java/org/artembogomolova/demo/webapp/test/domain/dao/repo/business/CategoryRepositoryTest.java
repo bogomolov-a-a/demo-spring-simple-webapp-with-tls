@@ -7,7 +7,7 @@ import org.artembogomolova.demo.webapp.dao.repo.business.ICategoryRepository;
 import org.artembogomolova.demo.webapp.domain.business.Category;
 import org.artembogomolova.demo.webapp.test.domain.DomainTestUtil;
 import org.artembogomolova.demo.webapp.test.domain.dao.repo.AbstractDaoTest;
-import org.artembogomolova.demo.webapp.validation.UniqueMultiColumnConstraint.UniqueMultiColumnConstraintColumns;
+import org.artembogomolova.demo.webapp.validation.UniqueMultiColumn.UniqueMultiColumnConstraint;
 import org.junit.jupiter.api.DisplayName;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.repository.CrudRepository;
@@ -41,18 +41,18 @@ public class CategoryRepositoryTest extends AbstractDaoTest<Category> {
   }
 
   @Override
-  protected Map<String, Object> buildCommonFieldValues(UniqueMultiColumnConstraintColumns uniqueMultiColumnConstraintColumns) {
+  protected Map<String, Object> buildCommonFieldValues(UniqueMultiColumnConstraint uniqueMultiColumnConstraint) {
     return null;
   }
 
   @Override
-  protected Category doPrepareDeniedTestEntity(UniqueMultiColumnConstraintColumns uniqueMultiColumnConstraintColumns,
+  protected Category doPrepareDeniedTestEntity(UniqueMultiColumnConstraint uniqueMultiColumnConstraint,
       Map<String, Object> commonValues) {
     return null;
   }
 
   @Override
-  protected Category doDuplicateDeniedTestEntity(UniqueMultiColumnConstraintColumns columns, Map<String, Object> commonValues) {
+  protected Category doDuplicateDeniedTestEntity(UniqueMultiColumnConstraint columns, Map<String, Object> commonValues) {
     return null;
   }
 

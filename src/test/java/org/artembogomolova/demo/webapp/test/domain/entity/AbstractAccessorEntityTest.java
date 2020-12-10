@@ -2,8 +2,8 @@ package org.artembogomolova.demo.webapp.test.domain.entity;
 
 import java.util.Arrays;
 import lombok.extern.slf4j.Slf4j;
-import org.artembogomolova.demo.webapp.domain.core.IdentifiedEntity;
-import org.artembogomolova.demo.webapp.validation.UniqueMultiColumnConstraint;
+import org.artembogomolova.demo.webapp.domain.IdentifiedEntity;
+import org.artembogomolova.demo.webapp.validation.UniqueMultiColumn;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.MethodOrderer.OrderAnnotation;
@@ -28,7 +28,7 @@ public abstract class AbstractAccessorEntityTest<T extends IdentifiedEntity> {
     printEntityAsString(buildStandardEntityAndAccessorTest());
     fullDuplicateEntityEqualTest(buildStandardEntityAndAccessorTest());
     withAnotherEntityEqualTest(buildStandardEntityAndAccessorTest());
-    UniqueMultiColumnConstraint multiColumnConstraint = clazz.getAnnotation(UniqueMultiColumnConstraint.class);
+    UniqueMultiColumn multiColumnConstraint = clazz.getAnnotation(UniqueMultiColumn.class);
     if (multiColumnConstraint == null) {
       log.warn("clazz {} has no multi column constraint. test passed!", clazz.getName());
       return;
@@ -39,7 +39,7 @@ public abstract class AbstractAccessorEntityTest<T extends IdentifiedEntity> {
           String constraintName = constraint.name();
           log.info("testing constraint '{}'", constraintName);
           availableConstraint(constraintName);
-          Arrays.asList(constraint.value()).forEach(columnName -> {
+          Arrays.asList(constraint.columnNames()).forEach(columnName -> {
                 log.info("testing column name '{}'", columnName);
                 withoutPartOfUniqueConstraintEqualTest(buildStandardEntityAndAccessorTest(), constraintName, columnName);
                 log.info("column name '{}' test passed!", columnName);

@@ -115,11 +115,11 @@ public class DomainTestUtil {
     category.getGoods().add(result);
     result.setDescription("test good 1 description");
     result.setName("test good 1");
-    result.setQuantity(2.0f);
+    //result.setQuantity(2.0f);
     Producer producer = buildProducer();
     result.setProducer(producer);
     producer.getGoods().add(result);
-    result.setPrice(410.0f);
+    //result.setPrice(410.0f);
     result.setImgFilePath("image.jpg");
     return result;
   }
@@ -137,8 +137,8 @@ public class DomainTestUtil {
     result.setEndDate(Calendar.getInstance().getTime());
     result.setName("test action 1");
     Good testGood = buildTestGood();
-    result.getGoods().add(testGood);
-    testGood.setAction(result);
+    //result.getGoods().add(testGood);
+    //  testGood.setAction(result);
     result.setDiscountFixed(500.0f);
     return result;
   }
@@ -167,9 +167,9 @@ public class DomainTestUtil {
   private static OrderPosition buildOrderPosition() {
     OrderPosition result = new OrderPosition();
     Good testGood = buildTestGood();
-    result.setGood(testGood);
-    testGood.getOrderPositions().add(result);
-    result.setQuantity(6f);
+   // result.setGood(testGood);
+    //  testGood.getOrderPositions().add(result);
+    //result.setQuantity(6f);
     return result;
   }
 
@@ -180,13 +180,13 @@ public class DomainTestUtil {
     Ticket ticket = new Ticket();
     result.getTickets().add(ticket);
     ticket.setOrder(result);
-    ticket.setSumm(422.0f * 6.0f);
+    // ticket.setSumm(422.0f * 6.0f);
     return result;
   }
 
   public static Order buildDeliveredOrder() {
     Order result = buildPayedOrder();
-    result.setDeliverDate(Calendar.getInstance().getTime());
+    result.setDeliveryDate(Calendar.getInstance().getTime());
     return result;
   }
 }

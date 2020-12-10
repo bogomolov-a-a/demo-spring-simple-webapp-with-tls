@@ -10,7 +10,7 @@ import org.artembogomolova.demo.webapp.dao.repo.core.IPhysicalAddressRepository;
 import org.artembogomolova.demo.webapp.domain.business.Good;
 import org.artembogomolova.demo.webapp.test.domain.DomainTestUtil;
 import org.artembogomolova.demo.webapp.test.domain.dao.repo.AbstractDaoTest;
-import org.artembogomolova.demo.webapp.validation.UniqueMultiColumnConstraint.UniqueMultiColumnConstraintColumns;
+import org.artembogomolova.demo.webapp.validation.UniqueMultiColumn.UniqueMultiColumnConstraint;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,8 +34,8 @@ public class GoodRepositoryTest extends AbstractDaoTest<Good> {
 
   @Override
   protected List<Good> updateEntities(List<Good> savedCollection) {
-    savedCollection.get(0)
-        .setPrice(42.3f);
+    //savedCollection.get(0);
+        //.setPrice(42.3f);
     return savedCollection;
   }
 
@@ -52,18 +52,18 @@ public class GoodRepositoryTest extends AbstractDaoTest<Good> {
   }
 
   @Override
-  protected Map<String, Object> buildCommonFieldValues(UniqueMultiColumnConstraintColumns uniqueMultiColumnConstraintColumns) {
+  protected Map<String, Object> buildCommonFieldValues(UniqueMultiColumnConstraint uniqueMultiColumnConstraint) {
     return null;
   }
 
   @Override
-  protected Good doPrepareDeniedTestEntity(UniqueMultiColumnConstraintColumns uniqueMultiColumnConstraintColumns,
+  protected Good doPrepareDeniedTestEntity(UniqueMultiColumnConstraint uniqueMultiColumnConstraint,
       Map<String, Object> commonValues) {
     return null;
   }
 
   @Override
-  protected Good doDuplicateDeniedTestEntity(UniqueMultiColumnConstraintColumns columns, Map<String, Object> commonValues) {
+  protected Good doDuplicateDeniedTestEntity(UniqueMultiColumnConstraint columns, Map<String, Object> commonValues) {
     return null;
   }
 

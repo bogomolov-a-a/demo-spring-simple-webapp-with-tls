@@ -8,9 +8,10 @@ import java.util.List;
 import java.util.Map;
 import org.artembogomolova.demo.webapp.dao.repo.business.IActionRepository;
 import org.artembogomolova.demo.webapp.domain.business.Action;
+import org.artembogomolova.demo.webapp.domain.business.Action_;
 import org.artembogomolova.demo.webapp.test.domain.DomainTestUtil;
 import org.artembogomolova.demo.webapp.test.domain.dao.repo.AbstractDaoTest;
-import org.artembogomolova.demo.webapp.validation.UniqueMultiColumnConstraint.UniqueMultiColumnConstraintColumns;
+import org.artembogomolova.demo.webapp.validation.UniqueMultiColumn.UniqueMultiColumnConstraint;
 import org.junit.jupiter.api.DisplayName;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.repository.CrudRepository;
@@ -48,25 +49,25 @@ public class ActionRepositoryTest extends AbstractDaoTest<Action> {
   }
 
   @Override
-  protected Map<String, Object> buildCommonFieldValues(UniqueMultiColumnConstraintColumns uniqueMultiColumnConstraintColumns) {
+  protected Map<String, Object> buildCommonFieldValues(UniqueMultiColumnConstraint uniqueMultiColumnConstraint) {
     Map<String, Object> result = new HashMap<>();
-    result.put(Action.START_DATE_FIELD_NAME, Calendar.getInstance().getTime());
+    result.put(Action_.START_DATE, Calendar.getInstance().getTime());
     return result;
   }
 
   @Override
-  protected Action doPrepareDeniedTestEntity(UniqueMultiColumnConstraintColumns uniqueMultiColumnConstraintColumns,
+  protected Action doPrepareDeniedTestEntity(UniqueMultiColumnConstraint uniqueMultiColumnConstraint,
       Map<String, Object> commonValues) {
     Action result = DomainTestUtil.buildCategoryAction();
     result.setCategory(DomainTestUtil.buildCategory2());
-    result.setStartDate((Date) commonValues.get(Action.START_DATE_FIELD_NAME));
+    result.setStartDate((Date) commonValues.get(Action_.START_DATE));
     return result;
   }
 
   @Override
-  protected Action doDuplicateDeniedTestEntity(UniqueMultiColumnConstraintColumns columns, Map<String, Object> commonValues) {
+  protected Action doDuplicateDeniedTestEntity(UniqueMultiColumnConstraint columns, Map<String, Object> commonValues) {
     Action result = DomainTestUtil.buildCategoryAction();
-    result.setStartDate((Date) commonValues.get(Action.START_DATE_FIELD_NAME));
+    result.setStartDate((Date) commonValues.get(Action_.START_DATE));
     return result;
   }
 
