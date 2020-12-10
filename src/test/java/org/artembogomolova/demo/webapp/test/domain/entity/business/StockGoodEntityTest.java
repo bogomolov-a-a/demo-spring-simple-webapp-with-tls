@@ -2,7 +2,9 @@ package org.artembogomolova.demo.webapp.test.domain.entity.business;
 
 import org.artembogomolova.demo.webapp.domain.business.StockGood;
 import org.artembogomolova.demo.webapp.test.domain.entity.AbstractAccessorEntityTest;
+import org.junit.jupiter.api.DisplayName;
 
+@DisplayName("Entity test: StockGood")
 class StockGoodEntityTest extends AbstractAccessorEntityTest<StockGood> {
 
   StockGoodEntityTest() {

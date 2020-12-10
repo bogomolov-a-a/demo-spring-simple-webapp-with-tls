@@ -2,7 +2,9 @@ package org.artembogomolova.demo.webapp.test.domain.entity.auth;
 
 import org.artembogomolova.demo.webapp.domain.auth.Authority;
 import org.artembogomolova.demo.webapp.test.domain.entity.AbstractAccessorEntityTest;
+import org.junit.jupiter.api.DisplayName;
 
+@DisplayName("Entity test: Authority")
 class AuthorityEntityTest extends AbstractAccessorEntityTest<Authority> {
 
   AuthorityEntityTest() {

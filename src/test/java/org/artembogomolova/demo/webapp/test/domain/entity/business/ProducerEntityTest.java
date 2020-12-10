@@ -2,7 +2,9 @@ package org.artembogomolova.demo.webapp.test.domain.entity.business;
 
 import org.artembogomolova.demo.webapp.domain.business.Producer;
 import org.artembogomolova.demo.webapp.test.domain.entity.AbstractAccessorEntityTest;
+import org.junit.jupiter.api.DisplayName;
 
+@DisplayName("Entity test: Producer")
 class ProducerEntityTest extends AbstractAccessorEntityTest<Producer> {
 
   ProducerEntityTest() {

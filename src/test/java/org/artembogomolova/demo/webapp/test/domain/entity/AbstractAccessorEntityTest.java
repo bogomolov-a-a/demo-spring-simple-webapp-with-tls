@@ -12,14 +12,17 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestMethodOrder;
 
 @Slf4j
-@TestMethodOrder(value = OrderAnnotation.class)
 public abstract class AbstractAccessorEntityTest<T extends IdentifiedEntity> extends
     AbstractClassTest<T> {
 
   private static final String TEST_CLASS_SUFFIX = "EntityTest";
+  private static final String TEST_CLASS_DISPLAY_NAME = "Entity test: ";
 
   protected AbstractAccessorEntityTest(Class<T> clazz) {
-    super(clazz, TEST_CLASS_SUFFIX);
+    super(clazz,
+        TEST_CLASS_SUFFIX,
+        TEST_CLASS_DISPLAY_NAME);
+
   }
 
   @Test
@@ -88,5 +91,7 @@ public abstract class AbstractAccessorEntityTest<T extends IdentifiedEntity> ext
 
   protected abstract T buildAnotherEntityForTest();
 
-  protected abstract void withoutPartOfUniqueConstraintEqualTest(T standardEntity, String constraintName, String columnName);
+  protected abstract void withoutPartOfUniqueConstraintEqualTest(T standardEntity,
+      String constraintName,
+      String columnName);
 }

@@ -2,7 +2,9 @@ package org.artembogomolova.demo.webapp.test.domain.entity.auth;
 
 import org.artembogomolova.demo.webapp.domain.auth.User;
 import org.artembogomolova.demo.webapp.test.domain.entity.AbstractAccessorEntityTest;
+import org.junit.jupiter.api.DisplayName;
 
+@DisplayName("Entity test: User")
 class UserEntityTest extends AbstractAccessorEntityTest<User> {
 
   UserEntityTest() {

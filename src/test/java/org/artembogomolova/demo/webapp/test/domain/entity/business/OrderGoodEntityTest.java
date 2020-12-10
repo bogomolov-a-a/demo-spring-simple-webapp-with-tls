@@ -2,7 +2,9 @@ package org.artembogomolova.demo.webapp.test.domain.entity.business;
 
 import org.artembogomolova.demo.webapp.domain.business.OrderGood;
 import org.artembogomolova.demo.webapp.test.domain.entity.AbstractAccessorEntityTest;
+import org.junit.jupiter.api.DisplayName;
 
+@DisplayName("Entity test: OrderGood")
 class OrderGoodEntityTest extends AbstractAccessorEntityTest<OrderGood> {
 
   OrderGoodEntityTest() {

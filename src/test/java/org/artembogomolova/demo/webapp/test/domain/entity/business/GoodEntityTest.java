@@ -5,7 +5,7 @@ import org.artembogomolova.demo.webapp.test.domain.DomainTestUtil;
 import org.artembogomolova.demo.webapp.test.domain.entity.AbstractAccessorEntityTest;
 import org.junit.jupiter.api.DisplayName;
 
-@DisplayName("Entity test: Stock good")
+@DisplayName("Entity test: Good")
 class GoodEntityTest extends AbstractAccessorEntityTest<Good> {
 
   GoodEntityTest() {
