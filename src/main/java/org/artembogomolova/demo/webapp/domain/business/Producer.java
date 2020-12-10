@@ -13,7 +13,6 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
-import org.artembogomolova.demo.webapp.dao.repo.business.IProducerRepository;
 import org.artembogomolova.demo.webapp.domain.IdentifiedEntity;
 import org.artembogomolova.demo.webapp.domain.core.PhysicalAddress;
 
