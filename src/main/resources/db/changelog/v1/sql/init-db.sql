@@ -11,7 +11,7 @@ create table addresses(
   specific_part text,
   unique (postal_code,country,state,city,district,street,house,room,specific_part)
 );
-/
+
 create table persons(
   id integer not null primary key autoincrement,
   name text not null,
@@ -38,8 +38,8 @@ create table actions(
   description text not null,
   discount_fixed real default 0,
   discount_percent real default 0,
-  start_date timestamp  not null,
-  end_date timestamp  not null,
+  start_date datetime  not null,
+  end_date datetime  not null,
   category_id bigint,
   unique(name,start_date),
   foreign key (category_id) references categories(id) on delete cascade on update cascade
@@ -57,8 +57,8 @@ create table producers(
 
 create table orders(
   id integer not null primary key autoincrement,
-  order_date timestamp not null default current_timestamp,
-  delivery_date timestamp,
+  order_date TIMESTAMP not null default current_timestamp,
+  deliver_date TIMESTAMP,
   order_address_plain text,
   description text not null,
   payed integer default 0,
@@ -81,33 +81,46 @@ create table goods(
  id integer not null primary key autoincrement,
  name text not null,
  description text not null,
- price real not null,
  img_file_path text,
- quantity double not null default 0,
  producer_id bigint not null,
  category_id bigint not null,
- action_id bigint not null,
  unique (name,producer_id,category_id),
  foreign key (category_id) references categories(id) on delete cascade on update cascade,
- foreign key (producer_id) references producers(id) on delete cascade on update cascade,
- foreign key (action_id) references action(id) on delete cascade on update cascade
+ foreign key (producer_id) references producers(id) on delete cascade on update cascade
 );
-/
+
+create table stock_goods(
+ id integer not null primary key autoincrement,
+ quantity double not null default 0,
+ price real not null,
+ good_id bigint not null,
+ foreign key (good_id) references goods(id) on delete cascade on update cascade
+);
+
+create table action_goods
+(
+ id integer not null primary key autoincrement,
+ quantity double not null default 0,
+ share_price real not null,
+ action_id bigint not null,
+ good_id bigint not null,
+ foreign key (good_id) references goods(id) on delete cascade on update cascade,
+ foreign key (action_id) references  actions(id)on delete cascade on update cascade
+);
+
+create table order_goods(
+	id integer not null primary key autoincrement,
+  quantity real not null default 1,
+  effective_price real not null,
+  good_id bigint not null,
+  foreign key (good_id) references goods(id) on delete cascade on update cascade
+);
+
 create table order_positions(
   id integer not null primary key autoincrement,
-  discount real not null default 0,
-  quantity real not null default 1,
   order_id bigint not null,
-  good_id bigint not null,
-  action_id bigint,
-  unique (order_id,good_id),
+  order_goods_id bigint not null,
+  unique (order_id,order_goods_id),
   foreign key (order_id) references orders(id) on delete cascade on update cascade,
-  foreign key (good_id) references goods(id) on delete cascade on update cascade,
-  foreign key (action_id) references
-  actions(id)on delete cascade on update cascade
+  foreign key (order_goods_id) references order_goods(id) on delete cascade on update cascade
 );
-
-
-
-
-
