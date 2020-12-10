@@ -1,6 +1,7 @@
-package org.artembogomolova.demo.webapp.test.context;
+package org.artembogomolova.demo.webapp.test.context.basic;
 
-import org.artembogomolova.demo.webapp.test.event.DoubleTimeContextStartedEventPublisherListener;
+import org.artembogomolova.demo.webapp.test.context.AbstractContextLoadTest;
+import org.artembogomolova.demo.webapp.test.util.event.DoubleTimeContextStartedEventPublisherListener;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.web.server.LocalServerPort;

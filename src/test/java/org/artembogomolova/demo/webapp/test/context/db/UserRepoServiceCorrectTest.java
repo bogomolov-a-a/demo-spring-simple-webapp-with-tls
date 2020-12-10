@@ -1,10 +1,11 @@
-package org.artembogomolova.demo.webapp.test.context;
+package org.artembogomolova.demo.webapp.test.context.db;
 
 import lombok.extern.slf4j.Slf4j;
 import org.artembogomolova.demo.webapp.dao.repo.auth.IUserRepository;
 import org.artembogomolova.demo.webapp.dao.service.auth.UserRepoService;
 import org.artembogomolova.demo.webapp.domain.auth.User;
 import org.artembogomolova.demo.webapp.event.ContextStartedEventListener;
+import org.artembogomolova.demo.webapp.test.context.AbstractContextLoadTest;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -40,7 +41,7 @@ class UserRepoServiceCorrectTest extends AbstractContextLoadTest {
     log.info("All users deleted. Database corrupted!");
   }
 
-  @DisplayName("Test check " + UserRepoService.PREDEFINED_ADMIN_ACCOUNT_LOGIN + "removed from existing database. This is wrong way!")
+  @DisplayName("Test check " + UserRepoService.PREDEFINED_ADMIN_ACCOUNT_LOGIN + " removed from existing database. This is wrong way!")
   @Test
   void checkAdminUserDeletedDatabaseCorrupted() {
     User user = userRepository.findByLogin(UserRepoService.PREDEFINED_ADMIN_ACCOUNT_LOGIN);
@@ -49,7 +50,7 @@ class UserRepoServiceCorrectTest extends AbstractContextLoadTest {
 
   }
 
-  @DisplayName("Test check " + UserRepoService.PREDEFINED_GUEST_ACCOUNT_LOGIN + "removed from existing database. This is wrong way!")
+  @DisplayName("Test check " + UserRepoService.PREDEFINED_GUEST_ACCOUNT_LOGIN + " removed from existing database. This is wrong way!")
   @Test
   void checkGuestUserDeletedDatabaseCorrupted() {
     User user = userRepository.findByLogin(UserRepoService.PREDEFINED_GUEST_ACCOUNT_LOGIN);
@@ -64,7 +65,7 @@ class UserRepoServiceCorrectTest extends AbstractContextLoadTest {
   }
 
   @DisplayName("Test check " + UserRepoService.PREDEFINED_GUEST_ACCOUNT_LOGIN
-      + "removed from existing database. This is wrong way! Test in ContextStartedEvent as application reboot")
+      + " removed from existing database. This is wrong way! Test in ContextStartedEvent as application reboot")
   @Test
   void checkUserDeletedListenerDatabaseCorrupted() {
     User user = userRepository.findByLogin(UserRepoService.PREDEFINED_GUEST_ACCOUNT_LOGIN);

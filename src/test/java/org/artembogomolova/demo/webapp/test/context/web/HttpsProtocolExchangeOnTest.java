@@ -1,6 +1,7 @@
-package org.artembogomolova.demo.webapp.test.context;
+package org.artembogomolova.demo.webapp.test.context.web;
 
 import lombok.extern.slf4j.Slf4j;
+import org.artembogomolova.demo.webapp.test.context.AbstractContextLoadTest;
 import org.artembogomolova.demo.webapp.test.util.RestTemplateUtil;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;

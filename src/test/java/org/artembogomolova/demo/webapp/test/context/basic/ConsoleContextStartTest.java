@@ -1,4 +1,4 @@
-package org.artembogomolova.demo.webapp.test.context;
+package org.artembogomolova.demo.webapp.test.context.basic;
 
 import lombok.extern.slf4j.Slf4j;
 import org.artembogomolova.demo.webapp.DemoWebappWithTlsApplication;
