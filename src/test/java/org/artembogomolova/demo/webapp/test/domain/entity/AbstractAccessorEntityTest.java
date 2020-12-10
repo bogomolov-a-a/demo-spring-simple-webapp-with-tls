@@ -14,11 +14,14 @@ import org.junit.jupiter.api.TestMethodOrder;
 @TestMethodOrder(value = OrderAnnotation.class)
 public abstract class AbstractAccessorEntityTest<T extends IdentifiedEntity> {
 
+  private static final String TEST_CLASS_SUFFIX = "EntityTest";
   private Class<T> clazz;
 
   protected AbstractAccessorEntityTest(Class<T> clazz) {
-
     this.clazz = clazz;
+    String exceptedTestClassName = clazz.getSimpleName() + TEST_CLASS_SUFFIX;
+    String actualTestClassName = this.getClass().getSimpleName();
+    Assertions.assertEquals(exceptedTestClassName, actualTestClassName, "wrong entity class pattern.");
   }
 
   @Test
@@ -54,6 +57,9 @@ public abstract class AbstractAccessorEntityTest<T extends IdentifiedEntity> {
   protected abstract void availableConstraint(String constraintName);
 
   private void transitiveEqualTest(T standardEntity) {
+    if (standardEntity == null) {
+      throw new IllegalArgumentException("standardEntity must be not null!! wrong test case!!");
+    }
     Assertions.assertEquals(standardEntity, standardEntity);
     Assertions.assertNotEquals(standardEntity, new Object());
     Assertions.assertNotEquals(standardEntity, null);
