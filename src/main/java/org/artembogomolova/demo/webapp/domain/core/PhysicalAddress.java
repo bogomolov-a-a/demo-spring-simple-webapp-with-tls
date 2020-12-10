@@ -14,7 +14,7 @@ import org.artembogomolova.demo.webapp.validation.UniqueMultiColumn.UniqueMultiC
 @UniqueMultiColumn(repository = IPhysicalAddressRepository.class,
     constraints = {
         @UniqueMultiColumnConstraint(name = IdentifiedEntity.BASIC_CONSTRAINT_NAME,
-            value = {"postalCode", "country", "state", "city", "district", "street", "house", "room", "specificPart"})
+            columnNames = {"postalCode", "country", "state", "city", "district", "street", "house", "room", "specificPart"})
     })
 public class PhysicalAddress extends IdentifiedEntity {
 

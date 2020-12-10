@@ -32,9 +32,9 @@ import org.artembogomolova.demo.webapp.validation.UniqueMultiColumn.UniqueMultiC
 @UniqueMultiColumn(repository = IPersonRepository.class,
     constraints = {
         @UniqueMultiColumnConstraint(name = IdentifiedEntity.BASIC_CONSTRAINT_NAME,
-            value = {"name", "surname", "patronymic", "birthDate"}),
+            columnNames = {"name", "surname", "patronymic", "birthDate"}),
         @UniqueMultiColumnConstraint(name = Person.PHONE_CONSTRAINT_NAME,
-            value = {"phone"})}
+            columnNames = {"phone"})}
 )
 public class Person extends IdentifiedEntity {
 

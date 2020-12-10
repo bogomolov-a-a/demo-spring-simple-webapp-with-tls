@@ -27,7 +27,7 @@ import org.artembogomolova.demo.webapp.validation.UniqueMultiColumn.UniqueMultiC
 @NoArgsConstructor
 @UniqueMultiColumn(repository = IActionRepository.class,
     constraints = {@UniqueMultiColumnConstraint(name = IdentifiedEntity.BASIC_CONSTRAINT_NAME,
-        value = {}//{Action_.NAME_FIELD_NAME, Action_.START_DATE_FIELD_NAME}
+        columnNames = {}//{Action_.NAME_FIELD_NAME, Action_.START_DATE_FIELD_NAME}
     )}
 )
 public class Action extends IdentifiedEntity {

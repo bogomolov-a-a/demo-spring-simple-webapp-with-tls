@@ -31,6 +31,6 @@ public @interface UniqueMultiColumn {
 
     String name();
 
-    String[] value();
+    String[] columnNames();
   }
 }

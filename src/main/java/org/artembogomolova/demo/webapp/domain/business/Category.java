@@ -25,7 +25,7 @@ import org.artembogomolova.demo.webapp.validation.UniqueMultiColumn.UniqueMultiC
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
 @UniqueMultiColumn(repository = ICategoryRepository.class,
     constraints = @UniqueMultiColumnConstraint(name = IdentifiedEntity.BASIC_CONSTRAINT_NAME,
-        value = {}))//{Category.NAME_FIELD_NAME, Category.PARENT_CATEGORY_ID_NAME}))
+        columnNames = {}))//{Category.NAME_FIELD_NAME, Category.PARENT_CATEGORY_ID_NAME}))
 public class Category extends IdentifiedEntity {
 
   @Setter

@@ -41,7 +41,7 @@ public class UniqueMultiColumnConstraintValidator extends AbstractApplicationCon
 
   private boolean hasNoDuplicate(IdentifiedEntity identifiedEntity, ConstraintValidatorContext constraintValidatorContext) {
     for (UniqueMultiColumnConstraint constraint : constraintList) {
-      List<String> constraintColumnNames = Arrays.asList(constraint.value());
+      List<String> constraintColumnNames = Arrays.asList(constraint.columnNames());
       if (!hasNoDuplicateByConstraint(identifiedEntity, constraintColumnNames)) {
         String message = messageSource.getMessage(UniqueMultiColumn.VIOLATION_MESSAGE_TEMPLATE,
             new Object[]{identifiedEntity.toString(), constraintColumnNames.toString()}, Locale.getDefault());
