@@ -38,8 +38,8 @@ create table actions(
   description text not null,
   discount_fixed real default 0,
   discount_percent real default 0,
-  start_date datetime  not null,
-  end_date datetime  not null,
+  start_date timestamp  not null,
+  end_date timestamp  not null,
   category_id bigint,
   unique(name,start_date),
   foreign key (category_id) references categories(id) on delete cascade on update cascade
@@ -58,7 +58,7 @@ create table producers(
 create table orders(
   id integer not null primary key autoincrement,
   order_date TIMESTAMP not null default current_timestamp,
-  deliver_date TIMESTAMP,
+  delivery_date TIMESTAMP,
   order_address_plain text,
   description text not null,
   payed integer default 0,

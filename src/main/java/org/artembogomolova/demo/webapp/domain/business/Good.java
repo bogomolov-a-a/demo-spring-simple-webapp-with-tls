@@ -25,11 +25,7 @@ public class Good extends IdentifiedEntity {
   @Setter
   private String description;
   @Setter
-  private Float price;
-  @Setter
   private String imgFilePath;
-  @Setter
-  private Float quantity;
   @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REMOVE, CascadeType.DETACH})
   @JoinColumn(name = "producer_id", columnDefinition = "bigint")
   @Setter

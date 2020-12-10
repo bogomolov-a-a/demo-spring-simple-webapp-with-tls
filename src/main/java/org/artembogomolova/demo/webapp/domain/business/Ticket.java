@@ -21,7 +21,7 @@ import org.artembogomolova.demo.webapp.domain.IdentifiedEntity;
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
 public class Ticket extends IdentifiedEntity {
 
-  private Float summ;
+  private Float sum;
   @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REMOVE, CascadeType.DETACH})
   @JoinColumn(name = "order_id", columnDefinition = "bigint")
   private Order order;
