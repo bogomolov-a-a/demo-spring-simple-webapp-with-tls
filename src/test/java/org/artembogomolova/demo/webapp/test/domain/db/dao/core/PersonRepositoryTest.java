@@ -1,4 +1,4 @@
-package org.artembogomolova.demo.webapp.test.domain.dao.repo.core;
+package org.artembogomolova.demo.webapp.test.domain.db.dao.core;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -8,7 +8,7 @@ import org.artembogomolova.demo.webapp.dao.repo.core.IPersonRepository;
 import org.artembogomolova.demo.webapp.dao.repo.core.IPhysicalAddressRepository;
 import org.artembogomolova.demo.webapp.domain.core.Person;
 import org.artembogomolova.demo.webapp.test.domain.DomainTestUtil;
-import org.artembogomolova.demo.webapp.test.domain.dao.repo.AbstractDaoTest;
+import org.artembogomolova.demo.webapp.test.domain.db.dao.AbstractDaoTest;
 import org.artembogomolova.demo.webapp.validation.UniqueMultiColumn.UniqueMultiColumnConstraint;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;

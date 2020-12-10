@@ -1,4 +1,4 @@
-package org.artembogomolova.demo.webapp.test.domain;
+package org.artembogomolova.demo.webapp.test.domain.db;
 
 import lombok.extern.slf4j.Slf4j;
 import org.artembogomolova.demo.webapp.test.AbstractClassTest;

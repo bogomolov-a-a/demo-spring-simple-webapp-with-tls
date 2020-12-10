@@ -1,4 +1,4 @@
-package org.artembogomolova.demo.webapp.test.domain.dao.repo.business;
+package org.artembogomolova.demo.webapp.test.domain.db.dao.business;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -6,7 +6,7 @@ import java.util.Map;
 import org.artembogomolova.demo.webapp.dao.repo.business.IOrderRepository;
 import org.artembogomolova.demo.webapp.domain.business.Order;
 import org.artembogomolova.demo.webapp.test.domain.DomainTestUtil;
-import org.artembogomolova.demo.webapp.test.domain.dao.repo.AbstractDaoTest;
+import org.artembogomolova.demo.webapp.test.domain.db.dao.AbstractDaoTest;
 import org.artembogomolova.demo.webapp.validation.UniqueMultiColumn.UniqueMultiColumnConstraint;
 import org.junit.jupiter.api.DisplayName;
 import org.springframework.beans.factory.annotation.Autowired;

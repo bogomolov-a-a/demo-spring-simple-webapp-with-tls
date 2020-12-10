@@ -1,4 +1,4 @@
-package org.artembogomolova.demo.webapp.test.domain.dao.repo;
+package org.artembogomolova.demo.webapp.test.domain.db.dao;
 
 import java.util.Arrays;
 import java.util.Collections;
@@ -10,7 +10,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.artembogomolova.demo.webapp.config.CustomHibernateValidatorConfiguration;
 import org.artembogomolova.demo.webapp.config.ValidationConfig;
 import org.artembogomolova.demo.webapp.domain.IdentifiedEntity;
-import org.artembogomolova.demo.webapp.test.domain.AbstractDatabaseTest;
+import org.artembogomolova.demo.webapp.test.domain.db.AbstractDatabaseTest;
 import org.artembogomolova.demo.webapp.validation.UniqueMultiColumn;
 import org.artembogomolova.demo.webapp.validation.UniqueMultiColumn.UniqueMultiColumnConstraint;
 import org.junit.jupiter.api.Assertions;
@@ -20,7 +20,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Import;
 import org.springframework.data.repository.CrudRepository;
-import org.springframework.data.repository.Repository;
 import org.springframework.test.context.TestExecutionListeners;
 import org.springframework.test.context.support.DependencyInjectionTestExecutionListener;
 import org.springframework.transaction.annotation.Transactional;
