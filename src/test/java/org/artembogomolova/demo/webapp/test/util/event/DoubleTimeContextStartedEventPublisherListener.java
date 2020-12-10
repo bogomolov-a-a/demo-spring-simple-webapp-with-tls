@@ -1,4 +1,4 @@
-package org.artembogomolova.demo.webapp.test.event;
+package org.artembogomolova.demo.webapp.test.util.event;
 
 import org.springframework.test.context.TestContext;
 

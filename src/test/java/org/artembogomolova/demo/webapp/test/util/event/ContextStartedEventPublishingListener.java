@@ -1,4 +1,4 @@
-package org.artembogomolova.demo.webapp.test.event;
+package org.artembogomolova.demo.webapp.test.util.event;
 
 import org.artembogomolova.demo.webapp.dao.repo.auth.IAuthorityRepository;
 import org.artembogomolova.demo.webapp.dao.repo.auth.IUserRepository;

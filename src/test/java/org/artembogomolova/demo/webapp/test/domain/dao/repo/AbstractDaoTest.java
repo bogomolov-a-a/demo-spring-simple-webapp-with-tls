@@ -20,6 +20,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Import;
 import org.springframework.data.repository.CrudRepository;
+import org.springframework.data.repository.Repository;
 import org.springframework.test.context.TestExecutionListeners;
 import org.springframework.test.context.support.DependencyInjectionTestExecutionListener;
 import org.springframework.transaction.annotation.Transactional;
@@ -28,15 +29,16 @@ import org.springframework.transaction.annotation.Transactional;
 @ComponentScan("org.artembogomolova.demo.webapp.test.domain.dao.repo")
 @Import({CustomHibernateValidatorConfiguration.class, ValidationConfig.class})
 @Slf4j
-public abstract class AbstractDaoTest<T extends IdentifiedEntity> extends AbstractDatabaseTest {
+public abstract class AbstractDaoTest<T extends IdentifiedEntity> extends AbstractDatabaseTest<T> {
 
+  private static final String TEST_CLASS_SUFFIX = "DaoTest";
   protected static final Comparator ID_COMPARATOR = Comparator.comparing(IdentifiedEntity::getId);
   @Autowired
   protected EntityModifier entityModifier;
   private Class<T> clazz;
 
   protected AbstractDaoTest(Class<T> clazz) {
-    this.clazz = clazz;
+    super(clazz, TEST_CLASS_SUFFIX);
   }
 
   @Test

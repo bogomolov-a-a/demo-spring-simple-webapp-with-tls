@@ -3,6 +3,7 @@ package org.artembogomolova.demo.webapp.test.domain.entity;
 import java.util.Arrays;
 import lombok.extern.slf4j.Slf4j;
 import org.artembogomolova.demo.webapp.domain.IdentifiedEntity;
+import org.artembogomolova.demo.webapp.test.AbstractClassTest;
 import org.artembogomolova.demo.webapp.validation.UniqueMultiColumn;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
@@ -12,16 +13,13 @@ import org.junit.jupiter.api.TestMethodOrder;
 
 @Slf4j
 @TestMethodOrder(value = OrderAnnotation.class)
-public abstract class AbstractAccessorEntityTest<T extends IdentifiedEntity> {
+public abstract class AbstractAccessorEntityTest<T extends IdentifiedEntity> extends
+    AbstractClassTest<T> {
 
   private static final String TEST_CLASS_SUFFIX = "EntityTest";
-  private Class<T> clazz;
 
   protected AbstractAccessorEntityTest(Class<T> clazz) {
-    this.clazz = clazz;
-    String exceptedTestClassName = clazz.getSimpleName() + TEST_CLASS_SUFFIX;
-    String actualTestClassName = this.getClass().getSimpleName();
-    Assertions.assertEquals(exceptedTestClassName, actualTestClassName, "wrong entity class pattern.");
+    super(clazz, TEST_CLASS_SUFFIX);
   }
 
   @Test
@@ -31,9 +29,9 @@ public abstract class AbstractAccessorEntityTest<T extends IdentifiedEntity> {
     printEntityAsString(buildStandardEntityAndAccessorTest());
     fullDuplicateEntityEqualTest(buildStandardEntityAndAccessorTest());
     withAnotherEntityEqualTest(buildStandardEntityAndAccessorTest());
-    UniqueMultiColumn multiColumnConstraint = clazz.getAnnotation(UniqueMultiColumn.class);
+    UniqueMultiColumn multiColumnConstraint = getTestingClass().getAnnotation(UniqueMultiColumn.class);
     if (multiColumnConstraint == null) {
-      log.warn("clazz {} has no multi column constraint. test passed!", clazz.getName());
+      log.warn("clazz {} has no multi column constraint. test passed!", getTestingClass().getName());
       return;
     }
     Arrays.asList(multiColumnConstraint.constraints()).forEach(
