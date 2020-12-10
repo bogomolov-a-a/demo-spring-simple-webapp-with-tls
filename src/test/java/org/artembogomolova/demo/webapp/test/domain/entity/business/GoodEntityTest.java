@@ -38,9 +38,6 @@ class GoodEntityTest extends AbstractAccessorEntityTest<Good> {
     if (result.getCategory() == null) {
       result.setCategory(DomainTestUtil.buildCategory1());
     }
-    if (result.getCategoryId() == null) {
-      result.setCategoryId(1L);
-    }
   }
 
   private void updateImageFilePath(Good result) {
