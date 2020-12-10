@@ -12,7 +12,7 @@ import javax.validation.Payload;
 @Constraint(validatedBy = UniqueMultiColumnConstraintValidator.class)
 @Target({ElementType.TYPE})
 @Retention(RetentionPolicy.RUNTIME)
-public @interface UniqueMultiColumnConstraint {
+public @interface UniqueMultiColumn {
 
   String VIOLATION_MESSAGE_TEMPLATE = "org.artembogomolova.demo.webapp.dao.validation.unique";
 
@@ -22,12 +22,12 @@ public @interface UniqueMultiColumnConstraint {
 
   Class<? extends Payload>[] payload() default {};
 
-  UniqueMultiColumnConstraintColumns[] constraints();
+  UniqueMultiColumnConstraint[] constraints();
 
   Class<?> repository();
 
 
-  @interface UniqueMultiColumnConstraintColumns {
+  @interface UniqueMultiColumnConstraint {
 
     String name();
 

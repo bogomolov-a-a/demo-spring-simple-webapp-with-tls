@@ -18,15 +18,15 @@ import org.artembogomolova.demo.webapp.validation.base.AbstractApplicationContex
 import org.springframework.beans.BeanUtils;
 import org.springframework.data.repository.CrudRepository;
 
-public class UniqueMultiColumnConstraintValidator extends AbstractApplicationContextConstraintValidator<UniqueMultiColumnConstraint, IdentifiedEntity> {
+public class UniqueMultiColumnConstraintValidator extends AbstractApplicationContextConstraintValidator<UniqueMultiColumn, IdentifiedEntity> {
 
   private Iterable<? extends IdentifiedEntity> allEntities;
-  private List<UniqueMultiColumnConstraintColumns> constraintList;
+  private List<UniqueMultiColumnConstraint> constraintList;
 
   private Class<?> clazzType;
 
   @Override
-  public void initialize(UniqueMultiColumnConstraint constraintAnnotation) {
+  public void initialize(UniqueMultiColumn constraintAnnotation) {
     clazzType = constraintAnnotation.repository();
     constraintList = Arrays.asList(constraintAnnotation.constraints());
   }
@@ -40,10 +40,10 @@ public class UniqueMultiColumnConstraintValidator extends AbstractApplicationCon
   }
 
   private boolean hasNoDuplicate(IdentifiedEntity identifiedEntity, ConstraintValidatorContext constraintValidatorContext) {
-    for (UniqueMultiColumnConstraintColumns constraint : constraintList) {
+    for (UniqueMultiColumnConstraint constraint : constraintList) {
       List<String> constraintColumnNames = Arrays.asList(constraint.value());
       if (!hasNoDuplicateByConstraint(identifiedEntity, constraintColumnNames)) {
-        String message = messageSource.getMessage(UniqueMultiColumnConstraint.VIOLATION_MESSAGE_TEMPLATE,
+        String message = messageSource.getMessage(UniqueMultiColumn.VIOLATION_MESSAGE_TEMPLATE,
             new Object[]{identifiedEntity.toString(), constraintColumnNames.toString()}, Locale.getDefault());
         constraintValidatorContext.buildConstraintViolationWithTemplate(message).addConstraintViolation();
         return false;

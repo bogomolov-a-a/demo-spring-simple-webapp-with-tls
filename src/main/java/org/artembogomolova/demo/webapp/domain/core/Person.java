@@ -20,8 +20,8 @@ import org.artembogomolova.demo.webapp.dao.repo.core.IPersonRepository;
 import org.artembogomolova.demo.webapp.domain.IdentifiedEntity;
 import org.artembogomolova.demo.webapp.domain.auth.User;
 import org.artembogomolova.demo.webapp.domain.business.Order;
-import org.artembogomolova.demo.webapp.validation.UniqueMultiColumnConstraint;
-import org.artembogomolova.demo.webapp.validation.UniqueMultiColumnConstraint.UniqueMultiColumnConstraintColumns;
+import org.artembogomolova.demo.webapp.validation.UniqueMultiColumn;
+import org.artembogomolova.demo.webapp.validation.UniqueMultiColumn.UniqueMultiColumnConstraint;
 
 @Entity
 @Table(name = "persons")
@@ -29,16 +29,15 @@ import org.artembogomolova.demo.webapp.validation.UniqueMultiColumnConstraint.Un
 @Setter
 @ToString(exclude = {"estateAddress", "orders", "user"})
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
-@UniqueMultiColumnConstraint(repository = IPersonRepository.class,
+@UniqueMultiColumn(repository = IPersonRepository.class,
     constraints = {
-        @UniqueMultiColumnConstraintColumns(name = Person.BASIC_CONSTRAINT_NAME,
+        @UniqueMultiColumnConstraint(name = IdentifiedEntity.BASIC_CONSTRAINT_NAME,
             value = {"name", "surname", "patronymic", "birthDate"}),
-        @UniqueMultiColumnConstraintColumns(name = Person.PHONE_CONSTRAINT_NAME,
+        @UniqueMultiColumnConstraint(name = Person.PHONE_CONSTRAINT_NAME,
             value = {"phone"})}
 )
 public class Person extends IdentifiedEntity {
 
-  public static final String BASIC_CONSTRAINT_NAME = "basicConstraint";
   public static final String PHONE_CONSTRAINT_NAME = "phoneConstraint";
   @EqualsAndHashCode.Include
   private String name;

@@ -23,14 +23,11 @@ import org.artembogomolova.demo.webapp.validation.UniqueMultiColumn.UniqueMultiC
 @Getter
 @ToString(exclude = {"goods", "actions"})
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
-@UniqueMultiColumnConstraint(repository = ICategoryRepository.class,
-    constraints = @UniqueMultiColumnConstraintColumns(name = Category.BASIC_CONSTRAINT_NAME,
-        value = {Category.NAME_FIELD_NAME, Category.PARENT_CATEGORY_ID_NAME}))
+@UniqueMultiColumn(repository = ICategoryRepository.class,
+    constraints = @UniqueMultiColumnConstraint(name = IdentifiedEntity.BASIC_CONSTRAINT_NAME,
+        value = {}))//{Category.NAME_FIELD_NAME, Category.PARENT_CATEGORY_ID_NAME}))
 public class Category extends IdentifiedEntity {
 
-  public static final String BASIC_CONSTRAINT_NAME = "basicConstraint";
-  public static final String NAME_FIELD_NAME = "name";
-  public static final String PARENT_CATEGORY_ID_NAME = "parentCategoryId";
   @Setter
   @EqualsAndHashCode.Include
   private String name;

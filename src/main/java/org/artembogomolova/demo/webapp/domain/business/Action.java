@@ -25,16 +25,13 @@ import org.artembogomolova.demo.webapp.validation.UniqueMultiColumn.UniqueMultiC
 @ToString(exclude = {"category", "goods"}, callSuper = true)
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
 @NoArgsConstructor
-@UniqueMultiColumnConstraint(repository = IActionRepository.class,
-    constraints = {@UniqueMultiColumnConstraintColumns(name = Action.BASIC_CONSTRAINT_NAME,
-        value = {Action.NAME_FIELD_NAME, Action.START_DATE_FIELD_NAME}
+@UniqueMultiColumn(repository = IActionRepository.class,
+    constraints = {@UniqueMultiColumnConstraint(name = IdentifiedEntity.BASIC_CONSTRAINT_NAME,
+        value = {}//{Action_.NAME_FIELD_NAME, Action_.START_DATE_FIELD_NAME}
     )}
 )
 public class Action extends IdentifiedEntity {
 
-  public static final String BASIC_CONSTRAINT_NAME = "basicConstraint";
-  public static final String NAME_FIELD_NAME = "name";
-  public static final String START_DATE_FIELD_NAME = "startDate";
   @Setter
   @EqualsAndHashCode.Include
   private String name;
@@ -53,8 +50,6 @@ public class Action extends IdentifiedEntity {
   @JoinColumn(name = "category_id", columnDefinition = "bigint")
   @Setter
   private Category category;
-  /*@OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, mappedBy = "action")
-  private List<Good> goods = new ArrayList<>();*/
   @Column(name = "category_id", columnDefinition = "bigint", insertable = false, updatable = false)
   @Setter
   private Long categoryId;
@@ -68,13 +63,9 @@ public class Action extends IdentifiedEntity {
     this.setDiscountPercent(copyingEntity.getDiscountPercent());
     this.setStartDate(copyingEntity.getStartDate());
     this.setEndDate(copyingEntity.getEndDate());
-    if(copyingEntity.getCategory()!=null) {
+    if (copyingEntity.getCategory() != null) {
       this.setCategory(new Category(copyingEntity.getCategory()));
     }
-    copyingEntity.getGoods().forEach(good->
-    {
-      this.goods.add(new Good(good));
-    });
   }
 
   public Date getStartDate() {

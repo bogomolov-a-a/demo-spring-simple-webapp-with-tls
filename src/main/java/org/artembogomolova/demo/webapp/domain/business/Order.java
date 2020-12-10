@@ -35,7 +35,7 @@ public class Order extends IdentifiedEntity {
   @Column(insertable = false)
   private Date orderDate;
   @Temporal(TemporalType.TIMESTAMP)
-  private Date deliverDate;
+  private Date deliveryDate;
   private String orderAddressPlain;
   @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REMOVE, CascadeType.DETACH})
   @JoinColumn(name = "order_address_id", columnDefinition = "bigint")
