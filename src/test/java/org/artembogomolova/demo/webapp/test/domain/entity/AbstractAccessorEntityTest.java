@@ -2,6 +2,8 @@ package org.artembogomolova.demo.webapp.test.domain.entity;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.function.BiConsumer;
+import java.util.function.Function;
 import lombok.extern.slf4j.Slf4j;
 import org.artembogomolova.demo.webapp.domain.IdentifiedEntity;
 import org.artembogomolova.demo.webapp.test.AbstractClassTest;
@@ -80,6 +82,7 @@ public abstract class AbstractAccessorEntityTest<T extends IdentifiedEntity> ext
     }
     log.info("transitive equal test started");
     log.info("testing entity: {}", standardEntity);
+    containFieldCorrectValuesTest(standardEntity);
     Assertions.assertEquals(standardEntity, standardEntity);
     Assertions.assertNotEquals(standardEntity, new Object());
     Assertions.assertNotEquals(standardEntity, null);
@@ -87,20 +90,25 @@ public abstract class AbstractAccessorEntityTest<T extends IdentifiedEntity> ext
     log.info("transitive equal test passed");
   }
 
+  protected void containFieldCorrectValuesTest(T standardEntity) {
+    throw new UnsupportedOperationException("not implemented yet!");
+  }
+
   private void printEntityAsString(T standardEntity) {
-    log.info("standard entity: {}" ,standardEntity.toString());
+    log.info("standard entity: {}", standardEntity.toString());
   }
 
   protected abstract T buildStandardEntity();
 
-  private void fullDuplicateEntityEqualTest(T standardEntity) {
+  private T fullDuplicateEntityEqualTest(T standardEntity) {
     log.info("full duplicate test started. Only natural key fields!");
-    T entity = buildDuplicateEntity(standardEntity);
+    T result = buildDuplicateEntity(standardEntity);
     log.info("testing entity: {}", standardEntity);
-    log.info("testing duplicate entity: {}", entity);
-    Assertions.assertEquals(standardEntity, entity);
-    Assertions.assertEquals(standardEntity.hashCode(), entity.hashCode());
+    log.info("testing duplicate entity: {}", result);
+    Assertions.assertEquals(standardEntity, result);
+    Assertions.assertEquals(standardEntity.hashCode(), result.hashCode());
     log.info("full duplicate test passed. ");
+    return result;
   }
 
   protected abstract T buildDuplicateEntity(T standardEntity);
@@ -119,4 +127,49 @@ public abstract class AbstractAccessorEntityTest<T extends IdentifiedEntity> ext
   protected abstract T buildAnotherEntityForTest();
 
   protected abstract void withoutPartOfUniqueConstraintEqualTest(T standardEntity, String constraintName, String columnName);
+
+  protected final <U> void withoutColumnEqualTest(T entity,
+      Function<T, U> getter,
+      BiConsumer<T, U> setter) {
+    T duplicateEntity = fullDuplicateEntityEqualTest(entity);
+    setNullFieldValueAndNotEquals(duplicateEntity,
+        entity,
+        setter);
+    exchangeDupStandardFieldNullValueAndNotEquals(duplicateEntity,
+        entity,
+        getter,
+        setter);
+    setNullFieldValueAndEquals(duplicateEntity,
+        entity,
+        setter);
+  }
+
+  private <U> void setNullFieldValueAndEquals(T duplicateEntity,
+      T entity,
+      BiConsumer<T, U> setter) {
+    setter.accept(duplicateEntity, null);
+    Assertions.assertEquals(entity, duplicateEntity);
+    Assertions.assertEquals(duplicateEntity, entity);
+    Assertions.assertEquals(entity.hashCode(), duplicateEntity.hashCode());
+  }
+
+  private <U> void exchangeDupStandardFieldNullValueAndNotEquals(T duplicateEntity,
+      T entity,
+      Function<T, U> getter,
+      BiConsumer<T, U> setter) {
+    setter.accept(duplicateEntity, getter.apply(entity));
+    setter.accept(entity, null);
+    Assertions.assertNotEquals(entity, duplicateEntity);
+    Assertions.assertNotEquals(duplicateEntity, entity);
+    Assertions.assertNotEquals(entity.hashCode(), duplicateEntity.hashCode());
+  }
+
+  private <U> void setNullFieldValueAndNotEquals(T duplicateEntity,
+      T entity,
+      BiConsumer<T, U> setter) {
+    setter.accept(duplicateEntity, null);
+    Assertions.assertNotEquals(entity, duplicateEntity);
+    Assertions.assertNotEquals(duplicateEntity, entity);
+    Assertions.assertNotEquals(entity.hashCode(), duplicateEntity.hashCode());
+  }
 }
