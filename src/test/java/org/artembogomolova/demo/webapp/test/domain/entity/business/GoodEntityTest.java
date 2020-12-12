@@ -13,14 +13,7 @@ class GoodEntityTest extends AbstractAccessorEntityTest<Good> {
   }
 
   @Override
-  protected void availableConstraint(String constraintName) {
-    if (!Good.BASIC_CONSTRAINT_NAME.equals(constraintName)) {
-      throw new IllegalArgumentException("constraintName must be only '" + Good.BASIC_CONSTRAINT_NAME + "'");
-    }
-  }
-
-  @Override
-  protected Good buildStandardEntityAndAccessorTest() {
+  protected Good buildStandardEntity() {
     Good result = new Good();
     updateNameAndDescription(result);
     // updateQuantityAndPrice(result);

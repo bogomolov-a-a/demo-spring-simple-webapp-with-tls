@@ -11,13 +11,9 @@ class TicketEntityTest extends AbstractAccessorEntityTest<Ticket> {
     super(Ticket.class);
   }
 
-  @Override
-  protected void availableConstraint(String constraintName) {
-
-  }
 
   @Override
-  protected Ticket buildStandardEntityAndAccessorTest() {
+  protected Ticket buildStandardEntity() {
     return null;
   }
 

@@ -12,12 +12,7 @@ class OrderGoodEntityTest extends AbstractAccessorEntityTest<OrderGood> {
   }
 
   @Override
-  protected void availableConstraint(String constraintName) {
-
-  }
-
-  @Override
-  protected OrderGood buildStandardEntityAndAccessorTest() {
+  protected OrderGood buildStandardEntity() {
     return null;
   }
 

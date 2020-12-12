@@ -11,13 +11,9 @@ class ProducerEntityTest extends AbstractAccessorEntityTest<Producer> {
     super(Producer.class);
   }
 
-  @Override
-  protected void availableConstraint(String constraintName) {
-
-  }
 
   @Override
-  protected Producer buildStandardEntityAndAccessorTest() {
+  protected Producer buildStandardEntity() {
     return null;
   }
 

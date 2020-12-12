@@ -11,13 +11,9 @@ class StockGoodEntityTest extends AbstractAccessorEntityTest<StockGood> {
     super(StockGood.class);
   }
 
-  @Override
-  protected void availableConstraint(String constraintName) {
-
-  }
 
   @Override
-  protected StockGood buildStandardEntityAndAccessorTest() {
+  protected StockGood buildStandardEntity() {
     return null;
   }
 

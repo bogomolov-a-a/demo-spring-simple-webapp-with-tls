@@ -17,7 +17,7 @@ class CategoryEntityTest extends AbstractAccessorEntityTest<Category> {
   }
 
   @Override
-  protected Category buildStandardEntityAndAccessorTest() {
+  protected Category buildStandardEntity() {
     Category result = new Category();
     updateSimpleField(result);
     result.getGoods().add(DomainTestUtil.buildTestGood());
@@ -41,13 +41,6 @@ class CategoryEntityTest extends AbstractAccessorEntityTest<Category> {
   @Override
   protected Category buildAnotherEntityForTest() {
     return DomainTestUtil.buildCategory1();
-  }
-
-  @Override
-  protected void availableConstraint(String constraintName) {
-    if (!Category.BASIC_CONSTRAINT_NAME.equals(constraintName)) {
-      throw new IllegalArgumentException("constraintName must be only '" + Category.BASIC_CONSTRAINT_NAME + "'");
-    }
   }
 
   @Override

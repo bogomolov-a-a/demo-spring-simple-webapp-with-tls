@@ -12,12 +12,7 @@ class OrderEntityTest extends AbstractAccessorEntityTest<Order> {
   }
 
   @Override
-  protected void availableConstraint(String constraintName) {
-
-  }
-
-  @Override
-  protected Order buildStandardEntityAndAccessorTest() {
+  protected Order buildStandardEntity() {
     return null;
   }
 

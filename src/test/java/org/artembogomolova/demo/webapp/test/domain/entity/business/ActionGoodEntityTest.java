@@ -11,13 +11,9 @@ class ActionGoodEntityTest extends AbstractAccessorEntityTest<ActionGood> {
     super(ActionGood.class);
   }
 
-  @Override
-  protected void availableConstraint(String constraintName) {
-
-  }
 
   @Override
-  protected ActionGood buildStandardEntityAndAccessorTest() {
+  protected ActionGood buildStandardEntity() {
     return null;
   }
 

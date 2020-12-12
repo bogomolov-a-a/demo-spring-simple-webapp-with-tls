@@ -12,12 +12,7 @@ class AuthorityEntityTest extends AbstractAccessorEntityTest<Authority> {
   }
 
   @Override
-  protected void availableConstraint(String constraintName) {
-
-  }
-
-  @Override
-  protected Authority buildStandardEntityAndAccessorTest() {
+  protected Authority buildStandardEntity() {
     return null;
   }
 

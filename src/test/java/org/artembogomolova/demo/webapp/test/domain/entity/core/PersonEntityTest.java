@@ -10,14 +10,10 @@ class PersonEntityTest extends AbstractAccessorEntityTest<Person> {
   PersonEntityTest() {
     super(Person.class);
   }
+  
 
   @Override
-  protected void availableConstraint(String constraintName) {
-
-  }
-
-  @Override
-  protected Person buildStandardEntityAndAccessorTest() {
+  protected Person buildStandardEntity() {
     return null;
   }
 

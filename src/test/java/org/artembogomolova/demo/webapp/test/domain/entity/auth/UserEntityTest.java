@@ -12,12 +12,7 @@ class UserEntityTest extends AbstractAccessorEntityTest<User> {
   }
 
   @Override
-  protected void availableConstraint(String constraintName) {
-
-  }
-
-  @Override
-  protected User buildStandardEntityAndAccessorTest() {
+  protected User buildStandardEntity() {
     return null;
   }
 

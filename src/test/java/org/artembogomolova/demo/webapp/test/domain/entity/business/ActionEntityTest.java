@@ -19,7 +19,7 @@ class ActionEntityTest extends AbstractAccessorEntityTest<Action> {
   }
 
   @Override
-  protected Action buildStandardEntityAndAccessorTest() {
+  protected Action buildStandardEntity() {
     Action result = new Action();
     updateNameAndDescription(result);
     updateDiscountInfo(result);
@@ -73,13 +73,6 @@ class ActionEntityTest extends AbstractAccessorEntityTest<Action> {
   @Override
   protected Action buildAnotherEntityForTest() {
     return DomainTestUtil.buildCategoryAction();
-  }
-
-  @Override
-  protected void availableConstraint(String constraintName) {
-    if (!Action.BASIC_CONSTRAINT_NAME.equals(constraintName)) {
-      throw new IllegalArgumentException("constraintName must be only '" + Action.BASIC_CONSTRAINT_NAME + "'");
-    }
   }
 
   @Override
