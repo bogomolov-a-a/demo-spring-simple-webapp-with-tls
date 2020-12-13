@@ -19,7 +19,7 @@ class ProducerDaoTest extends AbstractDaoTest<Producer> {
   private IProducerRepository producerRepository;
 
   ProducerDaoTest() {
-    super(Producer.class);
+    super(Producer.class, Producer::new);
   }
 
   @Override

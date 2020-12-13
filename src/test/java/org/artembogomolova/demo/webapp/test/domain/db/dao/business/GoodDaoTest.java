@@ -29,7 +29,7 @@ class GoodDaoTest extends AbstractDaoTest<Good> {
   private ICategoryRepository categoryRepository;
 
   GoodDaoTest() {
-    super(Good.class);
+    super(Good.class, Good::new);
   }
 
   @Override

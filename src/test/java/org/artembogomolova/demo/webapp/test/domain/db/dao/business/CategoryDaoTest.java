@@ -19,7 +19,7 @@ public class CategoryDaoTest extends AbstractDaoTest<Category> {
   private ICategoryRepository categoryRepository;
 
   protected CategoryDaoTest() {
-    super(Category.class);
+    super(Category.class, Category::new);
   }
 
   @Override

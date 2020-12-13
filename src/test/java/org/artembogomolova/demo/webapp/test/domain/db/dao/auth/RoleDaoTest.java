@@ -12,7 +12,7 @@ import org.springframework.data.repository.CrudRepository;
 class RoleDaoTest extends AbstractDaoTest<Role> {
 
   RoleDaoTest() {
-    super(Role.class);
+    super(Role.class, Role::new);
   }
 
   @Override

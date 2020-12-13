@@ -12,7 +12,7 @@ import org.springframework.data.repository.CrudRepository;
 class ActionGoodDaoTest extends AbstractDaoTest<ActionGood> {
 
   ActionGoodDaoTest() {
-    super(ActionGood.class);
+    super(ActionGood.class, ActionGood::new);
   }
 
   @Override

@@ -23,7 +23,7 @@ public class ActionDaoTest extends AbstractDaoTest<Action> {
   private IActionRepository actionRepository;
 
   ActionDaoTest() {
-    super(Action.class);
+    super(Action.class, Action::new);
   }
 
   @Override

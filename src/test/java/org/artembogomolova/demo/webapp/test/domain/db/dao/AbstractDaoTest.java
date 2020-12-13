@@ -6,8 +6,10 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.function.Supplier;
 import javax.validation.ConstraintViolation;
 import javax.validation.ConstraintViolationException;
+import javax.validation.Validator;
 import lombok.extern.slf4j.Slf4j;
 import org.artembogomolova.demo.webapp.config.CustomHibernateValidatorConfiguration;
 import org.artembogomolova.demo.webapp.config.ValidationConfig;
@@ -24,7 +26,7 @@ import org.springframework.context.annotation.Import;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.transaction.annotation.Transactional;
 
-@ComponentScan("org.artembogomolova.demo.webapp.test.domain.dao.repo")
+@ComponentScan("org.artembogomolova.demo.webapp.test.domain.db.dao")
 @Import({CustomHibernateValidatorConfiguration.class, ValidationConfig.class})
 @Slf4j
 public abstract class AbstractDaoTest<T extends IdentifiedEntity> extends AbstractDatabaseTest<T> {
@@ -32,12 +34,16 @@ public abstract class AbstractDaoTest<T extends IdentifiedEntity> extends Abstra
   private static final String TEST_CLASS_NAME_SUFFIX = "DaoTest";
   private static final String TEST_CLASS_DISPLAY_NAME_PREFIX = "Dao test: ";
   protected static final Comparator ID_COMPARATOR = Comparator.comparing(IdentifiedEntity::getId);
+  private final Supplier<T> constructor;
   @Autowired
   protected EntityModifier entityModifier;
-  private Class<T> clazz;
+  @Autowired
+  private Validator validator;
 
-  protected AbstractDaoTest(Class<T> clazz) {
+  protected AbstractDaoTest(Class<T> clazz,
+      Supplier<T> constructor) {
     super(clazz, TEST_CLASS_NAME_SUFFIX, TEST_CLASS_DISPLAY_NAME_PREFIX);
+    this.constructor = constructor;
   }
 
   @Test
@@ -94,7 +100,7 @@ public abstract class AbstractDaoTest<T extends IdentifiedEntity> extends Abstra
   @Transactional
   @DisplayName("Testing for constraint violation exception for duplicate entity creating by unique constraint.")
   void duplicateDeniedTest() {
-    UniqueMultiColumn uniqueMultiColumn = clazz.getAnnotation(UniqueMultiColumn.class);
+    UniqueMultiColumn uniqueMultiColumn = getTestingClass().getAnnotation(UniqueMultiColumn.class);
     if (uniqueMultiColumn == null) {
       log.info("entity has no multi column constraint. passed!");
       return;
@@ -170,6 +176,7 @@ public abstract class AbstractDaoTest<T extends IdentifiedEntity> extends Abstra
   }
 
   protected abstract T doDuplicateDeniedTestEntity(UniqueMultiColumnConstraint columns, Map<String, Object> commonValues);
+
   @Test
   @DisplayName("validator without violations test")
   void validatorTest() {
@@ -177,16 +184,19 @@ public abstract class AbstractDaoTest<T extends IdentifiedEntity> extends Abstra
     Assertions.assertTrue(violations.isEmpty(), "entity has following violations: " + violations.toString());
   }
 
-  protected abstract T buildEntityWithoutViolationEntity();
+  protected T buildEntityWithoutViolationEntity() {
+    return constructor.get();
+  }
 
   @Test
-  @DisplayName("validator right test")
+  @DisplayName("validator  with violations test")
   void validatorWithViolationTest() {
     Set<ConstraintViolation<T>> violations = validator.validate(buildWithViolationEntity());
-    Assertions.assertFalse(violations.isEmpty(), "entity has following violations: " + violations.toString());
+    log.info("entity has following violations: " + violations.toString());
+    Assertions.assertFalse(violations.isEmpty(), "entity has no violations!");
   }
 
   protected T buildWithViolationEntity() {
-    throw new UnsupportedOperationException("not implement yet!");
+    return constructor.get();
   }
 }

@@ -12,7 +12,7 @@ import org.springframework.data.repository.CrudRepository;
 class TicketDaoTest extends AbstractDaoTest<Ticket> {
 
   TicketDaoTest() {
-    super(Ticket.class);
+    super(Ticket.class, Ticket::new);
   }
 
   @Override

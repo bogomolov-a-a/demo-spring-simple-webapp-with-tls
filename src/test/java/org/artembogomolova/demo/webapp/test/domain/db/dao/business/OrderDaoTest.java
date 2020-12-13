@@ -19,7 +19,7 @@ class OrderDaoTest extends AbstractDaoTest<Order> {
   private IOrderRepository orderRepository;
 
   OrderDaoTest() {
-    super(Order.class);
+    super(Order.class, Order::new);
   }
 
   @Override

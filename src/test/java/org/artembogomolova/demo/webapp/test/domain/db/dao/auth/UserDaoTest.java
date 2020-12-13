@@ -11,8 +11,8 @@ import org.springframework.data.repository.CrudRepository;
 @DisplayName("Dao test: User")
 class UserDaoTest extends AbstractDaoTest<User> {
 
-   UserDaoTest() {
-    super(User.class);
+  UserDaoTest() {
+    super(User.class, User::new);
   }
 
   @Override

@@ -16,7 +16,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.repository.CrudRepository;
 
 @DisplayName("Dao test: Person")
-class PersonRepositoryTest extends AbstractDaoTest<Person> {
+class PersonDaoTest extends AbstractDaoTest<Person> {
 
   @Autowired
   private IPersonRepository personRepository;
@@ -25,8 +25,8 @@ class PersonRepositoryTest extends AbstractDaoTest<Person> {
   @Autowired
   private IOrderRepository orderRepository;
 
-  PersonRepositoryTest() {
-    super(Person.class);
+  PersonDaoTest() {
+    super(Person.class, Person::new);
   }
 
   @Override

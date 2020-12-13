@@ -12,7 +12,7 @@ import org.springframework.data.repository.CrudRepository;
 class OrderPositionDaoTest extends AbstractDaoTest<OrderPosition> {
 
   OrderPositionDaoTest() {
-    super(OrderPosition.class);
+    super(OrderPosition.class, OrderPosition::new);
   }
 
   @Override
