@@ -84,7 +84,6 @@
         <configuration>
           <encoding>${project.build.sourceEncoding}</encoding>
           <addOutputDirectory>false</addOutputDirectory>
-          <verbose>true</verbose>
         </configuration>
       </plugin>
       <plugin>
@@ -308,6 +307,11 @@
     <dependency>
       <artifactId>httpclient</artifactId>
       <groupId>org.apache.httpcomponents</groupId>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.apache.commons</groupId>
+      <artifactId>commons-lang3</artifactId>
       <scope>test</scope>
     </dependency>
     <!--end tests-->

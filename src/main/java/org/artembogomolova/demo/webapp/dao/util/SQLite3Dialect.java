@@ -10,18 +10,20 @@ import org.hibernate.type.StringType;
 /**
  * from https://fullstackdeveloper.guru/2020/05/01/how-to-integrate-sqlite-database-with-spring-boot/
  */
-public class SQLLiteDialect extends Dialect {
+public class SQLite3Dialect extends Dialect {
 
   private static final String SUBSTRING_FUNCTION = "substr";
   private static final String INTEGER_TYPE = "integer";
   private static final String BLOB_TYPE = "blob";
+  public static final String FOREIGN_KEY_COLUMN_DEFINITION = "bigint";
+  public static final String IDENTITY_COLUMN_DEFINITION = "integer not null primary key autoincrement";
 
-  public SQLLiteDialect() {
+  public SQLite3Dialect() {
     registerColumnType(Types.BIT, INTEGER_TYPE);
     registerColumnType(Types.TINYINT, "tinyint");
     registerColumnType(Types.SMALLINT, "smallint");
     registerColumnType(Types.INTEGER, INTEGER_TYPE);
-    registerColumnType(Types.BIGINT, "bigint");
+    registerColumnType(Types.BIGINT, FOREIGN_KEY_COLUMN_DEFINITION);
     registerColumnType(Types.FLOAT, "float");
     registerColumnType(Types.REAL, "real");
     registerColumnType(Types.DOUBLE, "double");
