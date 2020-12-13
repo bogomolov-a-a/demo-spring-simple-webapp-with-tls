@@ -15,6 +15,7 @@ import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
+import org.artembogomolova.demo.webapp.dao.util.SQLite3Dialect;
 import org.artembogomolova.demo.webapp.domain.IdentifiedEntity;
 
 @Entity
@@ -28,8 +29,8 @@ public class Role extends IdentifiedEntity {
   private String name;
   @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
   @JoinTable(name = "role_authorities",
-      joinColumns = {@JoinColumn(name = "role_id", columnDefinition = "bigint")},
-      inverseJoinColumns = {@JoinColumn(name = "authority_id", columnDefinition = "bigint")})
+      joinColumns = {@JoinColumn(name = "role_id", columnDefinition = SQLite3Dialect.FOREIGN_KEY_COLUMN_DEFINITION)},
+      inverseJoinColumns = {@JoinColumn(name = "authority_id", columnDefinition = SQLite3Dialect.FOREIGN_KEY_COLUMN_DEFINITION)})
   private List<Authority> authorities = new ArrayList<>();
 
   @OneToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REMOVE, CascadeType.DETACH}, orphanRemoval = true, mappedBy = "role")

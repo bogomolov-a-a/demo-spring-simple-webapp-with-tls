@@ -11,6 +11,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
+import org.artembogomolova.demo.webapp.dao.util.SQLite3Dialect;
 
 @MappedSuperclass
 @ToString
@@ -23,7 +24,7 @@ public class IdentifiedEntity implements Serializable {
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   @Basic
-  @Column(columnDefinition = "integer not null primary key autoincrement")
+  @Column(columnDefinition = SQLite3Dialect.IDENTITY_COLUMN_DEFINITION)
   private Long id;
 
   public IdentifiedEntity(IdentifiedEntity copyingEntity) {

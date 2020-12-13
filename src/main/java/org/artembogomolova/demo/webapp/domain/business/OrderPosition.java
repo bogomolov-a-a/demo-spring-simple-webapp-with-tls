@@ -10,6 +10,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
+import org.artembogomolova.demo.webapp.dao.util.SQLite3Dialect;
 import org.artembogomolova.demo.webapp.domain.IdentifiedEntity;
 
 @Entity
@@ -22,10 +23,10 @@ import org.artembogomolova.demo.webapp.domain.IdentifiedEntity;
 public class OrderPosition extends IdentifiedEntity {
 
   @ManyToOne()
-  @JoinColumn(name = "order_id", columnDefinition = "bigint")
+  @JoinColumn(name = "order_id", columnDefinition = SQLite3Dialect.FOREIGN_KEY_COLUMN_DEFINITION)
   private Order order;
   @OneToOne()
-  @JoinColumn(name = "order_goods_id", columnDefinition = "bigint")
+  @JoinColumn(name = "order_goods_id", columnDefinition = SQLite3Dialect.FOREIGN_KEY_COLUMN_DEFINITION)
   private OrderGood orderGood;
 
 }

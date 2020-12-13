@@ -15,6 +15,7 @@ import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
+import org.artembogomolova.demo.webapp.dao.util.SQLite3Dialect;
 import org.artembogomolova.demo.webapp.domain.IdentifiedEntity;
 import org.artembogomolova.demo.webapp.domain.core.Person;
 
@@ -31,16 +32,16 @@ public class User extends IdentifiedEntity {
   private String clientCertificateData;
   private String avatar;
   @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.DETACH, CascadeType.MERGE, CascadeType.REMOVE})
-  @JoinColumn(name = "role_id", columnDefinition = "bigint")
+  @JoinColumn(name = "role_id", columnDefinition = SQLite3Dialect.FOREIGN_KEY_COLUMN_DEFINITION)
   private Role role;
   @Column(insertable = false)
   private Boolean active;
   @OneToOne(cascade = {CascadeType.PERSIST, CascadeType.DETACH, CascadeType.MERGE, CascadeType.REMOVE}, orphanRemoval = true)
-  @JoinColumn(name = "person_id", columnDefinition = "bigint")
+  @JoinColumn(name = "person_id", columnDefinition = SQLite3Dialect.FOREIGN_KEY_COLUMN_DEFINITION)
   private Person person;
   @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.DETACH, CascadeType.MERGE, CascadeType.REMOVE})
   @JoinTable(name = "block_authorities",
-      joinColumns = {@JoinColumn(name = "user_id", columnDefinition = "bigint")},
-      inverseJoinColumns = {@JoinColumn(name = "authority_id", columnDefinition = "bigint")})
+      joinColumns = {@JoinColumn(name = "user_id", columnDefinition = SQLite3Dialect.FOREIGN_KEY_COLUMN_DEFINITION)},
+      inverseJoinColumns = {@JoinColumn(name = "authority_id", columnDefinition = SQLite3Dialect.FOREIGN_KEY_COLUMN_DEFINITION)})
   private List<Authority> blockAuthorities = new ArrayList<>();
 }

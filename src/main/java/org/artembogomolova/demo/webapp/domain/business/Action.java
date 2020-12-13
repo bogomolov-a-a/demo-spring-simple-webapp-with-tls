@@ -15,6 +15,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 import org.artembogomolova.demo.webapp.dao.repo.business.IActionRepository;
+import org.artembogomolova.demo.webapp.dao.util.SQLite3Dialect;
 import org.artembogomolova.demo.webapp.domain.IdentifiedEntity;
 import org.artembogomolova.demo.webapp.validation.UniqueMultiColumn;
 import org.artembogomolova.demo.webapp.validation.UniqueMultiColumn.UniqueMultiColumnConstraint;
@@ -47,10 +48,10 @@ public class Action extends IdentifiedEntity {
   @Setter
   private Float discountPercent;
   @OneToOne(cascade = {CascadeType.ALL})
-  @JoinColumn(name = "category_id", columnDefinition = "bigint")
+  @JoinColumn(name = "category_id", columnDefinition = SQLite3Dialect.FOREIGN_KEY_COLUMN_DEFINITION)
   @Setter
   private Category category;
-  @Column(name = "category_id", columnDefinition = "bigint", insertable = false, updatable = false)
+  @Column(name = "category_id", columnDefinition = SQLite3Dialect.FOREIGN_KEY_COLUMN_DEFINITION, insertable = false, updatable = false)
   @Setter
   private Long categoryId;
 

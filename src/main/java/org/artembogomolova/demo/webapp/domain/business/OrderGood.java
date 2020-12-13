@@ -8,6 +8,7 @@ import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.artembogomolova.demo.webapp.dao.util.SQLite3Dialect;
 import org.artembogomolova.demo.webapp.domain.IdentifiedEntity;
 
 @Entity
@@ -21,6 +22,6 @@ public class OrderGood extends IdentifiedEntity {
   private Float quantity = 0f;
   private Float effectivePrice;
   @ManyToOne()
-  @JoinColumn(name = "good_id", columnDefinition = "bigint")
+  @JoinColumn(name = "good_id", columnDefinition = SQLite3Dialect.FOREIGN_KEY_COLUMN_DEFINITION)
   private Good good;
 }

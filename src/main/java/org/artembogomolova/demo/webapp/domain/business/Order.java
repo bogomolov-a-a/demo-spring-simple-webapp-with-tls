@@ -17,6 +17,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
+import org.artembogomolova.demo.webapp.dao.util.SQLite3Dialect;
 import org.artembogomolova.demo.webapp.domain.IdentifiedEntity;
 import org.artembogomolova.demo.webapp.domain.core.Person;
 import org.artembogomolova.demo.webapp.domain.core.PhysicalAddress;
@@ -37,7 +38,7 @@ public class Order extends IdentifiedEntity {
   private Date deliveryDate;
   private String orderAddressPlain;
   @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REMOVE, CascadeType.DETACH})
-  @JoinColumn(name = "order_address_id", columnDefinition = "bigint")
+  @JoinColumn(name = "order_address_id", columnDefinition = SQLite3Dialect.FOREIGN_KEY_COLUMN_DEFINITION)
   private PhysicalAddress address;
   private String description;
   @Column(columnDefinition = "integer")
@@ -47,7 +48,7 @@ public class Order extends IdentifiedEntity {
   @OneToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.DETACH, CascadeType.REMOVE}, mappedBy = "order", orphanRemoval = true)
   private List<OrderPosition> orderPositions = new ArrayList<>();
   @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.DETACH, CascadeType.REMOVE})
-  @JoinColumn(name = "person_id", columnDefinition = "bigint")
+  @JoinColumn(name = "person_id", columnDefinition = SQLite3Dialect.FOREIGN_KEY_COLUMN_DEFINITION)
   private Person person;
 
   public Date getOrderDate() {
