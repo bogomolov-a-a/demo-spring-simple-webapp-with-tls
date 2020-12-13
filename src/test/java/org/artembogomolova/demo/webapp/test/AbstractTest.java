@@ -1,7 +1,15 @@
 package org.artembogomolova.demo.webapp.test;
 
 import java.lang.reflect.Method;
-import java.util.Arrays;
+import java.util.ArrayList;
+import java.util.List;
+import javax.validation.Validation;
+import javax.validation.Validator;
+import javax.validation.ValidatorFactory;
+import org.apache.commons.lang3.reflect.MethodUtils;
+import org.junit.jupiter.api.AfterAll;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.MethodOrderer.OrderAnnotation;
 import org.junit.jupiter.api.RepeatedTest;
@@ -9,9 +17,15 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestFactory;
 import org.junit.jupiter.api.TestMethodOrder;
 import org.junit.jupiter.params.ParameterizedTest;
+import org.springframework.test.context.TestExecutionListeners;
+import org.springframework.test.context.support.DependencyInjectionTestExecutionListener;
 
 @TestMethodOrder(value = OrderAnnotation.class)
+@TestExecutionListeners(value = {DependencyInjectionTestExecutionListener.class})
 public abstract class AbstractTest {
+
+  private static ValidatorFactory validatorFactory;
+  protected static Validator validator;
 
   protected AbstractTest() {
     Class<? extends AbstractTest> testingClass = this.getClass();
@@ -19,7 +33,9 @@ public abstract class AbstractTest {
     if (classDisplayName == null) {
       throw new IllegalStateException("Test class must be have " + DisplayName.class.getName() + " annotation with test description!");
     }
-    Arrays.stream(testingClass.getMethods()).filter(this::testMethodAvailable).forEach(
+    List<Method> testMethodList = buildTestMethodList(testingClass);
+    Assertions.assertFalse(testMethodList.isEmpty(), "test methods not found!");
+    testMethodList.forEach(
         method ->
         {
           DisplayName methodDisplayName = method.getAnnotation(DisplayName.class);
@@ -30,10 +46,13 @@ public abstract class AbstractTest {
     );
   }
 
-  private boolean testMethodAvailable(Method method) {
-    return method.isAnnotationPresent(Test.class) ||
-        method.isAnnotationPresent(RepeatedTest.class) ||
-        method.isAnnotationPresent(ParameterizedTest.class) ||
-        method.isAnnotationPresent(TestFactory.class);
+  private List<Method> buildTestMethodList(Class<? extends AbstractTest> testingClass) {
+    List<Method> result = new ArrayList<>();
+    result.addAll(MethodUtils.getMethodsListWithAnnotation(testingClass, Test.class, true, true));
+    result.addAll(MethodUtils.getMethodsListWithAnnotation(testingClass, RepeatedTest.class, true, true));
+    result.addAll(MethodUtils.getMethodsListWithAnnotation(testingClass, ParameterizedTest.class, true, true));
+    result.addAll(MethodUtils.getMethodsListWithAnnotation(testingClass, TestFactory.class, true, true));
+    return result;
   }
+
 }

@@ -5,6 +5,8 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
+import javax.validation.ConstraintViolation;
 import javax.validation.ConstraintViolationException;
 import lombok.extern.slf4j.Slf4j;
 import org.artembogomolova.demo.webapp.config.CustomHibernateValidatorConfiguration;
@@ -20,11 +22,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Import;
 import org.springframework.data.repository.CrudRepository;
-import org.springframework.test.context.TestExecutionListeners;
-import org.springframework.test.context.support.DependencyInjectionTestExecutionListener;
 import org.springframework.transaction.annotation.Transactional;
 
-@TestExecutionListeners(value = {DependencyInjectionTestExecutionListener.class})
 @ComponentScan("org.artembogomolova.demo.webapp.test.domain.dao.repo")
 @Import({CustomHibernateValidatorConfiguration.class, ValidationConfig.class})
 @Slf4j
@@ -171,5 +170,23 @@ public abstract class AbstractDaoTest<T extends IdentifiedEntity> extends Abstra
   }
 
   protected abstract T doDuplicateDeniedTestEntity(UniqueMultiColumnConstraint columns, Map<String, Object> commonValues);
+  @Test
+  @DisplayName("validator without violations test")
+  void validatorTest() {
+    Set<ConstraintViolation<T>> violations = validator.validate(buildEntityWithoutViolationEntity());
+    Assertions.assertTrue(violations.isEmpty(), "entity has following violations: " + violations.toString());
+  }
 
+  protected abstract T buildEntityWithoutViolationEntity();
+
+  @Test
+  @DisplayName("validator right test")
+  void validatorWithViolationTest() {
+    Set<ConstraintViolation<T>> violations = validator.validate(buildWithViolationEntity());
+    Assertions.assertFalse(violations.isEmpty(), "entity has following violations: " + violations.toString());
+  }
+
+  protected T buildWithViolationEntity() {
+    throw new UnsupportedOperationException("not implement yet!");
+  }
 }

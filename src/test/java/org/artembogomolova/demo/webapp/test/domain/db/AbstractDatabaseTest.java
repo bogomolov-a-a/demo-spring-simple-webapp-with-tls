@@ -19,4 +19,5 @@ public abstract class AbstractDatabaseTest<T> extends AbstractClassTest<T> {
       String displayNamePrefix) {
     super(testingClass, classNameSuffix, displayNamePrefix);
   }
+
 }
