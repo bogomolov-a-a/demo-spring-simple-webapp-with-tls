@@ -3,13 +3,8 @@ package org.artembogomolova.demo.webapp.test;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
-import javax.validation.Validation;
-import javax.validation.Validator;
-import javax.validation.ValidatorFactory;
 import org.apache.commons.lang3.reflect.MethodUtils;
-import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.MethodOrderer.OrderAnnotation;
 import org.junit.jupiter.api.RepeatedTest;
@@ -23,9 +18,6 @@ import org.springframework.test.context.support.DependencyInjectionTestExecution
 @TestMethodOrder(value = OrderAnnotation.class)
 @TestExecutionListeners(value = {DependencyInjectionTestExecutionListener.class})
 public abstract class AbstractTest {
-
-  private static ValidatorFactory validatorFactory;
-  protected static Validator validator;
 
   protected AbstractTest() {
     Class<? extends AbstractTest> testingClass = this.getClass();
