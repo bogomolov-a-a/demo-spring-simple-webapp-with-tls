@@ -13,13 +13,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.repository.CrudRepository;
 
 @DisplayName("Dao test: PhysicalAddress")
-class PhysicalAddressRepositoryTest extends AbstractDaoTest<PhysicalAddress> {
+class PhysicalAddressDaoTest extends AbstractDaoTest<PhysicalAddress> {
 
   @Autowired
   private IPhysicalAddressRepository physicalAddressRepository;
 
-  PhysicalAddressRepositoryTest() {
-    super(PhysicalAddress.class);
+  PhysicalAddressDaoTest() {
+    super(PhysicalAddress.class, PhysicalAddress::new);
   }
 
   @Override
@@ -50,12 +50,17 @@ class PhysicalAddressRepositoryTest extends AbstractDaoTest<PhysicalAddress> {
   @Override
   protected PhysicalAddress doPrepareDeniedTestEntity(UniqueMultiColumnConstraint uniqueMultiColumnConstraint,
       Map<String, Object> commonValues) {
-    return null;
+    return DomainTestUtil.buildTestAddress();
   }
 
   @Override
   protected PhysicalAddress doDuplicateDeniedTestEntity(UniqueMultiColumnConstraint columns,
       Map<String, Object> commonValues) {
-    return null;
+    return DomainTestUtil.buildTestAddress();
+  }
+
+  @Override
+  protected PhysicalAddress buildEntityWithoutViolationEntity() {
+    return DomainTestUtil.buildTestAddress();
   }
 }
