@@ -3,6 +3,8 @@ package org.artembogomolova.demo.webapp.test.domain.entity.core;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+import java.util.function.Function;
+import lombok.EqualsAndHashCode;
 import org.artembogomolova.demo.webapp.domain.IdentifiedEntity;
 import org.artembogomolova.demo.webapp.domain.core.Person;
 import org.artembogomolova.demo.webapp.domain.core.PhysicalAddress;
@@ -69,11 +71,22 @@ class PersonEntityTest extends AbstractAccessorEntityTest<Person> {
   @Override
   protected void withoutPartOfUniqueConstraintEqualTest(Person standardEntity, String constraintName, String columnName) {
     switch (constraintName) {
-      case IdentifiedEntity.BASIC_CONSTRAINT_NAME:
-      {
-
+      case IdentifiedEntity.BASIC_CONSTRAINT_NAME: {
         return;
       }
+    }
+  }
+
+  @Override
+  protected Function<Person, ? extends Person> getFakeDescendantClassConstructor() {
+    return FakePerson::new;
+  }
+
+  @EqualsAndHashCode(callSuper = false)
+  private static class FakePerson extends Person {
+
+    FakePerson(Person person) {
+      super(person);
     }
   }
 }

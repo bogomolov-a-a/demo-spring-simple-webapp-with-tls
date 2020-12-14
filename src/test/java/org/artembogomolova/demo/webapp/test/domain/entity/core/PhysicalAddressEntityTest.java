@@ -1,5 +1,7 @@
 package org.artembogomolova.demo.webapp.test.domain.entity.core;
 
+import java.util.function.Function;
+import lombok.EqualsAndHashCode;
 import org.artembogomolova.demo.webapp.domain.core.PhysicalAddress;
 import org.artembogomolova.demo.webapp.domain.core.PhysicalAddress_;
 import org.artembogomolova.demo.webapp.test.domain.DomainTestUtil;
@@ -79,6 +81,11 @@ class PhysicalAddressEntityTest extends AbstractAccessorEntityTest<PhysicalAddre
     }
   }
 
+  @Override
+  protected Function<PhysicalAddress, ? extends PhysicalAddress> getFakeDescendantClassConstructor() {
+    return FakePhysicalAddress::new;
+  }
+
   private void withoutHousePartEqualTest(PhysicalAddress standardEntity, String columnName) {
     switch (columnName) {
       case PhysicalAddress_.HOUSE: {
@@ -153,4 +160,11 @@ class PhysicalAddressEntityTest extends AbstractAccessorEntityTest<PhysicalAddre
         PhysicalAddress_.STATE.equals(columnName);
   }
 
+  @EqualsAndHashCode(callSuper = false)
+  private static class FakePhysicalAddress extends PhysicalAddress {
+
+    public FakePhysicalAddress(PhysicalAddress physicalAddress) {
+      super(physicalAddress);
+    }
+  }
 }

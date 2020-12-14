@@ -1,5 +1,6 @@
 package org.artembogomolova.demo.webapp.test.domain.entity.auth;
 
+import java.util.function.Function;
 import org.artembogomolova.demo.webapp.domain.auth.Role;
 import org.artembogomolova.demo.webapp.test.domain.entity.AbstractAccessorEntityTest;
 import org.junit.jupiter.api.DisplayName;
@@ -29,5 +30,16 @@ class RoleEntityTest extends AbstractAccessorEntityTest<Role> {
   @Override
   protected void withoutPartOfUniqueConstraintEqualTest(Role standardEntity, String constraintName, String columnName) {
 
+  }
+
+  @Override
+  protected Function<Role, ? extends Role> getFakeDescendantClassConstructor() {
+    return FakeRole::new;
+  }
+
+  private static class FakeRole extends Role {
+
+    FakeRole(Role role) {
+    }
   }
 }

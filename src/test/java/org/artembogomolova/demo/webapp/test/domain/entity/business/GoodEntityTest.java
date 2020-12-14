@@ -1,5 +1,6 @@
 package org.artembogomolova.demo.webapp.test.domain.entity.business;
 
+import java.util.function.Function;
 import org.artembogomolova.demo.webapp.domain.business.Good;
 import org.artembogomolova.demo.webapp.test.domain.DomainTestUtil;
 import org.artembogomolova.demo.webapp.test.domain.entity.AbstractAccessorEntityTest;
@@ -71,5 +72,16 @@ class GoodEntityTest extends AbstractAccessorEntityTest<Good> {
   @Override
   protected void withoutPartOfUniqueConstraintEqualTest(Good standardEntity, String constraintName, String columnName) {
 
+  }
+
+  @Override
+  protected Function<Good, ? extends Good> getFakeDescendantClassConstructor() {
+    return FakeGood::new;
+  }
+
+  private static class FakeGood extends Good{
+
+    FakeGood(Good good) {
+    }
   }
 }

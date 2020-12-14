@@ -2,10 +2,8 @@ package org.artembogomolova.demo.webapp.test.domain.entity;
 
 import java.util.Arrays;
 import java.util.List;
-import java.util.Set;
 import java.util.function.BiConsumer;
 import java.util.function.Function;
-import javax.validation.ConstraintViolation;
 import lombok.extern.slf4j.Slf4j;
 import org.artembogomolova.demo.webapp.domain.IdentifiedEntity;
 import org.artembogomolova.demo.webapp.test.AbstractClassTest;
@@ -177,4 +175,14 @@ public abstract class AbstractAccessorEntityTest<T extends IdentifiedEntity> ext
     throw new IllegalArgumentException(String.format(ENTITY_CONSTRAINT_NOT_SUPPORTED, constraintName));
   }
 
+  @Test
+  @DisplayName("Test for descendants class part equal contract(<U extends T> not equals <T>!). "
+      + "Descendant class must be fake(with copy constructor)")
+  void descendantClassEqualTest() {
+    Function<T, ? extends T> fakeDescendantClassConstructor = getFakeDescendantClassConstructor();
+    T fakeDescendantEntity = fakeDescendantClassConstructor.apply(standardEntity);
+    Assertions.assertNotEquals(standardEntity, fakeDescendantEntity);
+  }
+
+  protected abstract Function<T, ? extends T> getFakeDescendantClassConstructor();
 }

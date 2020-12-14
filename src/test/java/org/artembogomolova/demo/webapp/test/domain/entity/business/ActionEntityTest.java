@@ -1,6 +1,7 @@
 package org.artembogomolova.demo.webapp.test.domain.entity.business;
 
 import java.util.Calendar;
+import java.util.function.Function;
 import lombok.extern.slf4j.Slf4j;
 import org.artembogomolova.demo.webapp.domain.business.Action;
 import org.artembogomolova.demo.webapp.domain.business.Action_;
@@ -90,6 +91,11 @@ class ActionEntityTest extends AbstractAccessorEntityTest<Action> {
     }
   }
 
+  @Override
+  protected Function<Action, ? extends Action> getFakeDescendantClassConstructor() {
+    return FakeAction::new;
+  }
+
   private void assertWithOutNameEquals(Action standard) {
     Action action = new Action();
     Assertions.assertNotEquals(standard, action);
@@ -116,5 +122,11 @@ class ActionEntityTest extends AbstractAccessorEntityTest<Action> {
     Assertions.assertNotEquals(standard, action);
     action.setStartDate(null);
     Assertions.assertEquals(standard, action);
+  }
+
+  private static class FakeAction extends Action{
+
+    FakeAction(Action action) {
+    }
   }
 }

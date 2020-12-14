@@ -1,5 +1,6 @@
 package org.artembogomolova.demo.webapp.test.domain.entity.business;
 
+import java.util.function.Function;
 import org.artembogomolova.demo.webapp.domain.business.OrderGood;
 import org.artembogomolova.demo.webapp.test.domain.entity.AbstractAccessorEntityTest;
 import org.junit.jupiter.api.DisplayName;
@@ -29,5 +30,16 @@ class OrderGoodEntityTest extends AbstractAccessorEntityTest<OrderGood> {
   @Override
   protected void withoutPartOfUniqueConstraintEqualTest(OrderGood standardEntity, String constraintName, String columnName) {
 
+  }
+
+  @Override
+  protected Function<OrderGood, ? extends OrderGood> getFakeDescendantClassConstructor() {
+    return FakeOrderGood::new;
+  }
+
+  private static class FakeOrderGood extends OrderGood {
+
+    FakeOrderGood(OrderGood orderGood) {
+    }
   }
 }

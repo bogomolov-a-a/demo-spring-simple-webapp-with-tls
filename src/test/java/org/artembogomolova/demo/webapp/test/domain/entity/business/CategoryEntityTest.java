@@ -1,5 +1,6 @@
 package org.artembogomolova.demo.webapp.test.domain.entity.business;
 
+import java.util.function.Function;
 import lombok.extern.slf4j.Slf4j;
 import org.artembogomolova.demo.webapp.domain.business.Category;
 import org.artembogomolova.demo.webapp.domain.business.Category_;
@@ -57,6 +58,11 @@ class CategoryEntityTest extends AbstractAccessorEntityTest<Category> {
     }
   }
 
+  @Override
+  protected Function<Category, ? extends Category> getFakeDescendantClassConstructor() {
+    return FakeCategory::new;
+  }
+
   private void assertWithoutNameEquals(Category standard) {
     Category category = new Category();
     category.setParentCategoryId(standard.getParentCategoryId());
@@ -85,5 +91,11 @@ class CategoryEntityTest extends AbstractAccessorEntityTest<Category> {
     category.setParentCategoryId(null);
     Assertions.assertEquals(standard, category);
     Assertions.assertEquals(standard.hashCode(), category.hashCode());
+  }
+
+  private static class FakeCategory extends Category {
+
+    FakeCategory(Category category) {
+    }
   }
 }
