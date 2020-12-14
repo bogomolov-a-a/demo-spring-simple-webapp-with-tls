@@ -96,7 +96,8 @@ public class DomainTestUtil {
         log.warn(e.getMessage());
       }
     }
-    result.setPhone("+78*********");
+    result.setPhone("+7-812-812-00-00");
+    result.setEmail("default@localhost");
     result.setEstateAddress(DomainTestUtil.buildTestAddress());
     return result;
   }
