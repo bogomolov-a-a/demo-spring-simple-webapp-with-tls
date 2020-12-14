@@ -12,12 +12,14 @@ import java.util.Map.Entry;
 import java.util.Objects;
 import javax.validation.ConstraintValidatorContext;
 import javax.validation.ValidationException;
+import lombok.extern.slf4j.Slf4j;
 import org.artembogomolova.demo.webapp.domain.IdentifiedEntity;
 import org.artembogomolova.demo.webapp.validation.UniqueMultiColumn.UniqueMultiColumnConstraint;
 import org.artembogomolova.demo.webapp.validation.base.AbstractApplicationContextConstraintValidator;
 import org.springframework.beans.BeanUtils;
 import org.springframework.data.repository.CrudRepository;
 
+@Slf4j
 public class UniqueMultiColumnConstraintValidator extends AbstractApplicationContextConstraintValidator<UniqueMultiColumn, IdentifiedEntity> {
 
   private Iterable<? extends IdentifiedEntity> allEntities;
@@ -67,8 +69,10 @@ public class UniqueMultiColumnConstraintValidator extends AbstractApplicationCon
   private boolean equalsValues(Map<String, Object> uniqueNewValues, Map<String, Object> existsValues) {
     List<Entry<String, Object>> newValuesList = new ArrayList<>(uniqueNewValues.entrySet());
     Collections.sort(newValuesList, Map.Entry.comparingByKey());
+    log.debug("new values: {}", newValuesList);
     List<Entry<String, Object>> existsValuesList = new ArrayList<>(existsValues.entrySet());
     Collections.sort(existsValuesList, Map.Entry.comparingByKey());
+    log.debug("exists values: {}", existsValuesList);
     return Objects.equals(existsValuesList, newValuesList);
   }
 
