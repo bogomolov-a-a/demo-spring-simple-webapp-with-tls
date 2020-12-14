@@ -47,7 +47,7 @@ public abstract class AbstractDaoTest<T extends IdentifiedEntity> extends Abstra
   }
 
   @Test
-  @DisplayName("Testing for CRUD operation for entity.")
+  @DisplayName("Test for CRUD operation for entity.")
   @Transactional
   void crudCheck() {
     CrudRepository repository = getCrudRepository();
@@ -75,9 +75,7 @@ public abstract class AbstractDaoTest<T extends IdentifiedEntity> extends Abstra
       validateAnotherRepositoryEmpty();
       log.info("passed!");
     } finally {
-      if (repository != null) {
-        repository.deleteAll();
-      }
+      cleanRepositories();
     }
   }
 
@@ -98,7 +96,7 @@ public abstract class AbstractDaoTest<T extends IdentifiedEntity> extends Abstra
 
   @Test
   @Transactional
-  @DisplayName("Testing for constraint violation exception for duplicate entity creating by unique constraint.")
+  @DisplayName("Test for constraint violation exception for duplicate entity creating by unique constraint.")
   void duplicateDeniedTest() {
     UniqueMultiColumn uniqueMultiColumn = getTestingClass().getAnnotation(UniqueMultiColumn.class);
     if (uniqueMultiColumn == null) {
@@ -110,7 +108,6 @@ public abstract class AbstractDaoTest<T extends IdentifiedEntity> extends Abstra
       Arrays.stream(uniqueMultiColumn.constraints()).forEach(
           uniqueMultiColumnConstraintColumns -> duplicateDeniedTestForConstraint(repository, uniqueMultiColumnConstraintColumns)
       );
-      validateAnotherRepositoryEmpty();
       log.info("passed!");
     } finally {
       if (repository != null) {
@@ -127,6 +124,15 @@ public abstract class AbstractDaoTest<T extends IdentifiedEntity> extends Abstra
     }
     prepareConditions(repository, uniqueMultiColumnConstraint, commonValues);
     doDuplicateDeniedTestForConstraint(repository, uniqueMultiColumnConstraint, commonValues);
+    /*after each constraint test execution clean all used repositories!*/
+    cleanRepositories();
+  }
+
+  protected void cleanRepositories() {
+    CrudRepository<T, Long> repository = getCrudRepository();
+    if (repository != null) {
+      repository.deleteAll();
+    }
   }
 
   protected abstract Map<String, Object> buildCommonFieldValues(
@@ -178,7 +184,7 @@ public abstract class AbstractDaoTest<T extends IdentifiedEntity> extends Abstra
   protected abstract T doDuplicateDeniedTestEntity(UniqueMultiColumnConstraint columns, Map<String, Object> commonValues);
 
   @Test
-  @DisplayName("validator without violations test")
+  @DisplayName("Test for validation without another violations(not 'UniqueMultiColumnConstraint' annotations). Entity with all correct fields.")
   void validatorTest() {
     Set<ConstraintViolation<T>> violations = validator.validate(buildEntityWithoutViolationEntity());
     Assertions.assertTrue(violations.isEmpty(), "entity has following violations: " + violations.toString());
@@ -189,7 +195,9 @@ public abstract class AbstractDaoTest<T extends IdentifiedEntity> extends Abstra
   }
 
   @Test
-  @DisplayName("validator  with violations test")
+  @DisplayName(
+      "Test for validation without another violations(not 'UniqueMultiColumnConstraint' annotations). "
+          + "Entity with one or more incorrect fields. Basically entity no-arg constructor")
   void validatorWithViolationTest() {
     Set<ConstraintViolation<T>> violations = validator.validate(buildWithViolationEntity());
     log.info("entity has following violations: " + violations.toString());
