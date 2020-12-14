@@ -6,11 +6,125 @@
     <sourceDirectory>${processed.source.compile.path}</sourceDirectory>
     <testSourceDirectory>${processed.source.test.compile.path}</testSourceDirectory>
     <plugins>
+      <!--main compile process plugins-->
+      <plugin>
+        <groupId>org.codehaus.mojo</groupId>
+        <artifactId>build-helper-maven-plugin</artifactId>
+        <executions>
+          <!--execution>
+            <id>add-sources</id>
+            <phase>generate-sources</phase>
+            <goals>
+              <goal>add-source</goal>
+            </goals>
+            <configuration>
+              <sources>
+                <source>${processed.source.compile.path}</source>
+              </sources>
+            </configuration>
+          </execution-->
+          <execution>
+            <id>add-test-sources</id>
+            <phase>generate-test-sources</phase>
+            <goals>
+              <goal>add-test-source</goal>
+            </goals>
+            <configuration>
+              <sources>
+                <!--source>${processed.source.test.compile.path}</source-->
+                <source>${processed.source.compile.path}</source>
+              </sources>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
+      <plugin>
+        <groupId>org.bsc.maven</groupId>
+        <artifactId>maven-processor-plugin</artifactId>
+        <version>4.4</version>
+        <executions>
+          <execution>
+            <id>jpametamodel</id>
+            <goals>
+              <goal>process</goal>
+            </goals>
+            <phase>generate-sources</phase>
+            <configuration>
+              <processors>
+                <processor>org.hibernate.jpamodelgen.JPAMetaModelEntityProcessor</processor>
+              </processors>
+              <sourceDirectory>${real.source.compile.path}</sourceDirectory>
+              <outputDirectory>${processed.source.compile.path}</outputDirectory>
+            </configuration>
+          </execution>
+        </executions>
+        <dependencies>
+          <dependency>
+            <groupId>org.hibernate</groupId>
+            <artifactId>hibernate-jpamodelgen</artifactId>
+            <version>${hibernate.version}</version>
+          </dependency>
+        </dependencies>
+      </plugin>
+      <plugin>
+        <groupId>org.projectlombok</groupId>
+        <artifactId>lombok-maven-plugin</artifactId>
+        <version>${lombok.version}.0</version>
+        <executions>
+          <execution>
+            <id>generate-sources-delombok</id>
+            <phase>generate-sources</phase>
+            <goals>
+              <goal>delombok</goal>
+            </goals>
+            <configuration>
+              <sourceDirectory>${real.source.compile.path}</sourceDirectory>
+              <outputDirectory>${processed.source.compile.path}</outputDirectory>
+            </configuration>
+          </execution>
+          <execution>
+            <id>generate-test-sources-delombok</id>
+            <phase>generate-test-sources</phase>
+            <goals>
+              <goal>testDelombok</goal>
+            </goals>
+            <configuration>
+              <sourceDirectory>${real.source.test.compile.path}</sourceDirectory>
+              <outputDirectory>${processed.source.test.compile.path}</outputDirectory>
+            </configuration>
+          </execution>
+        </executions>
+        <configuration>
+          <encoding>${project.build.sourceEncoding}</encoding>
+          <addOutputDirectory>false</addOutputDirectory>
+        </configuration>
+      </plugin>
+      <plugin>
+        <artifactId>maven-compiler-plugin</artifactId>
+        <configuration>
+          <source>${java.version}</source>
+          <target>${java.version}</target>
+          <compilerArgument>-proc:none</compilerArgument>
+          <excludes>
+            <exclude>${real.source.compile.path}/**/*.java</exclude>
+            <exclude>${real.source.test.compile.path}/**/*.java</exclude>
+          </excludes>
+          <showDeprecation>true</showDeprecation>
+          <showWarnings>true</showWarnings>
+          <failOnWarning>true</failOnWarning>
+          <!--generatedSourcesDirectory>${real.source.compile.path}</generatedSourcesDirectory>
+          <generatedTestSourcesDirectory>${real.source.test.compile.path}</generatedTestSourcesDirectory-->
+        </configuration>
+        <groupId>org.apache.maven.plugins</groupId>
+      </plugin>
+      <!--end main compile process plugins-->
       <!--main spring maven plugin-->
       <plugin>
         <artifactId>spring-boot-maven-plugin</artifactId>
         <groupId>org.springframework.boot</groupId>
       </plugin>
+      <!-- end main spring maven plugin-->
+
       <!-- tests -->
       <plugin>
         <artifactId>maven-surefire-plugin</artifactId>
@@ -52,109 +166,6 @@
         </executions>
         <groupId>org.apache.maven.plugins</groupId>
         <version>${maven.surefire.plugin.version}</version>
-      </plugin>
-      <plugin>
-        <groupId>org.projectlombok</groupId>
-        <artifactId>lombok-maven-plugin</artifactId>
-        <version>${lombok.version}.0</version>
-        <executions>
-          <execution>
-            <id>generate-sources-delombok</id>
-            <phase>generate-sources</phase>
-            <goals>
-              <goal>delombok</goal>
-            </goals>
-            <configuration>
-              <sourceDirectory>${real.source.compile.path}</sourceDirectory>
-              <outputDirectory>${processed.source.compile.path}</outputDirectory>
-            </configuration>
-          </execution>
-          <execution>
-            <id>generate-test-sources-delombok</id>
-            <phase>generate-test-sources</phase>
-            <goals>
-              <goal>testDelombok</goal>
-            </goals>
-            <configuration>
-              <sourceDirectory>${real.source.test.compile.path}</sourceDirectory>
-              <outputDirectory>${processed.source.test.compile.path}</outputDirectory>
-            </configuration>
-          </execution>
-        </executions>
-        <configuration>
-          <encoding>${project.build.sourceEncoding}</encoding>
-          <addOutputDirectory>false</addOutputDirectory>
-        </configuration>
-      </plugin>
-      <plugin>
-        <groupId>org.bsc.maven</groupId>
-        <artifactId>maven-processor-plugin</artifactId>
-        <version>4.4</version>
-        <executions>
-          <execution>
-            <id>process</id>
-            <goals>
-              <goal>process</goal>
-            </goals>
-            <phase>generate-sources</phase>
-            <configuration>
-              <processors>
-                <processor>org.hibernate.jpamodelgen.JPAMetaModelEntityProcessor</processor>
-              </processors>
-            </configuration>
-          </execution>
-        </executions>
-        <dependencies>
-          <dependency>
-            <groupId>org.hibernate</groupId>
-            <artifactId>hibernate-jpamodelgen</artifactId>
-            <version>${hibernate.version}</version>
-          </dependency>
-        </dependencies>
-      </plugin>
-      <plugin>
-        <artifactId>maven-compiler-plugin</artifactId>
-        <configuration>
-          <source>${java.version}</source>
-          <target>${java.version}</target>
-          <compilerArgument>-proc:none</compilerArgument>
-          <generatedSourcesDirectory>${real.source.compile.path}</generatedSourcesDirectory>
-          <generatedTestSourcesDirectory>${real.source.test.compile.path}</generatedTestSourcesDirectory>
-        </configuration>
-        <groupId>org.apache.maven.plugins</groupId>
-      </plugin>
-      <plugin>
-        <groupId>org.codehaus.mojo</groupId>
-        <artifactId>build-helper-maven-plugin</artifactId>
-        <executions>
-          <execution>
-            <id>generate-sources</id>
-            <phase>generate-sources</phase>
-            <goals>
-              <goal>add-source</goal>
-            </goals>
-            <configuration>
-              <sources>
-                <source>${processed.source.compile.path}</source>
-                <source>target/generated-sources/apt</source>
-              </sources>
-            </configuration>
-          </execution>
-          <execution>
-            <id>generate-test-sources</id>
-            <phase>generate-test-sources</phase>
-            <goals>
-              <goal>add-test-source</goal>
-            </goals>
-            <configuration>
-              <sources>
-                <source>${processed.source.test.compile.path}</source>
-                <source>${processed.source.compile.path}</source>
-                <source>target/generated-sources/apt</source>
-              </sources>
-            </configuration>
-          </execution>
-        </executions>
       </plugin>
 
       <!--plugin>
@@ -640,8 +651,8 @@
     <spotbugs.plugin.dependency.version>4.1.2</spotbugs.plugin.dependency.version>
     <!-- -->
     <spotbugs.plugin.version>4.0.4</spotbugs.plugin.version>
-    <processed.source.compile.path>target/generated-sources/delombok</processed.source.compile.path>
-    <processed.source.test.compile.path>target/generated-test-sources/delombok</processed.source.test.compile.path>
+    <processed.source.compile.path>target/generated-sources</processed.source.compile.path>
+    <processed.source.test.compile.path>target/generated-test-sources</processed.source.test.compile.path>
     <spring.boot.version>2.4.0</spring.boot.version>
     <real.source.compile.path>${project.basedir}/src/main/java</real.source.compile.path>
     <real.source.test.compile.path>${project.basedir}/src/test/java</real.source.test.compile.path>
