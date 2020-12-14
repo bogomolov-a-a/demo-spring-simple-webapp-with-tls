@@ -32,7 +32,7 @@ class PersonDaoTest extends AbstractDaoTest<Person> {
   @Override
   protected List<Person> updateEntities(List<Person> savedCollection) {
     Person person = savedCollection.get(0);
-    person.setPhone("+781********");
+    person.setPhone("+7-812-812-81-20");
     return savedCollection;
   }
 
@@ -57,12 +57,14 @@ class PersonDaoTest extends AbstractDaoTest<Person> {
   @Override
   protected Person doPrepareDeniedTestEntity(UniqueMultiColumnConstraint uniqueMultiColumnConstraint,
       Map<String, Object> commonValues) {
-    return null;
+    return DomainTestUtil.buildPerson();
   }
 
   @Override
   protected Person doDuplicateDeniedTestEntity(UniqueMultiColumnConstraint columns, Map<String, Object> commonValues) {
-    return null;
+    Person result = DomainTestUtil.buildPerson();
+    result.setEstateAddress(DomainTestUtil.buildOrderTestAddress());
+    return result;
   }
 
   @Override
@@ -72,4 +74,8 @@ class PersonDaoTest extends AbstractDaoTest<Person> {
     Assertions.assertEquals(0, orderRepository.count());
   }
 
+  @Override
+  protected Person buildEntityWithoutViolationEntity() {
+    return DomainTestUtil.buildPerson();
+  }
 }

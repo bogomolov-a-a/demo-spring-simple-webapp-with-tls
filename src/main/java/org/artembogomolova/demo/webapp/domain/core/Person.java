@@ -12,11 +12,19 @@ import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.PastOrPresent;
+import javax.validation.constraints.Pattern;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
+import lombok.experimental.FieldNameConstants;
 import org.artembogomolova.demo.webapp.dao.repo.core.IPersonRepository;
+import org.artembogomolova.demo.webapp.dao.util.SQLite3Dialect;
 import org.artembogomolova.demo.webapp.domain.IdentifiedEntity;
 import org.artembogomolova.demo.webapp.domain.auth.User;
 import org.artembogomolova.demo.webapp.domain.business.Order;
@@ -24,33 +32,61 @@ import org.artembogomolova.demo.webapp.validation.UniqueMultiColumn;
 import org.artembogomolova.demo.webapp.validation.UniqueMultiColumn.UniqueMultiColumnConstraint;
 
 @Entity
-@Table(name = "persons")
+@Table(name = Person.PERSONS_TABLE)
+@NoArgsConstructor
 @Getter
 @Setter
-@ToString(exclude = {"estateAddress", "orders", "user"})
+@ToString(callSuper = true,
+    onlyExplicitlyIncluded = true)
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
 @UniqueMultiColumn(repository = IPersonRepository.class,
     constraints = {
         @UniqueMultiColumnConstraint(name = IdentifiedEntity.BASIC_CONSTRAINT_NAME,
-            columnNames = {"name", "surname", "patronymic", "birthDate"}),
+            columnNames = {Person_.NAME,
+                Person_.SURNAME,
+                Person_.PATRONYMIC,
+                Person_.BIRTH_DATE}),
         @UniqueMultiColumnConstraint(name = Person.PHONE_CONSTRAINT_NAME,
-            columnNames = {"phone"})}
+            columnNames = {Person_.PHONE}),
+        @UniqueMultiColumnConstraint(name = Person.EMAIL_CONSTRAINT_NAME,
+            columnNames = {Person_.EMAIL})}
 )
 public class Person extends IdentifiedEntity {
 
   public static final String PHONE_CONSTRAINT_NAME = "phoneConstraint";
+  public static final String EMAIL_CONSTRAINT_NAME = "emailConstraint";
+  private static final String ESTATE_ADDRESS_ID_COLUMN = "estate_address_id";
+  static final String PERSONS_TABLE = "persons";
+  @NotBlank
   @EqualsAndHashCode.Include
+  @ToString.Include
   private String name;
+  @NotBlank
+  @ToString.Include
   @EqualsAndHashCode.Include
   private String surname;
+  @NotBlank
+  @ToString.Include
   @EqualsAndHashCode.Include
   private String patronymic;
+  @PastOrPresent
   @Temporal(TemporalType.TIMESTAMP)
+  @ToString.Include
   @EqualsAndHashCode.Include
+  @NotNull
   private Date birthDate;
+  @NotBlank
+  @Pattern(regexp = "\\+([0-9]{0,3})\\-([0-9]{3})\\-([0-9]{3})\\-([0-9]{2})\\-([0-9]{2})")
+  @ToString.Include
   private String phone;
+  @NotBlank
+  @Email
+  @ToString.Include
+  private String email;
+  @NotNull
   @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REMOVE, CascadeType.DETACH})
-  @JoinColumn(name = "estate_address_id", columnDefinition = "bigint")
+  @JoinColumn(name = ESTATE_ADDRESS_ID_COLUMN, columnDefinition = SQLite3Dialect.FOREIGN_KEY_COLUMN_DEFINITION)
+  @ToString.Include
   private PhysicalAddress estateAddress;
   @OneToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REMOVE, CascadeType.DETACH},
       mappedBy = "person",
@@ -60,14 +96,19 @@ public class Person extends IdentifiedEntity {
   @JoinColumn(name = "id")
   private User user;
 
+  public Person(Person copyingEntity) {
+    this.setName(copyingEntity.getName());
+    this.setSurname(copyingEntity.getSurname());
+    this.setPatronymic(copyingEntity.getPatronymic());
+    this.setBirthDate(copyingEntity.getBirthDate());
+    this.setPhone(copyingEntity.getPhone());
+  }
+
   public Date getBirthDate() {
-    if (birthDate == null) {
-      return null;
-    }
-    return new Date(birthDate.getTime());
+    return birthDate == null ? null : new Date(birthDate.getTime());
   }
 
   public void setBirthDate(Date birthDate) {
-    this.birthDate = new Date(birthDate.getTime());
+    this.birthDate = birthDate == null ? null : new Date(birthDate.getTime());
   }
 }
