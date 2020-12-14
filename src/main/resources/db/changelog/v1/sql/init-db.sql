@@ -1,4 +1,4 @@
-create table addresses(
+create table physical_addresses(
   id integer not null primary key autoincrement,
   postal_code text not null,
   country text not null,
@@ -19,6 +19,7 @@ create table persons(
   patronymic text,
   birth_date timestamp  not null,
   phone text not null,
+  email text not null,
   estate_address_id bigint not null,
   unique (name,surname,patronymic,birth_date),
   unique (phone),
