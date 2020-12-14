@@ -32,6 +32,10 @@ public class UserRepoService {
   private static final String PREDEFINED_ADMIN_ACCOUNT_POSTAL_CODE = "190000";
   private static final String PREDEFINED_ADMIN_ACCOUNT_CITY_NAME = "Saint Petersburg";
   private static final String CHANGE_IT = "changeit";
+  private static final String PREDEFINED_GUEST_PHONE = "+7-000-000-00-00";
+  private static final String PREDEFINED_ADMIN_PHONE = "+7-812-812-00-00";
+  private static final String PREDEFINED_GUEST_EMAIL = "guest@localhost";
+  private static final String PREDEFINED_ADMIN_EMAIL = "admin@localhost";
   private final IUserRepository userRepository;
   private final IUserRoleRepository userRoleRepository;
 
@@ -60,7 +64,8 @@ public class UserRepoService {
     result.setName(CHANGE_IT);
     result.setSurname(CHANGE_IT);
     result.setPatronymic(CHANGE_IT);
-    result.setPhone(CHANGE_IT);
+    result.setPhone(PREDEFINED_ADMIN_PHONE);
+    result.setEmail(PREDEFINED_ADMIN_EMAIL);
     result.setEstateAddress(buildSuperUserAddress());
     return result;
   }
@@ -99,7 +104,8 @@ public class UserRepoService {
     result.setName(PREDEFINED_GUEST_ACCOUNT_LOGIN);
     result.setSurname(PREDEFINED_GUEST_ACCOUNT_LOGIN);
     result.setPatronymic(PREDEFINED_GUEST_ACCOUNT_LOGIN);
-    result.setPhone(PREDEFINED_GUEST_ACCOUNT_LOGIN);
+    result.setPhone(PREDEFINED_GUEST_PHONE);
+    result.setEmail(PREDEFINED_GUEST_EMAIL);
     result.setEstateAddress(buildGuestAddress());
     return result;
   }
