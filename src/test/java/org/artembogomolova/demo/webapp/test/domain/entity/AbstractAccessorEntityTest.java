@@ -113,34 +113,48 @@ public abstract class AbstractAccessorEntityTest<T extends IdentifiedEntity> ext
         setter);
   }
 
-  private <U> void setNullFieldValueAndEquals(T duplicateEntity,
+  private <U> void setNullFieldValueAndNotEquals(T duplicateEntity,
       T entity,
       BiConsumer<T, U> setter) {
+    log.info("'duplicate entity field set null and equals' started");
     setter.accept(duplicateEntity, null);
-    Assertions.assertEquals(entity, duplicateEntity);
-    Assertions.assertEquals(duplicateEntity, entity);
-    Assertions.assertEquals(entity.hashCode(), duplicateEntity.hashCode());
+    log.info("standard entity: {}", entity);
+    log.info("duplicate entity: {}", duplicateEntity);
+    Assertions.assertNotEquals(entity, duplicateEntity);
+    Assertions.assertNotEquals(duplicateEntity, entity);
+    Assertions.assertNotEquals(entity.hashCode(), duplicateEntity.hashCode());
+    log.info("'duplicate entity field set null and equals' passed.");
   }
+
 
   private <U> void exchangeDupStandardFieldNullValueAndNotEquals(T duplicateEntity,
       T entity,
       Function<T, U> getter,
       BiConsumer<T, U> setter) {
+    log.info("'exchange duplicate and standard entity field null value and not equals' started.");
     setter.accept(duplicateEntity, getter.apply(entity));
     setter.accept(entity, null);
+    log.info("standard entity: {}", entity);
+    log.info("duplicate entity: {}", duplicateEntity);
     Assertions.assertNotEquals(entity, duplicateEntity);
     Assertions.assertNotEquals(duplicateEntity, entity);
     Assertions.assertNotEquals(entity.hashCode(), duplicateEntity.hashCode());
+    log.info("'exchange duplicate and standard entity field null value and not equals' passed.");
   }
 
-  private <U> void setNullFieldValueAndNotEquals(T duplicateEntity,
+  private <U> void setNullFieldValueAndEquals(T duplicateEntity,
       T entity,
       BiConsumer<T, U> setter) {
+    log.info("'duplicate and standard entity field set null value and not equals' started.");
     setter.accept(duplicateEntity, null);
-    Assertions.assertNotEquals(entity, duplicateEntity);
-    Assertions.assertNotEquals(duplicateEntity, entity);
-    Assertions.assertNotEquals(entity.hashCode(), duplicateEntity.hashCode());
+    log.info("standard entity: {}", entity);
+    log.info("duplicate entity: {}", duplicateEntity);
+    Assertions.assertEquals(entity, duplicateEntity);
+    Assertions.assertEquals(duplicateEntity, entity);
+    Assertions.assertEquals(entity.hashCode(), duplicateEntity.hashCode());
+    log.info("'duplicate and standard entity field set null value and not equals' passed.");
   }
+
 
   @Test
   @DisplayName("Unique constraint equal(multi column, without one of columns, swap column value).")
@@ -179,9 +193,13 @@ public abstract class AbstractAccessorEntityTest<T extends IdentifiedEntity> ext
   @DisplayName("Test for descendants class part equal contract(<U extends T> not equals <T>!). "
       + "Descendant class must be Mock(with copy constructor)")
   void descendantClassEqualTest() {
+    log.info("Mock descendant test started.");
     Function<T, ? extends T> MockDescendantClassConstructor = getMockDescendantClassConstructor();
     T MockDescendantEntity = MockDescendantClassConstructor.apply(standardEntity);
+    log.info("standard entity: {}", standardEntity);
+    log.info("descendant entity: {}", MockDescendantEntity);
     Assertions.assertNotEquals(standardEntity, MockDescendantEntity);
+    log.info("Mock descendant test passed.");
   }
 
   protected abstract Function<T, ? extends T> getMockDescendantClassConstructor();
