@@ -13,3 +13,10 @@ databaseChangeLog:
         path: sql/add-user-auth-model.sql
         relativeToChangelogFile: true
         endDelitimiter: /
+  - changeSet:
+      id: add-user-auth-description
+      author: bogomolov-a-a
+      sqlFile:
+        path: sql/add-user-auth-description.sql
+        relativeToChangelogFile: true
+        endDelitimiter: /
