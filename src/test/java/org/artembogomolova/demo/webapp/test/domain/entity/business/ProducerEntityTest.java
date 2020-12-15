@@ -34,13 +34,13 @@ class ProducerEntityTest extends AbstractAccessorEntityTest<Producer> {
   }
 
   @Override
-  protected Function<Producer, ? extends Producer> getFakeDescendantClassConstructor() {
-    return FakeProducer::new;
+  protected Function<Producer, ? extends Producer> getMockDescendantClassConstructor() {
+    return MockProducer::new;
   }
 
-  private static class FakeProducer extends Producer {
+  private static class MockProducer extends Producer {
 
-    FakeProducer(Producer producer) {
+    MockProducer(Producer producer) {
     }
   }
 }

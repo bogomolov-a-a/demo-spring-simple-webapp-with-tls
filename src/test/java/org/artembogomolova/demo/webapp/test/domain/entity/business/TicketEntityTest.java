@@ -34,13 +34,13 @@ class TicketEntityTest extends AbstractAccessorEntityTest<Ticket> {
   }
 
   @Override
-  protected Function<Ticket, ? extends Ticket> getFakeDescendantClassConstructor() {
-    return FakeTicket::new;
+  protected Function<Ticket, ? extends Ticket> getMockDescendantClassConstructor() {
+    return MockTicket::new;
   }
 
-  private class FakeTicket extends Ticket {
+  private class MockTicket extends Ticket {
 
-    FakeTicket(Ticket ticket) {
+    MockTicket(Ticket ticket) {
     }
   }
 }

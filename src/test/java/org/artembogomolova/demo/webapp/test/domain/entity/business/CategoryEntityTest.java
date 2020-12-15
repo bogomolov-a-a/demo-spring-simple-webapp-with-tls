@@ -59,8 +59,8 @@ class CategoryEntityTest extends AbstractAccessorEntityTest<Category> {
   }
 
   @Override
-  protected Function<Category, ? extends Category> getFakeDescendantClassConstructor() {
-    return FakeCategory::new;
+  protected Function<Category, ? extends Category> getMockDescendantClassConstructor() {
+    return MockCategory::new;
   }
 
   private void assertWithoutNameEquals(Category standard) {
@@ -93,9 +93,9 @@ class CategoryEntityTest extends AbstractAccessorEntityTest<Category> {
     Assertions.assertEquals(standard.hashCode(), category.hashCode());
   }
 
-  private static class FakeCategory extends Category {
+  private static class MockCategory extends Category {
 
-    FakeCategory(Category category) {
+    MockCategory(Category category) {
     }
   }
 }

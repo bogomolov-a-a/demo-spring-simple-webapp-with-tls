@@ -92,8 +92,8 @@ class ActionEntityTest extends AbstractAccessorEntityTest<Action> {
   }
 
   @Override
-  protected Function<Action, ? extends Action> getFakeDescendantClassConstructor() {
-    return FakeAction::new;
+  protected Function<Action, ? extends Action> getMockDescendantClassConstructor() {
+    return MockAction::new;
   }
 
   private void assertWithOutNameEquals(Action standard) {
@@ -124,9 +124,9 @@ class ActionEntityTest extends AbstractAccessorEntityTest<Action> {
     Assertions.assertEquals(standard, action);
   }
 
-  private static class FakeAction extends Action{
+  private static class MockAction extends Action{
 
-    FakeAction(Action action) {
+    MockAction(Action action) {
     }
   }
 }

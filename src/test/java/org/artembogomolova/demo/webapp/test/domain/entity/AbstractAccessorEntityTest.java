@@ -177,12 +177,12 @@ public abstract class AbstractAccessorEntityTest<T extends IdentifiedEntity> ext
 
   @Test
   @DisplayName("Test for descendants class part equal contract(<U extends T> not equals <T>!). "
-      + "Descendant class must be fake(with copy constructor)")
+      + "Descendant class must be Mock(with copy constructor)")
   void descendantClassEqualTest() {
-    Function<T, ? extends T> fakeDescendantClassConstructor = getFakeDescendantClassConstructor();
-    T fakeDescendantEntity = fakeDescendantClassConstructor.apply(standardEntity);
-    Assertions.assertNotEquals(standardEntity, fakeDescendantEntity);
+    Function<T, ? extends T> MockDescendantClassConstructor = getMockDescendantClassConstructor();
+    T MockDescendantEntity = MockDescendantClassConstructor.apply(standardEntity);
+    Assertions.assertNotEquals(standardEntity, MockDescendantEntity);
   }
 
-  protected abstract Function<T, ? extends T> getFakeDescendantClassConstructor();
+  protected abstract Function<T, ? extends T> getMockDescendantClassConstructor();
 }

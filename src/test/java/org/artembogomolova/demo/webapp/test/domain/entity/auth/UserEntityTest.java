@@ -33,13 +33,13 @@ class UserEntityTest extends AbstractAccessorEntityTest<User> {
   }
 
   @Override
-  protected Function<User, ? extends User> getFakeDescendantClassConstructor() {
-    return FakeUser::new;
+  protected Function<User, ? extends User> getMockDescendantClassConstructor() {
+    return MockUser::new;
   }
 
-  private static class FakeUser extends User{
+  private static class MockUser extends User{
 
-    public FakeUser(User user) {
+    public MockUser(User user) {
     }
   }
 }

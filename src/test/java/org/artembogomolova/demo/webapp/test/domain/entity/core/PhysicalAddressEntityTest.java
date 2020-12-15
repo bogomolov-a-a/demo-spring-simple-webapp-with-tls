@@ -82,8 +82,8 @@ class PhysicalAddressEntityTest extends AbstractAccessorEntityTest<PhysicalAddre
   }
 
   @Override
-  protected Function<PhysicalAddress, ? extends PhysicalAddress> getFakeDescendantClassConstructor() {
-    return FakePhysicalAddress::new;
+  protected Function<PhysicalAddress, ? extends PhysicalAddress> getMockDescendantClassConstructor() {
+    return MockPhysicalAddress::new;
   }
 
   private void withoutHousePartEqualTest(PhysicalAddress standardEntity, String columnName) {
@@ -161,9 +161,9 @@ class PhysicalAddressEntityTest extends AbstractAccessorEntityTest<PhysicalAddre
   }
 
   @EqualsAndHashCode(callSuper = false)
-  private static class FakePhysicalAddress extends PhysicalAddress {
+  private static class MockPhysicalAddress extends PhysicalAddress {
 
-    public FakePhysicalAddress(PhysicalAddress physicalAddress) {
+    public MockPhysicalAddress(PhysicalAddress physicalAddress) {
       super(physicalAddress);
     }
   }

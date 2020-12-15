@@ -33,13 +33,13 @@ class AuthorityEntityTest extends AbstractAccessorEntityTest<Authority> {
   }
 
   @Override
-  protected Function<Authority, ? extends Authority> getFakeDescendantClassConstructor() {
-    return FakeAuthority::new;
+  protected Function<Authority, ? extends Authority> getMockDescendantClassConstructor() {
+    return MockAuthority::new;
   }
 
-  private static class FakeAuthority extends Authority {
+  private static class MockAuthority extends Authority {
 
-    FakeAuthority(Authority authority) {
+    MockAuthority(Authority authority) {
       super(authority);
     }
   }

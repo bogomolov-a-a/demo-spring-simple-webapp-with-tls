@@ -78,14 +78,14 @@ class PersonEntityTest extends AbstractAccessorEntityTest<Person> {
   }
 
   @Override
-  protected Function<Person, ? extends Person> getFakeDescendantClassConstructor() {
-    return FakePerson::new;
+  protected Function<Person, ? extends Person> getMockDescendantClassConstructor() {
+    return MockPerson::new;
   }
 
   @EqualsAndHashCode(callSuper = false)
-  private static class FakePerson extends Person {
+  private static class MockPerson extends Person {
 
-    FakePerson(Person person) {
+    MockPerson(Person person) {
       super(person);
     }
   }

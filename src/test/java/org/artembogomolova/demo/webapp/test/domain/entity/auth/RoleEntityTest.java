@@ -33,13 +33,13 @@ class RoleEntityTest extends AbstractAccessorEntityTest<Role> {
   }
 
   @Override
-  protected Function<Role, ? extends Role> getFakeDescendantClassConstructor() {
-    return FakeRole::new;
+  protected Function<Role, ? extends Role> getMockDescendantClassConstructor() {
+    return MockRole::new;
   }
 
-  private static class FakeRole extends Role {
+  private static class MockRole extends Role {
 
-    FakeRole(Role role) {
+    MockRole(Role role) {
     }
   }
 }

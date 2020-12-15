@@ -34,13 +34,13 @@ class ActionGoodEntityTest extends AbstractAccessorEntityTest<ActionGood> {
   }
 
   @Override
-  protected Function<ActionGood, ? extends ActionGood> getFakeDescendantClassConstructor() {
-    return FakeActionGood::new;
+  protected Function<ActionGood, ? extends ActionGood> getMockDescendantClassConstructor() {
+    return MockActionGood::new;
   }
 
-  private static class FakeActionGood extends ActionGood {
+  private static class MockActionGood extends ActionGood {
 
-    FakeActionGood(ActionGood actionGood) {
+    MockActionGood(ActionGood actionGood) {
     }
   }
 }

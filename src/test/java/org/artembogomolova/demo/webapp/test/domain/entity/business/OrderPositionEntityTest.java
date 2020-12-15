@@ -33,13 +33,13 @@ class OrderPositionEntityTest extends AbstractAccessorEntityTest<OrderPosition> 
   }
 
   @Override
-  protected Function<OrderPosition, ? extends OrderPosition> getFakeDescendantClassConstructor() {
-    return FakeOrderPosition::new;
+  protected Function<OrderPosition, ? extends OrderPosition> getMockDescendantClassConstructor() {
+    return MockOrderPosition::new;
   }
 
-  private static class FakeOrderPosition extends OrderPosition {
+  private static class MockOrderPosition extends OrderPosition {
 
-    FakeOrderPosition(OrderPosition orderPosition) {
+    MockOrderPosition(OrderPosition orderPosition) {
     }
   }
 }
