@@ -55,5 +55,6 @@ public class Authority extends IdentifiedEntity implements GrantedAuthority {
   public Authority(Authority copyingEntity) {
     super(copyingEntity);
     this.setName(copyingEntity.getName());
+    this.setDescription(copyingEntity.getDescription());
   }
 }
