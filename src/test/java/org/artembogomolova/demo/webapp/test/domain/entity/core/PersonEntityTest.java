@@ -7,6 +7,7 @@ import java.util.function.Function;
 import lombok.EqualsAndHashCode;
 import org.artembogomolova.demo.webapp.domain.IdentifiedEntity;
 import org.artembogomolova.demo.webapp.domain.core.Person;
+import org.artembogomolova.demo.webapp.domain.core.Person_;
 import org.artembogomolova.demo.webapp.domain.core.PhysicalAddress;
 import org.artembogomolova.demo.webapp.test.domain.DomainTestUtil;
 import org.artembogomolova.demo.webapp.test.domain.entity.AbstractAccessorEntityTest;
@@ -50,6 +51,8 @@ class PersonEntityTest extends AbstractAccessorEntityTest<Person> {
     Assertions.assertEquals(PHONE_VALUE, standardEntity.getPhone());
     Assertions.assertEquals(EMAIL_VALUE, standardEntity.getEmail());
     Assertions.assertEquals(PHYSICAL_ADDRESS_VALUE, standardEntity.getEstateAddress());
+    Assertions.assertEquals(null, standardEntity.getUser());
+    Assertions.assertTrue(standardEntity.getOrders().isEmpty());
   }
 
   @Override
@@ -72,8 +75,46 @@ class PersonEntityTest extends AbstractAccessorEntityTest<Person> {
   protected void withoutPartOfUniqueConstraintEqualTest(Person standardEntity, String constraintName, String columnName) {
     switch (constraintName) {
       case IdentifiedEntity.BASIC_CONSTRAINT_NAME: {
+        basicConstraintTest(standardEntity, columnName);
         return;
       }
+      case Person.PHONE_CONSTRAINT_NAME: {
+        withoutColumnEqualTest(standardEntity, Person::getPhone, Person::setPhone);
+        return;
+      }
+      case Person.EMAIL_CONSTRAINT_NAME: {
+        withoutColumnEqualTest(standardEntity, Person::getEmail, Person::setEmail);
+        return;
+      }
+      default:
+        return;
+    }
+  }
+
+  private void basicConstraintTest(Person standardEntity, String columnName) {
+    if (Person_.BIRTH_DATE.equals(columnName)) {
+      withoutColumnEqualTest(standardEntity, Person::getBirthDate, Person::setBirthDate);
+      return;
+    }
+    personNamesBlockTest(standardEntity, columnName);
+  }
+
+  private void personNamesBlockTest(Person standardEntity, String columnName) {
+    switch (columnName) {
+      case Person_.NAME: {
+        withoutColumnEqualTest(standardEntity, Person::getName, Person::setName);
+        return;
+      }
+      case Person_.PATRONYMIC: {
+        withoutColumnEqualTest(standardEntity, Person::getPatronymic, Person::setPatronymic);
+        return;
+      }
+      case Person_.SURNAME: {
+        withoutColumnEqualTest(standardEntity, Person::getSurname, Person::setSurname);
+        return;
+      }
+      default:
+        return;
     }
   }
 

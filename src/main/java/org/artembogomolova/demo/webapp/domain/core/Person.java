@@ -22,7 +22,6 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
-import lombok.experimental.FieldNameConstants;
 import org.artembogomolova.demo.webapp.dao.repo.core.IPersonRepository;
 import org.artembogomolova.demo.webapp.dao.util.SQLite3Dialect;
 import org.artembogomolova.demo.webapp.domain.IdentifiedEntity;
@@ -35,7 +34,6 @@ import org.artembogomolova.demo.webapp.validation.UniqueMultiColumn.UniqueMultiC
 @Table(name = Person.PERSONS_TABLE)
 @NoArgsConstructor
 @Getter
-@Setter
 @ToString(callSuper = true,
     onlyExplicitlyIncluded = true)
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
@@ -60,14 +58,17 @@ public class Person extends IdentifiedEntity {
   @NotBlank
   @EqualsAndHashCode.Include
   @ToString.Include
+  @Setter
   private String name;
   @NotBlank
   @ToString.Include
   @EqualsAndHashCode.Include
+  @Setter
   private String surname;
   @NotBlank
   @ToString.Include
   @EqualsAndHashCode.Include
+  @Setter
   private String patronymic;
   @PastOrPresent
   @Temporal(TemporalType.TIMESTAMP)
@@ -78,15 +79,20 @@ public class Person extends IdentifiedEntity {
   @NotBlank
   @Pattern(regexp = "\\+([0-9]{0,3})\\-([0-9]{3})\\-([0-9]{3})\\-([0-9]{2})\\-([0-9]{2})")
   @ToString.Include
+  @Setter
+  @EqualsAndHashCode.Include
   private String phone;
   @NotBlank
   @Email
   @ToString.Include
+  @Setter
+  @EqualsAndHashCode.Include
   private String email;
   @NotNull
   @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REMOVE, CascadeType.DETACH})
   @JoinColumn(name = ESTATE_ADDRESS_ID_COLUMN, columnDefinition = SQLite3Dialect.FOREIGN_KEY_COLUMN_DEFINITION)
   @ToString.Include
+  @Setter
   private PhysicalAddress estateAddress;
   @OneToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REMOVE, CascadeType.DETACH},
       mappedBy = "person",
@@ -94,6 +100,7 @@ public class Person extends IdentifiedEntity {
   private List<Order> orders = new ArrayList<>();
   @OneToOne
   @JoinColumn(name = "id")
+  @Setter
   private User user;
 
   public Person(Person copyingEntity) {
@@ -102,6 +109,8 @@ public class Person extends IdentifiedEntity {
     this.setPatronymic(copyingEntity.getPatronymic());
     this.setBirthDate(copyingEntity.getBirthDate());
     this.setPhone(copyingEntity.getPhone());
+    this.setEmail(copyingEntity.getEmail());
+    this.setEstateAddress(new PhysicalAddress(copyingEntity.getEstateAddress()));
   }
 
   public Date getBirthDate() {
