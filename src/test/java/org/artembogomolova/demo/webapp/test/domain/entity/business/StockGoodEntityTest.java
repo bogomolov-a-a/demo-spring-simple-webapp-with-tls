@@ -1,6 +1,5 @@
 package org.artembogomolova.demo.webapp.test.domain.entity.business;
 
-import java.util.function.Function;
 import org.artembogomolova.demo.webapp.domain.business.StockGood;
 import org.artembogomolova.demo.webapp.test.domain.entity.AbstractAccessorEntityTest;
 import org.junit.jupiter.api.DisplayName;
@@ -9,17 +8,14 @@ import org.junit.jupiter.api.DisplayName;
 class StockGoodEntityTest extends AbstractAccessorEntityTest<StockGood> {
 
   StockGoodEntityTest() {
-    super(StockGood.class);
+    super(StockGood.class,
+        StockGood::new,
+        MockStockGood::new);
   }
 
 
   @Override
   protected StockGood buildStandardEntity() {
-    return null;
-  }
-
-  @Override
-  protected StockGood buildDuplicateEntity(StockGood standardEntity) {
     return null;
   }
 
@@ -31,11 +27,6 @@ class StockGoodEntityTest extends AbstractAccessorEntityTest<StockGood> {
   @Override
   protected void withoutPartOfUniqueConstraintEqualTest(StockGood standardEntity, String constraintName, String columnName) {
 
-  }
-
-  @Override
-  protected Function<StockGood, ? extends StockGood> getMockDescendantClassConstructor() {
-    return MockStockGood::new;
   }
 
   private static class MockStockGood extends StockGood {

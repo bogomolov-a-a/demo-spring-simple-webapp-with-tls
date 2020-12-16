@@ -1,6 +1,5 @@
 package org.artembogomolova.demo.webapp.test.domain.entity.core;
 
-import java.util.function.Function;
 import lombok.EqualsAndHashCode;
 import org.artembogomolova.demo.webapp.domain.core.PhysicalAddress;
 import org.artembogomolova.demo.webapp.domain.core.PhysicalAddress_;
@@ -23,7 +22,9 @@ class PhysicalAddressEntityTest extends AbstractAccessorEntityTest<PhysicalAddre
   private static final String SPECIFIC_PART_VALUE = "SpecificPart1";
 
   PhysicalAddressEntityTest() {
-    super(PhysicalAddress.class);
+    super(PhysicalAddress.class,
+        PhysicalAddress::new,
+        MockPhysicalAddress::new);
   }
 
   @Override
@@ -41,7 +42,6 @@ class PhysicalAddressEntityTest extends AbstractAccessorEntityTest<PhysicalAddre
     return result;
   }
 
-
   @Override
   protected void containFieldCorrectValuesTest(PhysicalAddress standardEntity) {
     Assertions.assertEquals(POSTAL_CODE_VALUE, standardEntity.getPostalCode());
@@ -55,10 +55,6 @@ class PhysicalAddressEntityTest extends AbstractAccessorEntityTest<PhysicalAddre
     Assertions.assertEquals(SPECIFIC_PART_VALUE, standardEntity.getSpecificPart());
   }
 
-  @Override
-  protected PhysicalAddress buildDuplicateEntity(PhysicalAddress standardEntity) {
-    return new PhysicalAddress(standardEntity);
-  }
 
   @Override
   protected PhysicalAddress buildAnotherEntityForTest() {
@@ -79,11 +75,6 @@ class PhysicalAddressEntityTest extends AbstractAccessorEntityTest<PhysicalAddre
     if (isHouseLevelPartColumnName(columnName)) {
       withoutHousePartEqualTest(standardEntity, columnName);
     }
-  }
-
-  @Override
-  protected Function<PhysicalAddress, ? extends PhysicalAddress> getMockDescendantClassConstructor() {
-    return MockPhysicalAddress::new;
   }
 
   private void withoutHousePartEqualTest(PhysicalAddress standardEntity, String columnName) {

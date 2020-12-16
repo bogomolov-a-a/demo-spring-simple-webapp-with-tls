@@ -1,6 +1,5 @@
 package org.artembogomolova.demo.webapp.test.domain.entity.business;
 
-import java.util.function.Function;
 import org.artembogomolova.demo.webapp.domain.business.Order;
 import org.artembogomolova.demo.webapp.test.domain.entity.AbstractAccessorEntityTest;
 import org.junit.jupiter.api.DisplayName;
@@ -9,16 +8,13 @@ import org.junit.jupiter.api.DisplayName;
 class OrderEntityTest extends AbstractAccessorEntityTest<Order> {
 
   OrderEntityTest() {
-    super(Order.class);
+    super(Order.class,
+        Order::new,
+        MockOrder::new);
   }
 
   @Override
   protected Order buildStandardEntity() {
-    return null;
-  }
-
-  @Override
-  protected Order buildDuplicateEntity(Order standardEntity) {
     return null;
   }
 
@@ -32,12 +28,7 @@ class OrderEntityTest extends AbstractAccessorEntityTest<Order> {
 
   }
 
-  @Override
-  protected Function<Order, ? extends Order> getMockDescendantClassConstructor() {
-    return MockOrder::new;
-  }
-
-  private static class MockOrder extends Order{
+  private static class MockOrder extends Order {
 
     MockOrder(Order order) {
     }

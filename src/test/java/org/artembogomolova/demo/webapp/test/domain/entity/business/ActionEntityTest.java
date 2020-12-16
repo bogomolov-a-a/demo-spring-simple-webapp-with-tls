@@ -1,7 +1,6 @@
 package org.artembogomolova.demo.webapp.test.domain.entity.business;
 
 import java.util.Calendar;
-import java.util.function.Function;
 import lombok.extern.slf4j.Slf4j;
 import org.artembogomolova.demo.webapp.domain.business.Action;
 import org.artembogomolova.demo.webapp.domain.business.Action_;
@@ -16,7 +15,9 @@ import org.junit.jupiter.api.DisplayName;
 class ActionEntityTest extends AbstractAccessorEntityTest<Action> {
 
   ActionEntityTest() {
-    super(Action.class);
+    super(Action.class,
+        Action::new,
+        MockAction::new);
   }
 
   @Override
@@ -27,11 +28,6 @@ class ActionEntityTest extends AbstractAccessorEntityTest<Action> {
     updateDateInfo(result);
     updateLinks(result);
     return result;
-  }
-
-  @Override
-  protected Action buildDuplicateEntity(Action standardEntity) {
-    return new Action(standardEntity);
   }
 
   private void updateLinks(Action standard) {
@@ -91,11 +87,6 @@ class ActionEntityTest extends AbstractAccessorEntityTest<Action> {
     }
   }
 
-  @Override
-  protected Function<Action, ? extends Action> getMockDescendantClassConstructor() {
-    return MockAction::new;
-  }
-
   private void assertWithOutNameEquals(Action standard) {
     Action action = new Action();
     Assertions.assertNotEquals(standard, action);
@@ -124,7 +115,7 @@ class ActionEntityTest extends AbstractAccessorEntityTest<Action> {
     Assertions.assertEquals(standard, action);
   }
 
-  private static class MockAction extends Action{
+  private static class MockAction extends Action {
 
     MockAction(Action action) {
     }

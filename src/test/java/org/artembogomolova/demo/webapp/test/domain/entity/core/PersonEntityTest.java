@@ -3,7 +3,6 @@ package org.artembogomolova.demo.webapp.test.domain.entity.core;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
-import java.util.function.Function;
 import lombok.EqualsAndHashCode;
 import org.artembogomolova.demo.webapp.domain.IdentifiedEntity;
 import org.artembogomolova.demo.webapp.domain.core.Person;
@@ -26,7 +25,9 @@ class PersonEntityTest extends AbstractAccessorEntityTest<Person> {
   private static final PhysicalAddress PHYSICAL_ADDRESS_VALUE = DomainTestUtil.buildTestAddress();
 
   PersonEntityTest() {
-    super(Person.class);
+    super(Person.class,
+        Person::new,
+        MockPerson::new);
   }
 
   @Override
@@ -61,10 +62,6 @@ class PersonEntityTest extends AbstractAccessorEntityTest<Person> {
         Person.EMAIL_CONSTRAINT_NAME);
   }
 
-  @Override
-  protected Person buildDuplicateEntity(Person standardEntity) {
-    return new Person(standardEntity);
-  }
 
   @Override
   protected Person buildAnotherEntityForTest() {
@@ -116,11 +113,6 @@ class PersonEntityTest extends AbstractAccessorEntityTest<Person> {
       default:
         return;
     }
-  }
-
-  @Override
-  protected Function<Person, ? extends Person> getMockDescendantClassConstructor() {
-    return MockPerson::new;
   }
 
   @EqualsAndHashCode(callSuper = false)

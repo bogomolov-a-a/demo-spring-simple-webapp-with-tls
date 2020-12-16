@@ -1,6 +1,5 @@
 package org.artembogomolova.demo.webapp.test.domain.entity.auth;
 
-import java.util.function.Function;
 import lombok.EqualsAndHashCode;
 import org.artembogomolova.demo.webapp.domain.auth.Authority;
 import org.artembogomolova.demo.webapp.domain.auth.Authority_;
@@ -16,7 +15,9 @@ class AuthorityEntityTest extends AbstractAccessorEntityTest<Authority> {
   private static final String NAME_ANOTHER_VALUE = "test:authority_another";
 
   AuthorityEntityTest() {
-    super(Authority.class);
+    super(Authority.class,
+        Authority::new,
+        MockAuthority::new);
   }
 
   @Override
@@ -25,11 +26,6 @@ class AuthorityEntityTest extends AbstractAccessorEntityTest<Authority> {
     result.setName(NAME_VALUE);
     result.setDescription(DESCRIPTION_VALUE);
     return result;
-  }
-
-  @Override
-  protected Authority buildDuplicateEntity(Authority standardEntity) {
-    return new Authority(standardEntity);
   }
 
   @Override
@@ -55,11 +51,6 @@ class AuthorityEntityTest extends AbstractAccessorEntityTest<Authority> {
       withoutColumnEqualTest(standardEntity, Authority::getName, Authority::setName);
     }
 
-  }
-
-  @Override
-  protected Function<Authority, ? extends Authority> getMockDescendantClassConstructor() {
-    return MockAuthority::new;
   }
 
   @EqualsAndHashCode(callSuper = false)

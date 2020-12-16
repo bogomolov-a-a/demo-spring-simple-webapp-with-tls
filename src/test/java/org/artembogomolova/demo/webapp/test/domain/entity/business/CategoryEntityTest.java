@@ -1,6 +1,5 @@
 package org.artembogomolova.demo.webapp.test.domain.entity.business;
 
-import java.util.function.Function;
 import lombok.extern.slf4j.Slf4j;
 import org.artembogomolova.demo.webapp.domain.business.Category;
 import org.artembogomolova.demo.webapp.domain.business.Category_;
@@ -14,7 +13,9 @@ import org.junit.jupiter.api.DisplayName;
 class CategoryEntityTest extends AbstractAccessorEntityTest<Category> {
 
   CategoryEntityTest() {
-    super(Category.class);
+    super(Category.class,
+        Category::new,
+        MockCategory::new);
   }
 
   @Override
@@ -25,10 +26,6 @@ class CategoryEntityTest extends AbstractAccessorEntityTest<Category> {
     return result;
   }
 
-  @Override
-  protected Category buildDuplicateEntity(Category standardEntity) {
-    return new Category(standardEntity);
-  }
 
   private void updateSimpleField(Category result) {
     if (result.getName() == null) {
@@ -56,11 +53,6 @@ class CategoryEntityTest extends AbstractAccessorEntityTest<Category> {
         return;
       }
     }
-  }
-
-  @Override
-  protected Function<Category, ? extends Category> getMockDescendantClassConstructor() {
-    return MockCategory::new;
   }
 
   private void assertWithoutNameEquals(Category standard) {

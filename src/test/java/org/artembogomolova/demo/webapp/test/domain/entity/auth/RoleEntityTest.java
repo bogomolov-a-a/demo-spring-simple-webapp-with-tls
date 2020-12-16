@@ -1,6 +1,5 @@
 package org.artembogomolova.demo.webapp.test.domain.entity.auth;
 
-import java.util.function.Function;
 import org.artembogomolova.demo.webapp.domain.auth.Role;
 import org.artembogomolova.demo.webapp.test.domain.entity.AbstractAccessorEntityTest;
 import org.junit.jupiter.api.DisplayName;
@@ -9,17 +8,15 @@ import org.junit.jupiter.api.DisplayName;
 class RoleEntityTest extends AbstractAccessorEntityTest<Role> {
 
   RoleEntityTest() {
-    super(Role.class);
+    super(Role.class,
+        Role::new,
+        MockRole::new);
   }
 
   @Override
   protected Role buildStandardEntity() {
-    return null;
-  }
-
-  @Override
-  protected Role buildDuplicateEntity(Role standardEntity) {
-    return null;
+    Role result = new Role();
+    return result;
   }
 
   @Override
@@ -32,14 +29,10 @@ class RoleEntityTest extends AbstractAccessorEntityTest<Role> {
 
   }
 
-  @Override
-  protected Function<Role, ? extends Role> getMockDescendantClassConstructor() {
-    return MockRole::new;
-  }
-
   private static class MockRole extends Role {
 
     MockRole(Role role) {
+      super(role);
     }
   }
 }

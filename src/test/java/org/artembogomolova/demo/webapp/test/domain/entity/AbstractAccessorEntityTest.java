@@ -23,11 +23,17 @@ public abstract class AbstractAccessorEntityTest<T extends IdentifiedEntity> ext
   private static final String TEST_CLASS_DISPLAY_NAME = "Entity test: ";
   private List<String> availableConstraintNames = getAvailableConstraintNames();
   private T standardEntity;
+  private final Function<T, ? extends T> mockDescendantClassConstructor;
+  private final Function<T, T> copyConstructor;
 
-  protected AbstractAccessorEntityTest(Class<T> clazz) {
+  protected AbstractAccessorEntityTest(Class<T> clazz,
+      Function<T, T> copyConstructor,
+      Function<T, ? extends T> mockDescendantClassConstructor) {
     super(clazz,
         TEST_CLASS_SUFFIX,
         TEST_CLASS_DISPLAY_NAME);
+    this.copyConstructor=copyConstructor;
+    this.mockDescendantClassConstructor = mockDescendantClassConstructor;
   }
 
   protected List<String> getAvailableConstraintNames() {
@@ -70,7 +76,7 @@ public abstract class AbstractAccessorEntityTest<T extends IdentifiedEntity> ext
   @DisplayName("Duplicate entity(different link) equal contract test")
   void fullDuplicateEntityEqualTest() {
     log.info("full duplicate test started. Only natural key fields!");
-    T duplicateEntity = buildDuplicateEntity(standardEntity);
+    T duplicateEntity = buildDuplicateEntity();
     log.info("testing entity: {}", standardEntity);
     log.info("testing duplicate entity: {}", duplicateEntity);
     Assertions.assertEquals(standardEntity, duplicateEntity);
@@ -78,7 +84,9 @@ public abstract class AbstractAccessorEntityTest<T extends IdentifiedEntity> ext
     log.info("full duplicate test passed. ");
   }
 
-  protected abstract T buildDuplicateEntity(T standardEntity);
+  private T buildDuplicateEntity() {
+    return copyConstructor.apply(standardEntity);
+  }
 
   @Test
   @DisplayName("Equal contract test for different entities.")
@@ -100,7 +108,7 @@ public abstract class AbstractAccessorEntityTest<T extends IdentifiedEntity> ext
   protected final <U> void withoutColumnEqualTest(T entity,
       Function<T, U> getter,
       BiConsumer<T, U> setter) {
-    T duplicateEntity = buildDuplicateEntity(entity);
+    T duplicateEntity = buildDuplicateEntity();
     setNullFieldValueAndNotEquals(duplicateEntity,
         entity,
         setter);
@@ -194,13 +202,12 @@ public abstract class AbstractAccessorEntityTest<T extends IdentifiedEntity> ext
       + "Descendant class must be Mock(with copy constructor)")
   void descendantClassEqualTest() {
     log.info("Mock descendant test started.");
-    Function<T, ? extends T> MockDescendantClassConstructor = getMockDescendantClassConstructor();
-    T MockDescendantEntity = MockDescendantClassConstructor.apply(standardEntity);
+    T MockDescendantEntity = mockDescendantClassConstructor.apply(standardEntity);
     log.info("standard entity: {}", standardEntity);
     log.info("descendant entity: {}", MockDescendantEntity);
     Assertions.assertNotEquals(standardEntity, MockDescendantEntity);
     log.info("Mock descendant test passed.");
   }
 
-  protected abstract Function<T, ? extends T> getMockDescendantClassConstructor();
+
 }

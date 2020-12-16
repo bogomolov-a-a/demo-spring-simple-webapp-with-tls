@@ -1,6 +1,5 @@
 package org.artembogomolova.demo.webapp.test.domain.entity.business;
 
-import java.util.function.Function;
 import org.artembogomolova.demo.webapp.domain.business.Ticket;
 import org.artembogomolova.demo.webapp.test.domain.entity.AbstractAccessorEntityTest;
 import org.junit.jupiter.api.DisplayName;
@@ -9,17 +8,14 @@ import org.junit.jupiter.api.DisplayName;
 class TicketEntityTest extends AbstractAccessorEntityTest<Ticket> {
 
   TicketEntityTest() {
-    super(Ticket.class);
+    super(Ticket.class,
+        Ticket::new,
+        MockTicket::new);
   }
 
 
   @Override
   protected Ticket buildStandardEntity() {
-    return null;
-  }
-
-  @Override
-  protected Ticket buildDuplicateEntity(Ticket standardEntity) {
     return null;
   }
 
@@ -33,12 +29,7 @@ class TicketEntityTest extends AbstractAccessorEntityTest<Ticket> {
 
   }
 
-  @Override
-  protected Function<Ticket, ? extends Ticket> getMockDescendantClassConstructor() {
-    return MockTicket::new;
-  }
-
-  private class MockTicket extends Ticket {
+  private static class MockTicket extends Ticket {
 
     MockTicket(Ticket ticket) {
     }
