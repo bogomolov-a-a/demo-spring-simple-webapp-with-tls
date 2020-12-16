@@ -184,7 +184,7 @@ public abstract class AbstractDaoTest<T extends IdentifiedEntity> extends Abstra
   protected abstract T doDuplicateDeniedTestEntity(UniqueMultiColumnConstraint columns, Map<String, Object> commonValues);
 
   @Test
-  @DisplayName("Test for validation without another violations(not 'UniqueMultiColumnConstraint' annotations). Entity with all correct fields.")
+  @DisplayName("Test for validation with another violations(not 'UniqueMultiColumnConstraint' annotations). Entity with all correct fields.")
   void validatorTest() {
     Set<ConstraintViolation<T>> violations = validator.validate(buildEntityWithoutViolationEntity());
     Assertions.assertTrue(violations.isEmpty(), "entity has following violations: " + violations.toString());
