@@ -29,4 +29,7 @@ public class OrderPosition extends IdentifiedEntity {
   @JoinColumn(name = "order_goods_id", columnDefinition = SQLite3Dialect.FOREIGN_KEY_COLUMN_DEFINITION)
   private OrderGood orderGood;
 
+  public OrderPosition(OrderPosition orderPosition) {
+    orderPosition.setOrderGood(new OrderGood(orderPosition.getOrderGood()));
+  }
 }

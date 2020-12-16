@@ -27,4 +27,13 @@ public class ActionGood extends IdentifiedEntity {
   @ManyToOne
   @JoinColumn(name = "good_id", columnDefinition = SQLite3Dialect.FOREIGN_KEY_COLUMN_DEFINITION)
   private Good good;
+
+  public ActionGood(ActionGood actionGood) {
+    this.setQuantity(actionGood.getQuantity());
+    this.setSharePrice(actionGood.getSharePrice());
+    /*goods do not copy*/
+    this.setGood(actionGood.getGood());
+    /*create new action for new actioned good*/
+    this.setAction(new Action(actionGood.getAction()));
+  }
 }

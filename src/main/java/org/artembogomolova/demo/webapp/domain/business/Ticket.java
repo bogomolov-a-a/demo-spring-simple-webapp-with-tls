@@ -26,4 +26,9 @@ public class Ticket extends IdentifiedEntity {
   @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REMOVE, CascadeType.DETACH})
   @JoinColumn(name = "order_id", columnDefinition = SQLite3Dialect.FOREIGN_KEY_COLUMN_DEFINITION)
   private Order order;
+
+  public Ticket(Ticket ticket) {
+    this.setSum(ticket.getSum());
+    this.setOrder(ticket.getOrder());
+  }
 }

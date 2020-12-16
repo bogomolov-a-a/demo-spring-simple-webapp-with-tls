@@ -27,7 +27,4 @@ public class IdentifiedEntity implements Serializable {
   @Column(columnDefinition = SQLite3Dialect.IDENTITY_COLUMN_DEFINITION)
   private Long id;
 
-  public IdentifiedEntity(IdentifiedEntity copyingEntity) {
-    this.id = copyingEntity.getId();
-  }
 }

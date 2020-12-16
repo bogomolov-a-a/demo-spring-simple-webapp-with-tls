@@ -56,7 +56,6 @@ public class Action extends IdentifiedEntity {
   private Long categoryId;
 
   public Action(Action copyingEntity) {
-    super(copyingEntity);
     this.setName(copyingEntity.getName());
     this.setCategoryId(copyingEntity.getCategoryId());
     this.setDescription(copyingEntity.getDescription());

@@ -13,6 +13,7 @@ import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 import org.artembogomolova.demo.webapp.dao.util.SQLite3Dialect;
@@ -23,6 +24,7 @@ import org.artembogomolova.demo.webapp.domain.core.Person;
 @Table(name = "users")
 @Getter
 @Setter
+@NoArgsConstructor
 @ToString(onlyExplicitlyIncluded = true)
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
 public class User extends IdentifiedEntity {
@@ -44,4 +46,17 @@ public class User extends IdentifiedEntity {
       joinColumns = {@JoinColumn(name = "user_id", columnDefinition = SQLite3Dialect.FOREIGN_KEY_COLUMN_DEFINITION)},
       inverseJoinColumns = {@JoinColumn(name = "authority_id", columnDefinition = SQLite3Dialect.FOREIGN_KEY_COLUMN_DEFINITION)})
   private List<Authority> blockAuthorities = new ArrayList<>();
+
+  public User(User user) {
+    this.setLogin(user.getLogin());
+    this.setPassword(user.getPassword());
+    this.setActive(user.getActive());
+    this.setClientCertificateData(user.getClientCertificateData());
+    this.setAvatar(user.getAvatar());
+    /*role set as is*/
+    this.setRole(user.getRole());
+    /*person copy*/
+    this.setPerson(new Person(user.getPerson()));
+
+  }
 }

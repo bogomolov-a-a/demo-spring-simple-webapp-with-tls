@@ -2,6 +2,7 @@ package org.artembogomolova.demo.webapp.domain.business;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
@@ -33,4 +34,15 @@ public class Producer extends IdentifiedEntity {
   @OneToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REMOVE, CascadeType.DETACH}, orphanRemoval = true, mappedBy = "producer")
   private List<Good> goods = new ArrayList<>();
 
+  public Producer(Producer producer) {
+    this.setName(producer.getName());
+    this.setAddress(producer.getAddress());
+    this.getGoods().addAll(producer.getGoods().stream().map(this::createNewGood).collect(Collectors.toList()));
+  }
+
+  private Good createNewGood(Good good) {
+    Good result = new Good(good);
+    result.setProducer(this);
+    return result;
+  }
 }

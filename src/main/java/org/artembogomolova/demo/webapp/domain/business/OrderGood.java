@@ -24,4 +24,10 @@ public class OrderGood extends IdentifiedEntity {
   @ManyToOne()
   @JoinColumn(name = "good_id", columnDefinition = SQLite3Dialect.FOREIGN_KEY_COLUMN_DEFINITION)
   private Good good;
+
+  public OrderGood(OrderGood orderGood) {
+    this.setQuantity(orderGood.getQuantity());
+    this.setEffectivePrice(orderGood.getEffectivePrice());
+    this.setGood(orderGood.getGood());
+  }
 }

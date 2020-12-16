@@ -26,9 +26,9 @@ public class StockGood extends IdentifiedEntity {
   @JoinColumn(name = "good_id", columnDefinition = SQLite3Dialect.FOREIGN_KEY_COLUMN_DEFINITION)
   private Good good;
 
-  public StockGood(StockGood good) {
-    super(good);
-    this.setQuantity(good.getQuantity());
-    this.setPrice(good.getPrice());
+  public StockGood(StockGood stockGood) {
+    this.setQuantity(stockGood.getQuantity());
+    this.setPrice(stockGood.getPrice());
+    this.setGood(new Good(stockGood.getGood()));
   }
 }

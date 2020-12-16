@@ -110,7 +110,7 @@ public class Person extends IdentifiedEntity {
     this.setBirthDate(copyingEntity.getBirthDate());
     this.setPhone(copyingEntity.getPhone());
     this.setEmail(copyingEntity.getEmail());
-    this.setEstateAddress(new PhysicalAddress(copyingEntity.getEstateAddress()));
+    this.setEstateAddress(copyingEntity.getEstateAddress());
   }
 
   public Date getBirthDate() {

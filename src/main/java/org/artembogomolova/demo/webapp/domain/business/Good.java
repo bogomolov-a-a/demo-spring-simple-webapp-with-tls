@@ -37,6 +37,8 @@ public class Good extends IdentifiedEntity {
   private Category category;
 
   public Good(Good good) {
-    super(good);
+    this.setName(good.getName());
+    this.setDescription(good.getDescription());
+    this.setImgFilePath(good.getImgFilePath());
   }
 }

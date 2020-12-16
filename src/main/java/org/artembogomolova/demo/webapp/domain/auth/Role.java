@@ -11,9 +11,11 @@ import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.validation.constraints.NotBlank;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 import lombok.ToString;
 import org.artembogomolova.demo.webapp.dao.util.SQLite3Dialect;
 import org.artembogomolova.demo.webapp.domain.IdentifiedEntity;
@@ -26,7 +28,16 @@ import org.artembogomolova.demo.webapp.domain.IdentifiedEntity;
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
 public class Role extends IdentifiedEntity {
 
+  @NotBlank
+  @Setter
+  @EqualsAndHashCode.Include
+  @ToString.Include
   private String name;
+
+  @NotBlank
+  @Setter
+  @ToString.Include
+  private String description;
   @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
   @JoinTable(name = "role_authorities",
       joinColumns = {@JoinColumn(name = "role_id", columnDefinition = SQLite3Dialect.FOREIGN_KEY_COLUMN_DEFINITION)},
@@ -37,9 +48,16 @@ public class Role extends IdentifiedEntity {
   private List<User> users = new ArrayList<>();
 
   public Role(PredefinedUserRole predefinedUserRole) {
-    this.name = predefinedUserRole.name();
+    String roleName = predefinedUserRole.name();
+    this.setName(roleName);
+    this.setDescription(roleName);
     this.setId(predefinedUserRole.getId());
     authorities.addAll(predefinedUserRole.getPrivileges().stream().map(Authority::new).collect(Collectors.toList()));
 
+  }
+
+  public Role(Role role) {
+    this.setName(role.getName());
+    this.setDescription(role.getDescription());
   }
 }

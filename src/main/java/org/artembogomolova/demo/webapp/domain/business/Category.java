@@ -21,7 +21,7 @@ import org.artembogomolova.demo.webapp.validation.UniqueMultiColumn.UniqueMultiC
 @Table(name = "categories")
 @NoArgsConstructor
 @Getter
-@ToString(exclude = {"goods", "actions"})
+@ToString(exclude = {"goods", "action"})
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
 @UniqueMultiColumn(repository = ICategoryRepository.class,
     constraints = @UniqueMultiColumnConstraint(name = IdentifiedEntity.BASIC_CONSTRAINT_NAME,
@@ -41,10 +41,7 @@ public class Category extends IdentifiedEntity {
   private Action action;
 
   public Category(Category category) {
-    super(category);
     this.setName(category.getName());
     this.setParentCategoryId(category.getParentCategoryId());
-    this.getGoods().addAll(category.getGoods());
-    this.setAction(category.getAction());
   }
 }

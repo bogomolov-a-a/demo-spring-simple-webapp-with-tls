@@ -1,8 +1,10 @@
 package org.artembogomolova.demo.webapp.domain.business;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+import java.util.stream.Collectors;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -33,7 +35,7 @@ public class Order extends IdentifiedEntity {
 
   @Temporal(TemporalType.TIMESTAMP)
   @Column(insertable = false)
-  private Date orderDate;
+  private Date orderDate = Calendar.getInstance().getTime();
   @Temporal(TemporalType.TIMESTAMP)
   private Date deliveryDate;
   private String orderAddressPlain;
@@ -51,25 +53,32 @@ public class Order extends IdentifiedEntity {
   @JoinColumn(name = "person_id", columnDefinition = SQLite3Dialect.FOREIGN_KEY_COLUMN_DEFINITION)
   private Person person;
 
+  public Order(Order order) {
+    this.setOrderDate(order.getOrderDate());
+    this.setOrderAddressPlain(order.getOrderAddressPlain());
+    this.setDescription(order.getDescription());
+    this.getOrderPositions().addAll(order.getOrderPositions().stream().map(this::createNewOrderPosition).collect(Collectors.toList()));
+  }
+
   public Date getOrderDate() {
-    if (orderDate == null) {
-      return null;
-    }
-    return new Date(orderDate.getTime());
+    return orderDate == null ? null : new Date(orderDate.getTime());
   }
 
   public void setOrderDate(Date orderDate) {
-    this.orderDate = new Date(orderDate.getTime());
+    this.orderDate = orderDate == null ? null : new Date(orderDate.getTime());
   }
 
   public Date getDeliveryDate() {
-    if (deliveryDate == null) {
-      return null;
-    }
-    return new Date(deliveryDate.getTime());
+    return deliveryDate == null ? null : new Date(deliveryDate.getTime());
   }
 
   public void setDeliveryDate(Date deliveryDate) {
-    this.deliveryDate = new Date(deliveryDate.getTime());
+    this.deliveryDate = deliveryDate == null ? null : new Date(deliveryDate.getTime());
+  }
+
+  private OrderPosition createNewOrderPosition(OrderPosition orderPosition) {
+    OrderPosition result = new OrderPosition(orderPosition);
+    result.setOrder(this);
+    return result;
   }
 }
