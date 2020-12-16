@@ -7,7 +7,7 @@ import java.util.Date;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.artembogomolova.demo.webapp.dao.repo.auth.IUserRepository;
-import org.artembogomolova.demo.webapp.dao.repo.auth.IUserRoleRepository;
+import org.artembogomolova.demo.webapp.dao.repo.auth.IRoleRepository;
 import org.artembogomolova.demo.webapp.domain.auth.Authority;
 import org.artembogomolova.demo.webapp.domain.auth.PredefinedUserRole;
 import org.artembogomolova.demo.webapp.domain.auth.Role;
@@ -37,7 +37,7 @@ public class UserRepoService {
   private static final String PREDEFINED_GUEST_EMAIL = "guest@localhost";
   private static final String PREDEFINED_ADMIN_EMAIL = "admin@localhost";
   private final IUserRepository userRepository;
-  private final IUserRoleRepository userRoleRepository;
+  private final IRoleRepository userRoleRepository;
 
   public void createPredefinedSuperUser(PasswordEncoder passwordEncoder) {
     User result = new User();

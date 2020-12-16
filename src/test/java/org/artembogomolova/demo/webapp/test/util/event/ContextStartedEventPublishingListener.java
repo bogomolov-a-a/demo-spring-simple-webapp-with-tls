@@ -1,8 +1,8 @@
 package org.artembogomolova.demo.webapp.test.util.event;
 
 import org.artembogomolova.demo.webapp.dao.repo.auth.IAuthorityRepository;
+import org.artembogomolova.demo.webapp.dao.repo.auth.IRoleRepository;
 import org.artembogomolova.demo.webapp.dao.repo.auth.IUserRepository;
-import org.artembogomolova.demo.webapp.dao.repo.auth.IUserRoleRepository;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.context.event.ContextStartedEvent;
@@ -26,7 +26,7 @@ public class ContextStartedEventPublishingListener extends EventPublishingTestEx
   public void afterTestMethod(TestContext testContext) {
     ConfigurableApplicationContext applicationContext = (ConfigurableApplicationContext) testContext.getApplicationContext();
     IUserRepository userRepository = applicationContext.getBeanFactory().getBean(IUserRepository.class);
-    IUserRoleRepository userRoleRepository = applicationContext.getBeanFactory().getBean(IUserRoleRepository.class);
+    IRoleRepository userRoleRepository = applicationContext.getBeanFactory().getBean(IRoleRepository.class);
     IAuthorityRepository authorityRepository = applicationContext.getBeanFactory().getBean(IAuthorityRepository.class);
     userRepository.deleteAll();
     userRoleRepository.deleteAll();

@@ -17,8 +17,11 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
+import org.artembogomolova.demo.webapp.dao.repo.auth.IRoleRepository;
 import org.artembogomolova.demo.webapp.dao.util.SQLite3Dialect;
 import org.artembogomolova.demo.webapp.domain.IdentifiedEntity;
+import org.artembogomolova.demo.webapp.validation.UniqueMultiColumn;
+import org.artembogomolova.demo.webapp.validation.UniqueMultiColumn.UniqueMultiColumnConstraint;
 
 @Entity
 @Table(name = "roles")
@@ -26,6 +29,9 @@ import org.artembogomolova.demo.webapp.domain.IdentifiedEntity;
 @Getter
 @ToString(onlyExplicitlyIncluded = true)
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
+@UniqueMultiColumn(repository = IRoleRepository.class,
+    constraints = @UniqueMultiColumnConstraint(name = IdentifiedEntity.BASIC_CONSTRAINT_NAME,
+        columnNames = {Role_.NAME}))
 public class Role extends IdentifiedEntity {
 
   @NotBlank

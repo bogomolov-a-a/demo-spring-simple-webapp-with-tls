@@ -5,7 +5,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 import org.artembogomolova.demo.webapp.dao.repo.auth.IAuthorityRepository;
-import org.artembogomolova.demo.webapp.dao.repo.auth.IUserRoleRepository;
+import org.artembogomolova.demo.webapp.dao.repo.auth.IRoleRepository;
 import org.artembogomolova.demo.webapp.domain.auth.Authority;
 import org.artembogomolova.demo.webapp.domain.auth.PredefinedUserRole;
 import org.artembogomolova.demo.webapp.domain.auth.Role;
@@ -15,7 +15,7 @@ import org.springframework.stereotype.Component;
 @RequiredArgsConstructor
 public class RoleRepoService {
 
-  private final IUserRoleRepository userRoleRepository;
+  private final IRoleRepository userRoleRepository;
   private final IAuthorityRepository authorityRepository;
 
   public void fillAuthoritiesAndRoles() {
