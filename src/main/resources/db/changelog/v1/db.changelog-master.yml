@@ -2,21 +2,32 @@ databaseChangeLog:
   - changeSet:
       id: init-db
       author: bogomolov-a-a
+      created: 2020-10-25
       sqlFile:
         path: sql/init-db.sql
         relativeToChangelogFile: true
         endDelitimiter: /
   - changeSet:
       id: add-user-auth-model
+      created: 2020-11-15
       author: bogomolov-a-a
       sqlFile:
         path: sql/add-user-auth-model.sql
         relativeToChangelogFile: true
         endDelitimiter: /
   - changeSet:
-      id: add-user-auth-description
+      id: add-role-authority-description
       author: bogomolov-a-a
+      created: 2020-12-15
       sqlFile:
-        path: sql/add-user-auth-description.sql
+        path: sql/add-role-authority-description.sql
+        relativeToChangelogFile: true
+        endDelitimiter: /
+  - changeSet:
+      id: add-user-role-description
+      author: bogomolov-a-a
+      created: 2020-12-16
+      sqlFile:
+        path: sql/add-user-role-description.sql
         relativeToChangelogFile: true
         endDelitimiter: /
