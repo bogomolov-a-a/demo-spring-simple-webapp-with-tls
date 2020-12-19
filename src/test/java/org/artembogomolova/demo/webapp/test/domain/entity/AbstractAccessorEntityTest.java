@@ -32,7 +32,7 @@ public abstract class AbstractAccessorEntityTest<T extends IdentifiedEntity> ext
     super(clazz,
         TEST_CLASS_SUFFIX,
         TEST_CLASS_DISPLAY_NAME);
-    this.copyConstructor=copyConstructor;
+    this.copyConstructor = copyConstructor;
     this.mockDescendantClassConstructor = mockDescendantClassConstructor;
   }
 
@@ -202,10 +202,16 @@ public abstract class AbstractAccessorEntityTest<T extends IdentifiedEntity> ext
       + "Descendant class must be Mock(with copy constructor)")
   void descendantClassEqualTest() {
     log.info("Mock descendant test started.");
-    T MockDescendantEntity = mockDescendantClassConstructor.apply(standardEntity);
-    log.info("standard entity: {}", standardEntity);
-    log.info("descendant entity: {}", MockDescendantEntity);
-    Assertions.assertNotEquals(standardEntity, MockDescendantEntity);
+    T mockDescendantEntity = mockDescendantClassConstructor.apply(standardEntity);
+    Class<? extends IdentifiedEntity> standardEntityClass = standardEntity.getClass();
+    String standardEntityClassName = standardEntityClass.getName();
+    Class<? extends IdentifiedEntity> mockDescendantEntityClass = mockDescendantEntity.getClass();
+    String mockDescendantEntityClassName = mockDescendantEntityClass.getName();
+    Assertions.assertTrue(standardEntityClass.isAssignableFrom(mockDescendantEntityClass),
+        "class called '" + mockDescendantEntityClassName + "' is not descendant of '" + standardEntityClassName + "'");
+    log.info("standard entity: {} , class: {}", standardEntity, standardEntityClassName);
+    log.info("descendant entity: {} , class: {}", mockDescendantEntity, mockDescendantEntityClassName);
+    Assertions.assertNotEquals(standardEntity, mockDescendantEntity);
     log.info("Mock descendant test passed.");
   }
 
