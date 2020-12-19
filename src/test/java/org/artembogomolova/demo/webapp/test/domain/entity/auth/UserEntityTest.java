@@ -83,6 +83,12 @@ class UserEntityTest extends AbstractAccessorEntityTest<User> {
   private static class MockUser extends User {
 
     public MockUser(User user) {
+      super(buildCopyingUser(user));
+    }
+
+    private static User buildCopyingUser(User user) {
+      user.setPerson(null);
+      return user;
     }
   }
 }

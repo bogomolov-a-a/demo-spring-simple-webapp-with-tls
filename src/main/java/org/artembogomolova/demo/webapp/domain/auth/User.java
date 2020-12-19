@@ -81,7 +81,7 @@ public class User extends IdentifiedEntity {
     /*role set as is*/
     this.setRole(user.getRole());
     /*person copy*/
-    this.setPerson(new Person(user.getPerson()));
+    this.setPerson(user.getPerson() == null ? null : new Person(user.getPerson()));
 
   }
 }
