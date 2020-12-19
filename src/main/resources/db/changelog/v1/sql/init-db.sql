@@ -23,6 +23,7 @@ create table persons(
   estate_address_id bigint not null,
   unique (name,surname,patronymic,birth_date),
   unique (phone),
+  unique (email),
   foreign key (estate_address_id) references addresses(id) on delete cascade on update cascade
 );
 
