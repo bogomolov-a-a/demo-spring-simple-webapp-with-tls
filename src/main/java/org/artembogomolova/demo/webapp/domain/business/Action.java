@@ -44,8 +44,10 @@ public class Action extends IdentifiedEntity {
   @Temporal(TemporalType.TIMESTAMP)
   private Date endDate;
   @Setter
+  @Column(insertable = false)
   private Float discountFixed;
   @Setter
+  @Column(insertable = false)
   private Float discountPercent;
   @OneToOne(cascade = {CascadeType.ALL})
   @JoinColumn(name = "category_id", columnDefinition = SQLite3Dialect.FOREIGN_KEY_COLUMN_DEFINITION)
