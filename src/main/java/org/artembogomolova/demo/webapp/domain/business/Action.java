@@ -23,7 +23,7 @@ import org.artembogomolova.demo.webapp.validation.UniqueMultiColumn.UniqueMultiC
 @Entity
 @Table(name = "actions")
 @Getter
-@ToString(exclude = {"category", "goods"}, callSuper = true)
+@ToString(exclude = {Action_.CATEGORY}, callSuper = true)
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
 @NoArgsConstructor
 @UniqueMultiColumn(repository = IActionRepository.class,
