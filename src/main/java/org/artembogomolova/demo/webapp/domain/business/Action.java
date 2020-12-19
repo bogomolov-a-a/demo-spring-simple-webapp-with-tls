@@ -28,7 +28,7 @@ import org.artembogomolova.demo.webapp.validation.UniqueMultiColumn.UniqueMultiC
 @NoArgsConstructor
 @UniqueMultiColumn(repository = IActionRepository.class,
     constraints = {@UniqueMultiColumnConstraint(name = IdentifiedEntity.BASIC_CONSTRAINT_NAME,
-        columnNames = {}//{Action_.NAME_FIELD_NAME, Action_.START_DATE_FIELD_NAME}
+        columnNames = {Action_.NAME, Action_.START_DATE}
     )}
 )
 public class Action extends IdentifiedEntity {
@@ -63,9 +63,7 @@ public class Action extends IdentifiedEntity {
     this.setDiscountPercent(copyingEntity.getDiscountPercent());
     this.setStartDate(copyingEntity.getStartDate());
     this.setEndDate(copyingEntity.getEndDate());
-    if (copyingEntity.getCategory() != null) {
-      this.setCategory(new Category(copyingEntity.getCategory()));
-    }
+    this.setCategory(copyingEntity.getCategory() == null ? null : new Category(copyingEntity.getCategory()));
   }
 
   public Date getStartDate() {
