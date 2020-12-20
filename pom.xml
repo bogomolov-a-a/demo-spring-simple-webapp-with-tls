@@ -11,18 +11,6 @@
         <groupId>org.codehaus.mojo</groupId>
         <artifactId>build-helper-maven-plugin</artifactId>
         <executions>
-          <!--execution>
-            <id>add-sources</id>
-            <phase>generate-sources</phase>
-            <goals>
-              <goal>add-source</goal>
-            </goals>
-            <configuration>
-              <sources>
-                <source>${processed.source.compile.path}</source>
-              </sources>
-            </configuration>
-          </execution-->
           <execution>
             <id>add-test-sources</id>
             <phase>generate-test-sources</phase>
@@ -31,7 +19,6 @@
             </goals>
             <configuration>
               <sources>
-                <!--source>${processed.source.test.compile.path}</source-->
                 <source>${processed.source.compile.path}</source>
               </sources>
             </configuration>
@@ -112,8 +99,6 @@
           <showDeprecation>true</showDeprecation>
           <showWarnings>true</showWarnings>
           <failOnWarning>true</failOnWarning>
-          <!--generatedSourcesDirectory>${real.source.compile.path}</generatedSourcesDirectory>
-          <generatedTestSourcesDirectory>${real.source.test.compile.path}</generatedTestSourcesDirectory-->
         </configuration>
         <groupId>org.apache.maven.plugins</groupId>
       </plugin>
@@ -511,6 +496,26 @@
                 </goals>
                 <id>default-report-agent</id>
                 <phase>test</phase>
+                <configuration>
+                  <excludes>
+                    <exclude>org/artembogomolova/demo/webapp/domain/IdentifiedEntity_*</exclude>
+                    <exclude>org/artembogomolova/demo/webapp/domain/auth/Authority_*</exclude>
+                    <exclude>org/artembogomolova/demo/webapp/domain/auth/Role_*</exclude>
+                    <exclude>org/artembogomolova/demo/webapp/domain/auth/User_*</exclude>
+                    <exclude>org/artembogomolova/demo/webapp/domain/business/Action_*</exclude>
+                    <exclude>org/artembogomolova/demo/webapp/domain/business/ActionGood_*</exclude>
+                    <exclude>org/artembogomolova/demo/webapp/domain/business/Category_*</exclude>
+                    <exclude>org/artembogomolova/demo/webapp/domain/business/Good_*</exclude>
+                    <exclude>org/artembogomolova/demo/webapp/domain/business/Order_*</exclude>
+                    <exclude>org/artembogomolova/demo/webapp/domain/business/OrderGood_*</exclude>
+                    <exclude>org/artembogomolova/demo/webapp/domain/business/OrderPosition_*</exclude>
+                    <exclude>org/artembogomolova/demo/webapp/domain/business/Producer_*</exclude>
+                    <exclude>org/artembogomolova/demo/webapp/domain/business/StockGood_*</exclude>
+                    <exclude>org/artembogomolova/demo/webapp/domain/business/Ticket_*</exclude>
+                    <exclude>org/artembogomolova/demo/webapp/domain/core/Person_*</exclude>
+                    <exclude>org/artembogomolova/demo/webapp/domain/core/PhysicalAddress_*</exclude>
+                  </excludes>
+                </configuration>
               </execution>
               <execution>
                 <configuration>
