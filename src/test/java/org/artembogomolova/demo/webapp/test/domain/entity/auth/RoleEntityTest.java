@@ -45,11 +45,12 @@ class RoleEntityTest extends AbstractAccessorEntityTest<Role> {
   }
 
   @Override
-  protected void withoutPartOfUniqueConstraintEqualTest(Role standardEntity, String constraintName, String columnName) {
+  protected boolean withoutBasicConstraint(Role standardEntity, String columnName) {
     if (Role_.NAME.equals(columnName)) {
       withoutColumnEqualTest(standardEntity, Role::getName, Role::setName);
+      return true;
     }
-
+    return false;
   }
 
   @EqualsAndHashCode(callSuper = false)

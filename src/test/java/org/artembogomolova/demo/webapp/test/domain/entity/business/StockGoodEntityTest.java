@@ -25,8 +25,8 @@ class StockGoodEntityTest extends AbstractAccessorEntityTest<StockGood> {
   }
 
   @Override
-  protected void withoutPartOfUniqueConstraintEqualTest(StockGood standardEntity, String constraintName, String columnName) {
-
+  protected boolean withoutBasicConstraint(StockGood standardEntity, String columnName) {
+    return false;
   }
 
   private static class MockStockGood extends StockGood {

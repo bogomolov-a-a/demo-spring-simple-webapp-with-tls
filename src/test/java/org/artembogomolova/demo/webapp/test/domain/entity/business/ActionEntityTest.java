@@ -4,7 +4,6 @@ import java.util.Calendar;
 import java.util.Date;
 import lombok.EqualsAndHashCode;
 import lombok.extern.slf4j.Slf4j;
-import org.artembogomolova.demo.webapp.domain.IdentifiedEntity;
 import org.artembogomolova.demo.webapp.domain.business.Action;
 import org.artembogomolova.demo.webapp.domain.business.Action_;
 import org.artembogomolova.demo.webapp.domain.business.Category;
@@ -71,28 +70,22 @@ class ActionEntityTest extends AbstractAccessorEntityTest<Action> {
   }
 
   @Override
-  protected void withoutPartOfUniqueConstraintEqualTest(Action standardEntity, String constraintName, String columnName) {
-
-    if (IdentifiedEntity.BASIC_CONSTRAINT_NAME.equals(constraintName)) {
-      withoutBasicConstraintEqualTest(standardEntity, columnName);
-    }
-  }
-
-  private void withoutBasicConstraintEqualTest(Action standardEntity, String columnName) {
+  protected boolean withoutBasicConstraint(Action standardEntity, String columnName) {
     switch (columnName) {
       case Action_.NAME: {
         withoutColumnEqualTest(standardEntity, Action::getName, Action::setName);
-        return;
+        return true;
       }
       case Action_.START_DATE: {
         withoutColumnEqualTest(standardEntity, Action::getStartDate, Action::setStartDate);
-        return;
+        return true;
       }
       default: {
-        return;
+        return false;
       }
     }
   }
+
 
   @EqualsAndHashCode(callSuper = false)
   private static class MockAction extends Action {

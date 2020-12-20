@@ -62,37 +62,36 @@ class PhysicalAddressEntityTest extends AbstractAccessorEntityTest<PhysicalAddre
   }
 
   @Override
-  protected void withoutPartOfUniqueConstraintEqualTest(PhysicalAddress standardEntity,
-      String constraintName,
-      String columnName) {
+  protected boolean withoutBasicConstraint(PhysicalAddress standardEntity, String columnName) {
     if (isCountryPartColumnName(columnName)) {
-      withoutCountryPartEqualTest(standardEntity, columnName);
-      return;
+      return withoutCountryPartEqualTest(standardEntity, columnName);
     }
     if (isCityLevelPartColumnName(columnName)) {
-      withoutCityPartEqualTest(standardEntity, columnName);
+      return withoutCityPartEqualTest(standardEntity, columnName);
     }
     if (isHouseLevelPartColumnName(columnName)) {
-      withoutHousePartEqualTest(standardEntity, columnName);
+      return withoutHousePartEqualTest(standardEntity, columnName);
     }
+    return false;
   }
 
-  private void withoutHousePartEqualTest(PhysicalAddress standardEntity, String columnName) {
+
+  private boolean withoutHousePartEqualTest(PhysicalAddress standardEntity, String columnName) {
     switch (columnName) {
       case PhysicalAddress_.HOUSE: {
         withoutColumnEqualTest(standardEntity, PhysicalAddress::getHouse, PhysicalAddress::setHouse);
-        return;
+        return true;
       }
       case PhysicalAddress_.ROOM: {
         withoutColumnEqualTest(standardEntity, PhysicalAddress::getRoom, PhysicalAddress::setRoom);
-        return;
+        return true;
       }
       case PhysicalAddress_.SPECIFIC_PART: {
         withoutColumnEqualTest(standardEntity, PhysicalAddress::getSpecificPart, PhysicalAddress::setSpecificPart);
-        return;
+        return true;
       }
       default: {
-        return;
+        return false;
       }
     }
   }
@@ -102,22 +101,22 @@ class PhysicalAddressEntityTest extends AbstractAccessorEntityTest<PhysicalAddre
         PhysicalAddress_.SPECIFIC_PART.equals(columnName);
   }
 
-  private void withoutCityPartEqualTest(PhysicalAddress standardEntity, String columnName) {
+  private boolean withoutCityPartEqualTest(PhysicalAddress standardEntity, String columnName) {
     switch (columnName) {
       case PhysicalAddress_.CITY: {
         withoutColumnEqualTest(standardEntity, PhysicalAddress::getCity, PhysicalAddress::setCity);
-        return;
+        return true;
       }
       case PhysicalAddress_.DISTRICT: {
         withoutColumnEqualTest(standardEntity, PhysicalAddress::getDistrict, PhysicalAddress::setDistrict);
-        return;
+        return true;
       }
       case PhysicalAddress_.STREET: {
         withoutColumnEqualTest(standardEntity, PhysicalAddress::getStreet, PhysicalAddress::setStreet);
-        return;
+        return true;
       }
       default: {
-        return;
+        return false;
       }
     }
   }
@@ -127,22 +126,22 @@ class PhysicalAddressEntityTest extends AbstractAccessorEntityTest<PhysicalAddre
         PhysicalAddress_.STREET.equals(columnName);
   }
 
-  private void withoutCountryPartEqualTest(PhysicalAddress standardEntity, String columnName) {
+  private boolean withoutCountryPartEqualTest(PhysicalAddress standardEntity, String columnName) {
     switch (columnName) {
       case PhysicalAddress_.POSTAL_CODE: {
         withoutColumnEqualTest(standardEntity, PhysicalAddress::getPostalCode, PhysicalAddress::setPostalCode);
-        return;
+        return true;
       }
       case PhysicalAddress_.COUNTRY: {
         withoutColumnEqualTest(standardEntity, PhysicalAddress::getCountry, PhysicalAddress::setCountry);
-        return;
+        return true;
       }
       case PhysicalAddress_.STATE: {
         withoutColumnEqualTest(standardEntity, PhysicalAddress::getState, PhysicalAddress::setState);
-        return;
+        return true;
       }
       default:
-        return;
+        return false;
     }
   }
 

@@ -46,12 +46,14 @@ class AuthorityEntityTest extends AbstractAccessorEntityTest<Authority> {
   }
 
   @Override
-  protected void withoutPartOfUniqueConstraintEqualTest(Authority standardEntity, String constraintName, String columnName) {
+  protected boolean withoutBasicConstraint(Authority standardEntity, String columnName) {
     if (Authority_.NAME.equals(columnName)) {
       withoutColumnEqualTest(standardEntity, Authority::getName, Authority::setName);
+      return true;
     }
-
+    return false;
   }
+
 
   @EqualsAndHashCode(callSuper = false)
   private static class MockAuthority extends Authority {

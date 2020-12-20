@@ -4,6 +4,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.function.BiConsumer;
 import java.util.function.Function;
+import javax.validation.ValidationException;
 import lombok.extern.slf4j.Slf4j;
 import org.artembogomolova.demo.webapp.domain.IdentifiedEntity;
 import org.artembogomolova.demo.webapp.test.AbstractClassTest;
@@ -103,7 +104,36 @@ public abstract class AbstractAccessorEntityTest<T extends IdentifiedEntity> ext
 
   protected abstract T buildAnotherEntityForTest();
 
-  protected abstract void withoutPartOfUniqueConstraintEqualTest(T standardEntity, String constraintName, String columnName);
+  private void withoutPartOfUniqueConstraintEqualTest(T standardEntity, String constraintName, String columnName) {
+    if (checkBasicConstraint(standardEntity, constraintName, columnName)) {
+      return;
+    }
+    checkAlternateConstraints(standardEntity, constraintName, columnName);
+  }
+
+  private void checkAlternateConstraints(T standardEntity, String constraintName, String columnName) {
+    if (!withoutAlternateConstraints(standardEntity, constraintName, columnName)) {
+      throw new ValidationException("One or more unique constraints have violations!");
+    }
+  }
+
+  protected boolean checkBasicConstraint(T standardEntity, String constraintName, String columnName) {
+    if (!IdentifiedEntity.BASIC_CONSTRAINT_NAME.equals(constraintName)) {
+      return false;
+    }
+    if (!withoutBasicConstraint(standardEntity, columnName)) {
+      throw new ValidationException(IdentifiedEntity.BASIC_CONSTRAINT_NAME + " has violations!");
+    }
+    return true;
+  }
+
+  protected boolean withoutAlternateConstraints(T standardEntity, String constraintName, String columnName) {
+    List<String> constraintNames = List.copyOf(availableConstraintNames);
+    constraintNames.remove(IdentifiedEntity.BASIC_CONSTRAINT_NAME);
+    return constraintNames.isEmpty() && !IdentifiedEntity.BASIC_CONSTRAINT_NAME.equals(constraintName);
+  }
+
+  protected abstract boolean withoutBasicConstraint(T standardEntity, String columnName);
 
   protected final <U> void withoutColumnEqualTest(T entity,
       Function<T, U> getter,

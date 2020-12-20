@@ -25,8 +25,8 @@ class ProducerEntityTest extends AbstractAccessorEntityTest<Producer> {
   }
 
   @Override
-  protected void withoutPartOfUniqueConstraintEqualTest(Producer standardEntity, String constraintName, String columnName) {
-
+  protected boolean withoutBasicConstraint(Producer standardEntity, String columnName) {
+    return false;
   }
 
   private static class MockProducer extends Producer {

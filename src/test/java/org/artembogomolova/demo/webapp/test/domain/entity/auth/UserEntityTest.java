@@ -5,6 +5,7 @@ import lombok.EqualsAndHashCode;
 import org.artembogomolova.demo.webapp.domain.IdentifiedEntity;
 import org.artembogomolova.demo.webapp.domain.auth.Role;
 import org.artembogomolova.demo.webapp.domain.auth.User;
+import org.artembogomolova.demo.webapp.domain.auth.User_;
 import org.artembogomolova.demo.webapp.domain.core.Person;
 import org.artembogomolova.demo.webapp.test.domain.entity.AbstractAccessorEntityTest;
 import org.junit.jupiter.api.Assertions;
@@ -62,21 +63,26 @@ class UserEntityTest extends AbstractAccessorEntityTest<User> {
   }
 
   @Override
-  protected List<String> getAvailableConstraintNames() {
-    return List.of(IdentifiedEntity.BASIC_CONSTRAINT_NAME,
-        User.CERTIFICATE_DATA_CONSTRAINT_NAME);
+  protected boolean withoutBasicConstraint(User standardEntity, String columnName) {
+    if (User_.LOGIN.equals(columnName)) {
+      withoutColumnEqualTest(standardEntity, User::getLogin, User::setLogin);
+      return true;
+    }
+    return false;
+  }
+
+  protected boolean withoutAlternateConstraints(User standardEntity, String constraintName, String columnName) {
+    if (User.CERTIFICATE_DATA_CONSTRAINT_NAME.equals(constraintName)) {
+      withoutColumnEqualTest(standardEntity, User::getClientCertificateData, User::setClientCertificateData);
+      return true;
+    }
+    return false;
   }
 
   @Override
-  protected void withoutPartOfUniqueConstraintEqualTest(User standardEntity, String constraintName, String columnName) {
-    if (IdentifiedEntity.BASIC_CONSTRAINT_NAME.equals(constraintName)) {
-      withoutColumnEqualTest(standardEntity, User::getLogin, User::setLogin);
-      return;
-    }
-    if (User.CERTIFICATE_DATA_CONSTRAINT_NAME.equals(constraintName)) {
-      withoutColumnEqualTest(standardEntity, User::getClientCertificateData, User::setClientCertificateData);
-      return;
-    }
+  protected List<String> getAvailableConstraintNames() {
+    return List.of(IdentifiedEntity.BASIC_CONSTRAINT_NAME,
+        User.CERTIFICATE_DATA_CONSTRAINT_NAME);
   }
 
   @EqualsAndHashCode(callSuper = false)

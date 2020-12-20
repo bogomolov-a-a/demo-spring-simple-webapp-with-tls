@@ -1,7 +1,6 @@
 package org.artembogomolova.demo.webapp.test.domain.entity.business;
 
 import lombok.EqualsAndHashCode;
-import org.artembogomolova.demo.webapp.domain.IdentifiedEntity;
 import org.artembogomolova.demo.webapp.domain.business.Category;
 import org.artembogomolova.demo.webapp.domain.business.Good;
 import org.artembogomolova.demo.webapp.domain.business.Good_;
@@ -52,28 +51,22 @@ class GoodEntityTest extends AbstractAccessorEntityTest<Good> {
   }
 
   @Override
-  protected void withoutPartOfUniqueConstraintEqualTest(Good standardEntity, String constraintName, String columnName) {
-    if (IdentifiedEntity.BASIC_CONSTRAINT_NAME.equals(constraintName)) {
-      withoutBasicConstraint(standardEntity, columnName);
-    }
-  }
-
-  private void withoutBasicConstraint(Good standardEntity, String columnName) {
+  protected boolean withoutBasicConstraint(Good standardEntity, String columnName) {
     switch (columnName) {
       case Good_.NAME: {
         withoutColumnEqualTest(standardEntity, Good::getName, Good::setName);
-        return;
+        return true;
       }
       case Good_.PRODUCER: {
         withoutColumnEqualTest(standardEntity, Good::getProducer, Good::setProducer);
-        return;
+        return true;
       }
       case Good_.CATEGORY: {
         withoutColumnEqualTest(standardEntity, Good::getCategory, Good::setCategory);
-        return;
+        return true;
       }
       default: {
-        return;
+        return false;
       }
     }
   }

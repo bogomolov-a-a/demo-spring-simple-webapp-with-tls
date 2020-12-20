@@ -24,8 +24,8 @@ class OrderEntityTest extends AbstractAccessorEntityTest<Order> {
   }
 
   @Override
-  protected void withoutPartOfUniqueConstraintEqualTest(Order standardEntity, String constraintName, String columnName) {
-
+  protected boolean withoutBasicConstraint(Order standardEntity, String columnName) {
+    return false;
   }
 
   private static class MockOrder extends Order {

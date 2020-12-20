@@ -69,49 +69,45 @@ class PersonEntityTest extends AbstractAccessorEntityTest<Person> {
   }
 
   @Override
-  protected void withoutPartOfUniqueConstraintEqualTest(Person standardEntity, String constraintName, String columnName) {
-    switch (constraintName) {
-      case IdentifiedEntity.BASIC_CONSTRAINT_NAME: {
-        basicConstraintTest(standardEntity, columnName);
-        return;
-      }
-      case Person.PHONE_CONSTRAINT_NAME: {
-        withoutColumnEqualTest(standardEntity, Person::getPhone, Person::setPhone);
-        return;
-      }
-      case Person.EMAIL_CONSTRAINT_NAME: {
-        withoutColumnEqualTest(standardEntity, Person::getEmail, Person::setEmail);
-        return;
-      }
-      default:
-        return;
-    }
-  }
-
-  private void basicConstraintTest(Person standardEntity, String columnName) {
+  protected boolean withoutBasicConstraint(Person standardEntity, String columnName) {
     if (Person_.BIRTH_DATE.equals(columnName)) {
       withoutColumnEqualTest(standardEntity, Person::getBirthDate, Person::setBirthDate);
-      return;
+      return true;
     }
-    personNamesBlockTest(standardEntity, columnName);
+    return personNamesBlockTest(standardEntity, columnName);
   }
 
-  private void personNamesBlockTest(Person standardEntity, String columnName) {
+  private boolean personNamesBlockTest(Person standardEntity, String columnName) {
     switch (columnName) {
       case Person_.NAME: {
         withoutColumnEqualTest(standardEntity, Person::getName, Person::setName);
-        return;
+        return true;
       }
       case Person_.PATRONYMIC: {
         withoutColumnEqualTest(standardEntity, Person::getPatronymic, Person::setPatronymic);
-        return;
+        return true;
       }
       case Person_.SURNAME: {
         withoutColumnEqualTest(standardEntity, Person::getSurname, Person::setSurname);
-        return;
+        return true;
       }
       default:
-        return;
+        return false;
+    }
+  }
+
+  protected boolean withoutAlternateConstraints(Person standardEntity, String constraintName, String columnName) {
+    switch (constraintName) {
+      case Person.PHONE_CONSTRAINT_NAME: {
+        withoutColumnEqualTest(standardEntity, Person::getPhone, Person::setPhone);
+        return true;
+      }
+      case Person.EMAIL_CONSTRAINT_NAME: {
+        withoutColumnEqualTest(standardEntity, Person::getEmail, Person::setEmail);
+        return true;
+      }
+      default:
+        return false;
     }
   }
 

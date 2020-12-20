@@ -2,7 +2,6 @@ package org.artembogomolova.demo.webapp.test.domain.entity.business;
 
 import lombok.EqualsAndHashCode;
 import lombok.extern.slf4j.Slf4j;
-import org.artembogomolova.demo.webapp.domain.IdentifiedEntity;
 import org.artembogomolova.demo.webapp.domain.business.Action;
 import org.artembogomolova.demo.webapp.domain.business.Category;
 import org.artembogomolova.demo.webapp.domain.business.Category_;
@@ -48,24 +47,22 @@ class CategoryEntityTest extends AbstractAccessorEntityTest<Category> {
   }
 
   @Override
-  protected void withoutPartOfUniqueConstraintEqualTest(Category standardEntity, String constraintName, String columnName) {
-    if (IdentifiedEntity.BASIC_CONSTRAINT_NAME.equals(constraintName)) {
-      withoutBasicConstraintColumnEqualTest(standardEntity, columnName);
-    }
-  }
-
-  private void withoutBasicConstraintColumnEqualTest(Category standardEntity, String columnName) {
+  protected boolean withoutBasicConstraint(Category standardEntity, String columnName) {
     switch (columnName) {
       case Category_.NAME: {
         withoutColumnEqualTest(standardEntity, Category::getName, Category::setName);
-        return;
+        return true;
       }
       case Category_.PARENT_CATEGORY_ID: {
         withoutColumnEqualTest(standardEntity, Category::getParentCategoryId, Category::setParentCategoryId);
-        return;
+        return true;
+      }
+      default: {
+        return false;
       }
     }
   }
+
 
   @EqualsAndHashCode(callSuper = false)
   private static class MockCategory extends Category {

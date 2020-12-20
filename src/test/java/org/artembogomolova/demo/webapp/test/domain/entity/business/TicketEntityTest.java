@@ -25,8 +25,8 @@ class TicketEntityTest extends AbstractAccessorEntityTest<Ticket> {
   }
 
   @Override
-  protected void withoutPartOfUniqueConstraintEqualTest(Ticket standardEntity, String constraintName, String columnName) {
-
+  protected boolean withoutBasicConstraint(Ticket standardEntity, String columnName) {
+    return false;
   }
 
   private static class MockTicket extends Ticket {
