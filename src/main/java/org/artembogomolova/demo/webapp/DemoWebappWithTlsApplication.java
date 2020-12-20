@@ -12,17 +12,37 @@ import org.springframework.context.ConfigurableApplicationContext;
     SecurityAutoConfiguration.class})
 public class DemoWebappWithTlsApplication extends SpringBootServletInitializer {
 
+  private static DemoWebappWithTlsApplication INSTANCE;
+  protected ConfigurableApplicationContext applicationContext;
+
+  public static DemoWebappWithTlsApplication getInstance(String[] args) {
+    if (INSTANCE != null) {
+      return INSTANCE;
+    }
+    INSTANCE = new DemoWebappWithTlsApplication();
+    main(args);
+    return INSTANCE;
+  }
+
   public static void main(String[] args) {
     startContext(args);
   }
 
-  public static ConfigurableApplicationContext startContext(String[] args) {
+  private static void startContext(String[] args) {
+
     SpringApplication application = new SpringApplication(DemoWebappWithTlsApplication.class);
     /*for start context*/
     application.setBannerMode(Mode.OFF);
-    ConfigurableApplicationContext result = application.run(args);
-    result.start();
-    return result;
+    ConfigurableApplicationContext context = application.run(args);
+    context.start();
+    INSTANCE.applicationContext = context;
   }
 
+  public void stop() {
+    applicationContext.close();
+  }
+
+  public boolean isRunning() {
+    return applicationContext.isRunning();
+  }
 }
