@@ -1,6 +1,9 @@
 package org.artembogomolova.demo.webapp.test.domain.entity.business;
 
+import lombok.EqualsAndHashCode;
 import lombok.extern.slf4j.Slf4j;
+import org.artembogomolova.demo.webapp.domain.IdentifiedEntity;
+import org.artembogomolova.demo.webapp.domain.business.Action;
 import org.artembogomolova.demo.webapp.domain.business.Category;
 import org.artembogomolova.demo.webapp.domain.business.Category_;
 import org.artembogomolova.demo.webapp.test.domain.DomainTestUtil;
@@ -12,6 +15,10 @@ import org.junit.jupiter.api.DisplayName;
 @DisplayName("Entity test: Category")
 class CategoryEntityTest extends AbstractAccessorEntityTest<Category> {
 
+  private static final String NAME_VALUE = "test category";
+  private static final Long PARENT_CATEGORY_ID_VALUE = 1L;
+  private static final Action ACTION_VALUE = new Action();
+
   CategoryEntityTest() {
     super(Category.class,
         Category::new,
@@ -21,19 +28,18 @@ class CategoryEntityTest extends AbstractAccessorEntityTest<Category> {
   @Override
   protected Category buildStandardEntity() {
     Category result = new Category();
-    updateSimpleField(result);
-    result.getGoods().add(DomainTestUtil.buildTestGood());
+    result.setName(NAME_VALUE);
+    result.setParentCategoryId(PARENT_CATEGORY_ID_VALUE);
+    result.setAction(ACTION_VALUE);
     return result;
   }
 
-
-  private void updateSimpleField(Category result) {
-    if (result.getName() == null) {
-      result.setName("standard category");
-    }
-    if (result.getParentCategoryId() == null) {
-      result.setParentCategoryId(1L);
-    }
+  @Override
+  protected void containFieldCorrectValuesTest(Category standardEntity) {
+    Assertions.assertEquals(NAME_VALUE, standardEntity.getName());
+    Assertions.assertEquals(PARENT_CATEGORY_ID_VALUE, standardEntity.getParentCategoryId());
+    Assertions.assertEquals(ACTION_VALUE, standardEntity.getAction());
+    Assertions.assertTrue(standardEntity.getGoods().isEmpty());
   }
 
   @Override
@@ -43,51 +49,34 @@ class CategoryEntityTest extends AbstractAccessorEntityTest<Category> {
 
   @Override
   protected void withoutPartOfUniqueConstraintEqualTest(Category standardEntity, String constraintName, String columnName) {
+    if (IdentifiedEntity.BASIC_CONSTRAINT_NAME.equals(constraintName)) {
+      withoutBasicConstraintColumnEqualTest(standardEntity, columnName);
+    }
+  }
+
+  private void withoutBasicConstraintColumnEqualTest(Category standardEntity, String columnName) {
     switch (columnName) {
       case Category_.NAME: {
-        assertWithoutNameEquals(standardEntity);
+        withoutColumnEqualTest(standardEntity, Category::getName, Category::setName);
         return;
       }
       case Category_.PARENT_CATEGORY_ID: {
-        assertWithoutParentCategoryIdEquals(standardEntity);
+        withoutColumnEqualTest(standardEntity, Category::getParentCategoryId, Category::setParentCategoryId);
         return;
       }
     }
   }
 
-  private void assertWithoutNameEquals(Category standard) {
-    Category category = new Category();
-    category.setParentCategoryId(standard.getParentCategoryId());
-    category.setName(standard.getName());
-    Assertions.assertEquals(standard, category);
-    category.setName(null);
-    Assertions.assertNotEquals(standard, category);
-    category.setName(standard.getName());
-    standard.setName(null);
-    Assertions.assertNotEquals(standard, category);
-    category.setName(null);
-    Assertions.assertEquals(standard, category);
-    Assertions.assertEquals(standard.hashCode(), category.hashCode());
-  }
-
-  private void assertWithoutParentCategoryIdEquals(Category standard) {
-    Category category = new Category();
-    category.setName(standard.getName());
-    category.setParentCategoryId(standard.getParentCategoryId());
-    Assertions.assertEquals(standard, category);
-    category.setParentCategoryId(null);
-    Assertions.assertNotEquals(standard, category);
-    category.setParentCategoryId(standard.getParentCategoryId());
-    standard.setParentCategoryId(null);
-    Assertions.assertNotEquals(standard, category);
-    category.setParentCategoryId(null);
-    Assertions.assertEquals(standard, category);
-    Assertions.assertEquals(standard.hashCode(), category.hashCode());
-  }
-
+  @EqualsAndHashCode(callSuper = false)
   private static class MockCategory extends Category {
 
     MockCategory(Category category) {
+      super(buildCopyingCategory(category));
+    }
+
+    private static Category buildCopyingCategory(Category category) {
+      category.setAction(null);
+      return category;
     }
   }
 }
