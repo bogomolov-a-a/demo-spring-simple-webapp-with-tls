@@ -237,6 +237,7 @@ public abstract class AbstractAccessorEntityTest<T extends IdentifiedEntity> ext
     String standardEntityClassName = standardEntityClass.getName();
     Class<? extends IdentifiedEntity> mockDescendantEntityClass = mockDescendantEntity.getClass();
     String mockDescendantEntityClassName = mockDescendantEntityClass.getName();
+    Assertions.assertNotEquals(mockDescendantEntityClass, standardEntityClass);
     Assertions.assertTrue(standardEntityClass.isAssignableFrom(mockDescendantEntityClass),
         "class called '" + mockDescendantEntityClassName + "' is not descendant of '" + standardEntityClassName + "'");
     log.info("standard entity: {} , class: {}", standardEntity, standardEntityClassName);
