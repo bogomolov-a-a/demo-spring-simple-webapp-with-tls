@@ -51,8 +51,9 @@ create table producers(
   id integer not null primary key autoincrement,
   name text not null,
   contact_phone text not null,
+  unique_code text not null,
   producer_address_id bigint not null,
-  unique(name,producer_address_id),
+  unique (unique_code),
   unique (contact_phone),
   foreign key (producer_address_id) references addresses(id)on delete cascade on update cascade
 );
@@ -103,11 +104,12 @@ create table action_goods
 (
  id integer not null primary key autoincrement,
  quantity double not null default 0,
- share_price real not null,
+ share_price real not null default 1,
  action_id bigint not null,
  good_id bigint not null,
  foreign key (good_id) references goods(id) on delete cascade on update cascade,
  foreign key (action_id) references  actions(id)on delete cascade on update cascade
+ unique(good_id,action_id)
 );
 
 create table order_goods(

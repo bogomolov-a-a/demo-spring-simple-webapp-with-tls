@@ -24,6 +24,7 @@ import lombok.Setter;
 import lombok.ToString;
 import org.artembogomolova.demo.webapp.dao.repo.core.IPersonRepository;
 import org.artembogomolova.demo.webapp.dao.util.SQLite3Dialect;
+import org.artembogomolova.demo.webapp.domain.ConstraintPatterns;
 import org.artembogomolova.demo.webapp.domain.IdentifiedEntity;
 import org.artembogomolova.demo.webapp.domain.auth.User;
 import org.artembogomolova.demo.webapp.domain.business.Order;
@@ -77,7 +78,7 @@ public class Person extends IdentifiedEntity {
   @NotNull
   private Date birthDate;
   @NotBlank
-  @Pattern(regexp = "\\+([0-9]{0,3})\\-([0-9]{3})\\-([0-9]{3})\\-([0-9]{2})\\-([0-9]{2})")
+  @Pattern(regexp = ConstraintPatterns.PHONE_PATTERN)
   @ToString.Include
   @Setter
   @EqualsAndHashCode.Include
