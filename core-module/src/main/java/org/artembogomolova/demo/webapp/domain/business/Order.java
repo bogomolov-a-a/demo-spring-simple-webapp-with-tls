@@ -17,8 +17,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
-import org.artembogomolova.demo.webapp.domain.core.IdentifiedEntity;
 import org.artembogomolova.demo.webapp.domain.core.Person;
+import org.artembogomolova.demo.webapp.domain.core.IdentifiedEntity;
 import org.artembogomolova.demo.webapp.domain.core.PhysicalAddress;
 
 @Entity

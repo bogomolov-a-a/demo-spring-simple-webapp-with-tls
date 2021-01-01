@@ -10,7 +10,7 @@ spring:
     driver-class-name: org.sqlite.JDBC
     continue-on-error: false
   liquibase:
-    change-log: classpath*:db/changelog/db.changelog-master.yml
+    change-log: classpath:changelog/db.changelog-master.yml
 server:
   port: 8080
   compression:
