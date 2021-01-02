@@ -24,6 +24,11 @@ gradlePlugin {
         id = "spring-boot-jpa-plugin"
         implementationClass = "org.artembogomolova.build.plugins.SpringBootJpaPlugin"
     }
+    plugins.register("spring-boot-test-plugin") {
+        id = "spring-boot-test-plugin"
+        implementationClass = "org.artembogomolova.build.plugins.SpringBootTestPlugin"
+    }
+
 }
 dependencies{
     implementation("io.spring.gradle:dependency-management-plugin:1.0.9.RELEASE")

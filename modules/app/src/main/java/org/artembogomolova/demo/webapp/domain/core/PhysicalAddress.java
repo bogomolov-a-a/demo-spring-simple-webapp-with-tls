@@ -3,6 +3,7 @@ package org.artembogomolova.demo.webapp.domain.core;
 import javax.persistence.Entity;
 import javax.persistence.Table;
 import lombok.Data;
+import org.artembogomolova.demo.webapp.domain.IdentifiedEntity;
 
 @Entity
 @Table(name = "addresses")

@@ -1,7 +1,7 @@
 package org.artembogomolova.demo.webapp.domain.auth;
 
 import java.util.Locale;
-import org.artembogomolova.demo.webapp.domain.core.IdentifiedEntity;
+import org.artembogomolova.demo.webapp.domain.IdentifiedEntity;
 
 public enum BasicAuthorityEnum {
   BAT_CREATE("create"),

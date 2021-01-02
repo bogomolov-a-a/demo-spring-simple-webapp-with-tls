@@ -1,9 +1,11 @@
 package org.artembogomolova.build.plugins
 
+import groovy.lang.Closure
 import io.spring.gradle.dependencymanagement.dsl.DependencyManagementExtension
 import org.gradle.api.Plugin
 import org.gradle.api.Project
 import org.gradle.api.plugins.JavaPlugin
+import java.util.function.Consumer
 
 /**
  *
@@ -58,5 +60,12 @@ class SpringBootJpaPlugin: AbstractSpringBootModulePlugin(){
         target.dependencies.add(JavaPlugin.IMPLEMENTATION_CONFIGURATION_NAME,"org.liquibase:liquibase-core")
         target.dependencies.add(JavaPlugin.IMPLEMENTATION_CONFIGURATION_NAME,"org.hibernate:hibernate-core")
         target.dependencies.add(JavaPlugin.ANNOTATION_PROCESSOR_CONFIGURATION_NAME,"org.hibernate:hibernate-jpamodelgen")
+    }
+}
+class SpringBootTestPlugin: AbstractSpringBootModulePlugin()
+{
+    override fun apply(target: Project) {
+        target.dependencies.add(JavaPlugin.TEST_IMPLEMENTATION_CONFIGURATION_NAME,"org.springframework.boot:spring-boot-starter-test")
+        target.dependencies.add(JavaPlugin.TEST_IMPLEMENTATION_CONFIGURATION_NAME,"org.junit.jupiter:junit-jupiter-engine")
     }
 }
