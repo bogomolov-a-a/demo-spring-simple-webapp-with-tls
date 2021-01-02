@@ -1,4 +1,4 @@
-include("core-module")
+include("modules:app")
 pluginManagement {
     repositories {
         gradlePluginPortal()
@@ -14,4 +14,3 @@ pluginManagement {
         }
     }
 }
-
