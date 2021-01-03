@@ -32,4 +32,6 @@ gradlePlugin {
 }
 dependencies{
     implementation("io.spring.gradle:dependency-management-plugin:1.0.9.RELEASE")
+    implementation("io.github.classgraph:classgraph:4.8.98")
+    implementation("org.jacoco:org.jacoco.core:0.8.6")
 }
