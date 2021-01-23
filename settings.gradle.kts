@@ -1,4 +1,4 @@
-include("modules:app")
+rootProject.name = "demo-spring-simple-webapp-with-tls"
 pluginManagement {
     repositories {
         gradlePluginPortal()
@@ -14,3 +14,4 @@ pluginManagement {
         }
     }
 }
+include(":app")

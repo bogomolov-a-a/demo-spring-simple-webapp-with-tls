@@ -26,8 +26,8 @@ jobs:
           chmod +x ./certificate/cert-build.sh &&./certificate/cert-build.sh
       - name: Build with Maven in docker
         run: |
-          mvn -B package verify --file pom.xml \
-          -Psonar-check,code-coverage-integration-test,code-coverage-test,code-quality \
+          chmod +x ./gradlew
+          ./gradlew clean build \
           -Dsonar.login=${{ secrets.SONAR_TOKEN }} -Dsonar.organization=${{ github.repository_owner }} \
           -Dsonar.host.url=https://sonarcloud.io
           mkdir coverage
