@@ -72,7 +72,7 @@ enum class PredefinedUserRole(
     /**
      * guest can view categories,providers,goods.
      */
-    GUEST(5L, setOf());
+    GUEST(5L, setOf(BasicAuthorityEnum.BAT_ANONYMOUS.authorityName));
 
     val privilegesAsArray: Array<String>
         get() = privileges.toTypedArray()

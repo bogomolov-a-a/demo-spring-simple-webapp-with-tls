@@ -2,37 +2,41 @@ package org.artembogomolova.demo.webapp.main.domain.auth
 
 import org.artembogomolova.demo.webapp.main.domain.IdentifiedEntity
 import org.artembogomolova.demo.webapp.main.domain.core.Person
-import java.util.*
-import javax.persistence.*
+import javax.persistence.CascadeType
+import javax.persistence.Column
+import javax.persistence.Entity
+import javax.persistence.JoinColumn
+import javax.persistence.JoinTable
+import javax.persistence.ManyToMany
+import javax.persistence.ManyToOne
+import javax.persistence.OneToOne
+import javax.persistence.Table
 
 @Entity
 @Table(name = "users")
 class User(
-    var login: String? = null,
-    var password: String? = null,
+    @Column(nullable = false)
+    val login: String,
+    @Column(nullable = false)
+    val password: String,
+    @ManyToOne(cascade = [CascadeType.ALL])
+    @JoinColumn(name = "role_id", columnDefinition = BIGINT_DEF, nullable = false)
+    val role: Role,
+    @OneToOne(cascade = [CascadeType.ALL], orphanRemoval = true)
+    @JoinColumn(name = "person_id", columnDefinition = BIGINT_DEF, nullable = false)
+    val person: Person? = null,
+    @Column(insertable = false, nullable = false)
+    var active: Boolean = true,
     var clientCertificateData: String? = null,
     var avatar: String? = null,
-
-    @Column(insertable = false)
-    var active: Boolean = true,
-
-    @ManyToMany(cascade = [CascadeType.PERSIST, CascadeType.DETACH, CascadeType.MERGE, CascadeType.REMOVE])
+    @ManyToMany(cascade = [CascadeType.ALL])
     @JoinTable(
         name = "block_authorities",
         joinColumns = [JoinColumn(name = "user_id", columnDefinition = BIGINT_DEF)],
         inverseJoinColumns = [JoinColumn(name = "authority_id", columnDefinition = BIGINT_DEF)]
     )
-    var blockAuthorities: MutableList<Authority> = ArrayList(),
-
-    @ManyToOne(cascade = [CascadeType.PERSIST, CascadeType.DETACH, CascadeType.MERGE, CascadeType.REMOVE])
-    @JoinColumn(name = "role_id", columnDefinition = BIGINT_DEF)
-    var role: Role? = null,
-
-    @OneToOne(cascade = [CascadeType.PERSIST, CascadeType.DETACH, CascadeType.MERGE, CascadeType.REMOVE], orphanRemoval = true)
-    @JoinColumn(name = "person_id", columnDefinition = BIGINT_DEF)
-    var person: Person? = null
+    val blockAuthorities: MutableList<Authority> = mutableListOf()
 ) : IdentifiedEntity() {
-
 
     companion object {
         private const val BIGINT_DEF = "bigint"
