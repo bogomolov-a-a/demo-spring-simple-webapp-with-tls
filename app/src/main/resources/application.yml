@@ -5,6 +5,7 @@ spring:
   jpa:
     hibernate:
       ddl-auto: validate
+      use-new-id-generator-mappings: true
     database-platform: org.artembogomolova.demo.webapp.main.dao.util.SQLite3Dialect
   datasource:
     driver-class-name: org.sqlite.JDBC
