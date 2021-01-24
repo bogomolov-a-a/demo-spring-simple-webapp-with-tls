@@ -8,7 +8,7 @@ import org.gradle.testing.jacoco.tasks.JacocoMerge
 import org.gradle.testing.jacoco.tasks.JacocoReport
 
 class TaskRegistration {
-    companion object Companion {
+    companion object {
         /**
          * Task for develop with test and code coverage
          */
@@ -17,6 +17,7 @@ class TaskRegistration {
 
     fun registerTasks(project: Project) {
         project.tasks.register(BUILD_WITH_COVERAGE_TASK_NAME, BuildWithCoverage::class.java)
+
     }
 
 }
