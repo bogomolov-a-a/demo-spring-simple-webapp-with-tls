@@ -27,9 +27,8 @@ jobs:
       - name: Build with Maven in docker
         run: |
           chmod +x ./gradlew
-          ./gradlew clean build \
-          -Dsonar.login=${{ secrets.SONAR_TOKEN }} -Dsonar.organization=${{ github.repository_owner }} \
-          -Dsonar.host.url=https://sonarcloud.io
+          ./gradlew -Psonar.login=${{ secrets.SONAR_TOKEN }} -Psonar.organization=${{ github.repository_owner }} \
+          -Psonar.host.url=https://sonarcloud.io buildWithCoverage
           mkdir coverage
       - name: Upload coverage to Codecov
         uses: codecov/codecov-action@v1
