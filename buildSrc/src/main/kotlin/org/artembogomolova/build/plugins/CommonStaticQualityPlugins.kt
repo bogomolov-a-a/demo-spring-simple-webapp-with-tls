@@ -67,6 +67,10 @@ internal class DetektApplier : PluginApplier<DetektPlugin>(DetektPlugin::class.j
 
     override fun configureTasks(target: TaskContainer, properties: MutableMap<String, Any>) {
         super.configureTasks(target, properties)
+        configureDetektTask(target, properties)
+    }
+
+    private fun configureDetektTask(target: TaskContainer, properties: MutableMap<String, Any>) {
         target.withType(Detekt::class.java) {
             with(it)
             {
@@ -90,13 +94,17 @@ internal class SpotBugsApplier : PluginApplier<SpotBugsPlugin>(SpotBugsPlugin::c
     }
 
     override fun configureExtensions(target: ExtensionContainer, properties: MutableMap<String, Any>) {
+        super.configureExtensions(target, properties)
+        configureSpotBugsExtension(target, properties)
+    }
+
+    private fun configureSpotBugsExtension(target: ExtensionContainer, properties: MutableMap<String, Any>) {
         target.configure(SpotBugsExtension::class.java) {
             with(it as SpotBugsExtension) {
                 excludeFilter.set(File(SETTINGS_PATH.format(properties[ROOT_PROJECT_DIR_PATH_PROPERTY_NAME])))
                 ignoreFailures.set(false)
                 showProgress.set(true)
                 showStackTraces.set(true)
-
             }
         }
     }
