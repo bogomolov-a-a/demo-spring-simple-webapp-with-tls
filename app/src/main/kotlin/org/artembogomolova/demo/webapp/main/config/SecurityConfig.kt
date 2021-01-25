@@ -65,7 +65,7 @@ class SecurityConfig : WebSecurityConfigurerAdapter() {
     private fun configureLogoutProcess(http: HttpSecurity) {
         http.logout()
             .logoutUrl(LOGOUT_URL)
-            .logoutSuccessUrl(PublicController.LOGIN_URL)
+            //.logoutSuccessUrl(PublicController.LOGIN_URL)
             .logoutSuccessHandler(logoutSuccessHandler)
             .invalidateHttpSession(true)
             .addLogoutHandler(logoutHandler)
@@ -77,7 +77,7 @@ class SecurityConfig : WebSecurityConfigurerAdapter() {
     @Throws(Exception::class)
     private fun configureLoginProcess(http: HttpSecurity) {
         http.formLogin()
-            .loginPage(PublicController.LOGIN_URL)
+            //.loginPage(PublicController.LOGIN_URL)
             .successHandler(loginSuccessfulHandler)
             .failureHandler(loginFailureHandler)
     }
