@@ -12,9 +12,6 @@ dependencies {
     testImplementation("org.springframework.security:spring-security-test")
     testImplementation("org.apache.httpcomponents:httpclient")
 }
-/*spotbugs {
-    excludeFilter.set(File("config/spotbugs/excludes.xml"))
-}*/
 repositories {
     mavenCentral()
 }
