@@ -16,7 +16,8 @@ import org.springframework.stereotype.Component
 import org.springframework.transaction.annotation.Transactional
 import java.time.LocalDateTime
 import java.time.ZoneOffset
-import java.util.*
+import java.util.Comparator
+import java.util.Date
 
 @Component
 @Transactional
@@ -118,12 +119,18 @@ class UserRepoService {
             return AnonymousAuthenticationToken(userLogin, userLogin, user.role.authorities)
         }
 
+    fun corruptedDatabase(): Boolean {
+        return userRoleRepository.count() > 0 &&
+                (userRepository.findByLogin(PREDEFINED_ADMIN_ACCOUNT_LOGIN) == null ||
+                        userRepository.findByLogin(PREDEFINED_GUEST_ACCOUNT_LOGIN) == null)
+    }
+
     companion object {
-        private const val PREDEFINED_ADMIN_ACCOUNT_LOGIN = "admin"
+        const val PREDEFINED_ADMIN_ACCOUNT_LOGIN = "admin"
         private const val PREDEFINED_ADMIN_ACCOUNT_COUNTRY = "Russia"
         private const val PREDEFINED_ADMIN_ACCOUNT_POSTAL_CODE = "190000"
         private const val PREDEFINED_ADMIN_ACCOUNT_CITY_NAME = "Saint Petersburg"
         private const val CHANGE_IT = "changeit"
-        private const val PREDEFINED_GUEST_ACCOUNT_LOGIN = "guest"
+        const val PREDEFINED_GUEST_ACCOUNT_LOGIN = "guest"
     }
 }
