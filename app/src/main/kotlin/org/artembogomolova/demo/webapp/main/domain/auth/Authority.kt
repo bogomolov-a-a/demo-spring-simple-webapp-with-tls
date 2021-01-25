@@ -13,13 +13,12 @@ class Authority(
     @Column(nullable = false)
     val name: String,
     @ManyToMany(mappedBy = "authorities")
-    var roles: MutableList<Role> = mutableListOf(),
+    var roles: MutableList<Role>? = mutableListOf(),
     @ManyToMany(mappedBy = "blockAuthorities")
-    val users: MutableList<User> = mutableListOf()
+    val users: MutableList<User>? = mutableListOf()
 ) : IdentifiedEntity(), GrantedAuthority {
 
-
-    override fun getAuthority(): String? {
+    override fun getAuthority(): String {
         return name
     }
 

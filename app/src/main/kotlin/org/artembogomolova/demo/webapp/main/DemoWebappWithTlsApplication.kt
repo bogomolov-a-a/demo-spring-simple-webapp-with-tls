@@ -15,9 +15,9 @@ import org.springframework.context.ConfigurableApplicationContext
 class DemoWebappWithTlsApplication : SpringBootServletInitializer() {
     companion object {
         @JvmStatic
-        lateinit var INSTANCE: DemoWebappWithTlsApplication
+        private lateinit var INSTANCE: DemoWebappWithTlsApplication
 
-        fun getInstance(args: Array<String>): DemoWebappWithTlsApplication? {
+        fun getInstance(args: Array<String>): DemoWebappWithTlsApplication {
             main(args)
             return INSTANCE
         }

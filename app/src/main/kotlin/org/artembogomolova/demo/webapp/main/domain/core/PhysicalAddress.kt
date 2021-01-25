@@ -9,13 +9,13 @@ import javax.persistence.Table
 @Table(name = "addresses")
 class PhysicalAddress(
     @Column(nullable = false)
-    val postalCode: String,
+    val postalCode: String = "",
     @Column(nullable = false)
-    val country: String,
+    val country: String = "",
     @Column(nullable = false)
-    var city: String,
+    var city: String = "",
     @Column(nullable = false)
-    var house: String,
+    var house: String = "",
     val state: String? = null,
     var district: String? = null,
     var street: String? = null,

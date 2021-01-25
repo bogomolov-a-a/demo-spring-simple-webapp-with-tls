@@ -41,9 +41,9 @@ class UserRepoService {
             role = role
         )
         println("created person: $person")
-        role.users.add(result)
+        role.users?.add(result)
         println("super user role: $role")
-        role.authorities.stream()
+        role.authorities!!.stream()
             .sorted(Comparator.comparing { obj: Authority -> obj.name })
             .forEach { x: Authority? -> println("authority enabled:  $x") }
         userRepository.save(result)
@@ -82,8 +82,8 @@ class UserRepoService {
         )
         println("created person: $person")
         println("super user role: $role")
-        role.users.add(result)
-        role.authorities.stream()
+        role.users?.add(result)
+        role.authorities!!.stream()
             .sorted(Comparator.comparing { obj: Authority -> obj.name })
             .forEach { x: Authority? -> println("authority enabled: $x") }
         userRepository.save(result)

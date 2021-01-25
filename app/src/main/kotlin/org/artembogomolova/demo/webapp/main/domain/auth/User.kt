@@ -35,7 +35,7 @@ class User(
         joinColumns = [JoinColumn(name = "user_id", columnDefinition = BIGINT_DEF)],
         inverseJoinColumns = [JoinColumn(name = "authority_id", columnDefinition = BIGINT_DEF)]
     )
-    val blockAuthorities: MutableList<Authority> = mutableListOf()
+    val blockAuthorities: MutableList<Authority>? = mutableListOf()
 ) : IdentifiedEntity() {
 
     companion object {

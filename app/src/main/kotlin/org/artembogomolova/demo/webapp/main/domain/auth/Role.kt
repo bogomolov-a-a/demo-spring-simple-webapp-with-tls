@@ -1,6 +1,7 @@
 package org.artembogomolova.demo.webapp.main.domain.auth
 
 import org.artembogomolova.demo.webapp.main.domain.IdentifiedEntity
+import org.springframework.lang.NonNull
 import java.util.stream.Collectors
 import javax.persistence.CascadeType
 import javax.persistence.Column
@@ -22,14 +23,15 @@ class Role(
         joinColumns = [JoinColumn(name = "role_id", referencedColumnName = "id", columnDefinition = "bigint")],
         inverseJoinColumns = [JoinColumn(name = "authority_id", referencedColumnName = "id", columnDefinition = "bigint")]
     )
-    var authorities: MutableList<Authority> = mutableListOf(),
+    var authorities: MutableList<Authority>? = mutableListOf(),
     @OneToMany(cascade = [CascadeType.ALL], orphanRemoval = true, mappedBy = "role")
-    val users: MutableList<User> = mutableListOf()
+    @NonNull
+    val users: MutableList<User>? = mutableListOf()
 ) : IdentifiedEntity() {
 
     constructor(predefinedUserRole: PredefinedUserRole) : this(predefinedUserRole.name) {
         id = predefinedUserRole.id
-        authorities.addAll(predefinedUserRole.privileges.stream().map { name: String -> Authority(name) }.collect(Collectors.toList()))
+        authorities!!.addAll(predefinedUserRole.privileges.stream().map { name: String -> Authority(name) }.collect(Collectors.toList()))
     }
 
     companion object {
