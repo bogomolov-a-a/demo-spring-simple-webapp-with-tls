@@ -6,10 +6,10 @@
   <!-- exclude metamodel checks-->
   <Match>
     <Or>
-      <Class name="org.artembogomolova.demo.webapp.main.domain.IdentifiedEntity_"/>
       <Class name="org.artembogomolova.demo.webapp.main.domain.auth.Authority_"/>
       <Class name="org.artembogomolova.demo.webapp.main.domain.auth.Role_"/>
       <Class name="org.artembogomolova.demo.webapp.main.domain.auth.User_"/>
+      <Class name="org.artembogomolova.demo.webapp.main.domain.core.IdentifiedEntity_"/>
       <Class name="org.artembogomolova.demo.webapp.main.domain.core.PhysicalAddress_"/>
       <Class name="org.artembogomolova.demo.webapp.main.domain.core.Person_"/>
     </Or>
