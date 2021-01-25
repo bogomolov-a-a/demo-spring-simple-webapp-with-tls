@@ -8,6 +8,8 @@ import org.gradle.api.artifacts.dsl.DependencyHandler
 import org.gradle.api.plugins.ExtensionContainer
 import org.gradle.api.plugins.JavaPlugin
 import org.gradle.api.plugins.PluginContainer
+import org.gradle.api.tasks.TaskContainer
+import org.gradle.api.tasks.testing.Test
 import org.springframework.boot.gradle.plugin.SpringBootPlugin
 
 const val SPRING_BOOT_VERSION_PROPERTY_NAME = "springBootVersion"
@@ -29,11 +31,24 @@ internal class SpringBootPluginApplier : PluginApplier<SpringBootPlugin>(SpringB
 
     companion object {
         const val KOTLIN_ALLOPEN_SPRING_PROFILE_PLUGIN = "kotlin-spring"
+        const val SLF_4J_API_DEPENDENCY = "org.slf4j:slf4j-api"
+        const val LOGBACK_CLASSIC_DEPENDENCY = "ch.qos.logback:logback-classic"
+        const val LOGBACK_CORE_DEPENDENCY = "ch.qos.logback:logback-core"
     }
 
     override fun applyAdditionalPlugins(plugins: PluginContainer, properties: MutableMap<String, Any>) {
         super.applyAdditionalPlugins(plugins, properties)
         plugins.apply(KOTLIN_ALLOPEN_SPRING_PROFILE_PLUGIN)
+    }
+
+    override fun configureDependencies(target: DependencyHandler, properties: MutableMap<String, Any>) {
+        super.configureDependencies(target, properties)
+        target.add(JavaPlugin.IMPLEMENTATION_CONFIGURATION_NAME, SLF_4J_API_DEPENDENCY)
+        target.add(JavaPlugin.TEST_IMPLEMENTATION_CONFIGURATION_NAME, SLF_4J_API_DEPENDENCY)
+        target.add(JavaPlugin.IMPLEMENTATION_CONFIGURATION_NAME, LOGBACK_CLASSIC_DEPENDENCY)
+        target.add(JavaPlugin.TEST_IMPLEMENTATION_CONFIGURATION_NAME, LOGBACK_CLASSIC_DEPENDENCY)
+        target.add(JavaPlugin.IMPLEMENTATION_CONFIGURATION_NAME, LOGBACK_CORE_DEPENDENCY)
+        target.add(JavaPlugin.TEST_IMPLEMENTATION_CONFIGURATION_NAME, LOGBACK_CORE_DEPENDENCY)
     }
 
 }
@@ -83,12 +98,6 @@ class SpringBootJpaPlugin : AbstractSpringBootModulePlugin() {
         const val DEFAULT_ORM_DEPENDENCY = "org.hibernate:hibernate-core"
         const val DEFAULT_STATIC_MODEL_GEN_DEPENDENCY = "org.hibernate:hibernate-jpamodelgen"
         const val KOTLIN_JPA_PLUGIN_ID = "kotlin-jpa"
-        val JPA_ALL_OPEN_ANNOTATIONS = arrayListOf(
-            "javax.persistence.Entity",
-            "javax.persistence.MappedSuperclass",
-            "javax.persistence.Embeddable"
-        )
-        const val KOTLIN_ALLOPEN_PLUGIN_ID = "kotlin-allopen"
     }
 
     override fun applyAdditionalPlugins(plugins: PluginContainer, properties: MutableMap<String, Any>) {
@@ -103,34 +112,31 @@ class SpringBootJpaPlugin : AbstractSpringBootModulePlugin() {
         target.add(JavaPlugin.IMPLEMENTATION_CONFIGURATION_NAME, DEFAULT_ORM_DEPENDENCY)
         target.add(KAPT_CONFIGURATION_NAME, DEFAULT_STATIC_MODEL_GEN_DEPENDENCY)
     }
-
-  /*  override fun configureExtensions(target: ExtensionContainer, properties: MutableMap<String, Any>) {
-        super.configureExtensions(target, properties)
- //       configureAllOpenExtension(target, properties)
-    }*/
-
-    /*private fun configureAllOpenExtension(target: ExtensionContainer, properties: MutableMap<String, Any>) {
-        val extension = target.getByType(org.jetbrains.kotlin.allopen.gradle.AllOpenExtension::class.java)
-        extension.annotations(JPA_ALL_OPEN_ANNOTATIONS)
-
-    }*/
-
-   /* override fun applyAdditionalPluginsAfterConfigure(plugins: PluginContainer, properties: MutableMap<String, Any>) {
-        super.applyAdditionalPluginsAfterConfigure(plugins, properties)
-        plugins.apply(KOTLIN_ALLOPEN_PLUGIN_ID)
-    }*/
 }
+
+const val SPRING_ACTIVE_PROFILE_ENV_NAME = "spring_profiles_active"
+const val SPRING_ACTIVE_PROFILE_ENV_VALUE = "test"
 
 class SpringBootTestPlugin : AbstractSpringBootModulePlugin() {
     companion object {
         const val TEST_ROOT_DEPENDENCY = "org.springframework.boot:spring-boot-starter-test"
         const val DEFAULT_TEST_ENGINE_DEPENDENCY = "org.junit.jupiter:junit-jupiter-engine"
+
     }
 
     override fun configureDependencies(target: DependencyHandler, properties: MutableMap<String, Any>) {
         super.configureDependencies(target, properties)
         target.add(JavaPlugin.TEST_IMPLEMENTATION_CONFIGURATION_NAME, TEST_ROOT_DEPENDENCY)
         target.add(JavaPlugin.TEST_IMPLEMENTATION_CONFIGURATION_NAME, DEFAULT_TEST_ENGINE_DEPENDENCY)
+    }
+
+    override fun configureTasks(target: TaskContainer, properties: MutableMap<String, Any>) {
+        super.configureTasks(target, properties)
+        target.withType(Test::class.java) {
+            with(it) {
+                environment[SPRING_ACTIVE_PROFILE_ENV_NAME] = SPRING_ACTIVE_PROFILE_ENV_VALUE
+            }
+        }
     }
 }
 
