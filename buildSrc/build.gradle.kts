@@ -19,6 +19,7 @@ dependencies {
     implementation("org.jetbrains.kotlin:kotlin-noarg:1.4.20")
     /*quality*/
     implementation("io.gitlab.arturbosch.detekt:detekt-gradle-plugin:1.15.0")
+    implementation("gradle.plugin.com.github.spotbugs.snom:spotbugs-gradle-plugin:4.6.0")
     /*test reports*/
     implementation("org.jacoco:org.jacoco.core:0.8.6")
     /*sonar*/

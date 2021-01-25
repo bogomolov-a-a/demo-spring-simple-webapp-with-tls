@@ -1,23 +1,29 @@
 package org.artembogomolova.build.plugins
 
-import io.gitlab.arturbosch.detekt.DetektPlugin
+import com.github.spotbugs.snom.SpotBugsExtension
+import com.github.spotbugs.snom.SpotBugsPlugin
 import io.gitlab.arturbosch.detekt.Detekt
+import io.gitlab.arturbosch.detekt.DetektPlugin
 import org.gradle.api.Plugin
 import org.gradle.api.Project
+import org.gradle.api.plugins.ExtensionContainer
 import org.gradle.api.plugins.quality.Checkstyle
 import org.gradle.api.plugins.quality.CheckstylePlugin
 import org.gradle.api.plugins.quality.Pmd
 import org.gradle.api.plugins.quality.PmdPlugin
 import org.gradle.api.tasks.TaskContainer
+import java.io.File
 
 internal class StaticAnalysisApplier : Plugin<Project> {
     private val checkstyleApplier: CheckstyleApplier = CheckstyleApplier()
     private val pmdApplier: PmdApplier = PmdApplier()
     private val detektApplier: DetektApplier = DetektApplier()
+    private val spotBugsApplier: SpotBugsApplier = SpotBugsApplier()
     override fun apply(target: Project) {
         checkstyleApplier.apply(target)
         pmdApplier.apply(target)
         detektApplier.apply(target)
+        spotBugsApplier.apply(target)
     }
 }
 
@@ -55,16 +61,45 @@ internal class CheckstyleApplier : PluginApplier<CheckstylePlugin>(CheckstylePlu
 }
 
 internal class DetektApplier : PluginApplier<DetektPlugin>(DetektPlugin::class.java) {
+    companion object {
+        const val SETTINGS_PATH = "%s/config/detekt/detekt.yml"
+    }
+
     override fun configureTasks(target: TaskContainer, properties: MutableMap<String, Any>) {
         super.configureTasks(target, properties)
-        target.withType(Detekt::class.java){
+        target.withType(Detekt::class.java) {
             with(it)
             {
-                config.from.add(project.rootProject.rootDir.absolutePath+"/config/detekt/detekt.yml")
-                reports{
-
+                config.from.add(SETTINGS_PATH.format(properties[ROOT_PROJECT_DIR_PATH_PROPERTY_NAME]))
+                reports { report ->
+                    with(report) {
+                        xml.enabled = true
+                        html.enabled = false
+                        sarif.enabled = false
+                        txt.enabled = false
+                    }
                 }
             }
         }
     }
+}
+
+internal class SpotBugsApplier : PluginApplier<SpotBugsPlugin>(SpotBugsPlugin::class.java) {
+    companion object {
+        const val SETTINGS_PATH = "%s/config/spotbugs/excludes.xml"
+    }
+
+    override fun configureExtensions(target: ExtensionContainer, properties: MutableMap<String, Any>) {
+        target.configure(SpotBugsExtension::class.java) {
+            with(it as SpotBugsExtension) {
+                excludeFilter.set(File(SETTINGS_PATH.format(properties[ROOT_PROJECT_DIR_PATH_PROPERTY_NAME])))
+                ignoreFailures.set(false)
+                showProgress.set(true)
+                showStackTraces.set(true)
+
+            }
+        }
+    }
+
+    override fun isAllowReApplyPluginAfterConfigure(pluginClass: Class<SpotBugsPlugin>): Boolean = true
 }

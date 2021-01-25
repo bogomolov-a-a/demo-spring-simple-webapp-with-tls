@@ -14,4 +14,11 @@
       <Class name="org.artembogomolova.demo.webapp.main.domain.core.Person_"/>
     </Or>
   </Match>
+  <!-- exclude mutable backing fields-->
+  <Match>
+    <And>
+      <Class name="org.artembogomolova.demo.webapp.main.domain.core.Person"/>
+      <Bug code="EI2"/>
+    </And>
+  </Match>
 </FindBugsFilter>

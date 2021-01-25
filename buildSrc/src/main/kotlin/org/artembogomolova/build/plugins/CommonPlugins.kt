@@ -8,6 +8,7 @@ import org.gradle.api.plugins.PluginContainer
 import org.gradle.api.tasks.TaskContainer
 
 const val BUILD_DIR_PATH_PROPERTY_NAME = "buildDirPath"
+const val ROOT_PROJECT_DIR_PATH_PROPERTY_NAME = "rootProjectDirPath"
 
 abstract class PluginApplier<T : Plugin<out Any>>(private val pluginClass: Class<T>) : Plugin<Project> {
     final override fun apply(target: Project) {
@@ -55,6 +56,9 @@ abstract class PluginApplier<T : Plugin<out Any>>(private val pluginClass: Class
         val buildDirPath: String = target.buildDir.absolutePath.toString()
         properties[BUILD_DIR_PATH_PROPERTY_NAME] = buildDirPath
         println("build dir path for plugin '$buildDirPath'")
+        val rootProjectDirPath: String = target.rootProject.rootDir.absolutePath.toString()
+        properties[ROOT_PROJECT_DIR_PATH_PROPERTY_NAME] = rootProjectDirPath
+        println("root project dir path for plugin '$buildDirPath'")
     }
 
     protected open fun applyAdditionalPlugins(plugins: PluginContainer, properties: MutableMap<String, Any>) {
