@@ -11,6 +11,7 @@ dependencies {
     /*use for any tests*/
     testImplementation("org.springframework.security:spring-security-test")
     testImplementation("org.apache.httpcomponents:httpclient")
+    testImplementation("org.apache.commons:commons-lang3")
 }
 repositories {
     mavenCentral()
