@@ -1,5 +1,6 @@
 package org.artembogomolova.demo.webapp.test
 
+//import org.apache.commons.lang3.MethodUtils
 import org.apache.commons.lang3.reflect.MethodUtils
 import org.artembogomolova.demo.webapp.main.util.getLogger
 import org.junit.jupiter.api.Assertions
@@ -13,7 +14,6 @@ import org.junit.jupiter.params.ParameterizedTest
 import org.springframework.test.context.TestExecutionListeners
 import org.springframework.test.context.support.DependencyInjectionTestExecutionListener
 import java.lang.reflect.Method
-import java.util.ArrayList
 import java.util.function.Consumer
 
 @TestMethodOrder(value = MethodOrderer.OrderAnnotation::class)
@@ -47,9 +47,9 @@ open class AbstractTest protected constructor() {
 open class AbstractClassTest<T> protected constructor(
     testingClass: Class<T>,
     classNameSuffix: String,
-    displayNamePrefix: String
+    displayNamePrefix: String,
 ) : AbstractTest() {
-    private val testingClass: Class<T>
+    protected val testingClass: Class<T>
     private fun checkTestDisplayNamePattern(testingClass: Class<T>, displayNamePrefix: String) {
         val displayName = this.javaClass.getAnnotation(DisplayName::class.java)
         val exceptedDisplayName = displayNamePrefix + testingClass.simpleName
