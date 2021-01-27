@@ -26,10 +26,6 @@ class SQLite3Dialect : Dialect() {
         }
     }
 
-    override fun getForUpdateString(): String {
-        return ""
-    }
-
     companion object {
         private const val SUBSTRING_FUNCTION = "substr"
         private const val INTEGER_TYPE = "integer"
