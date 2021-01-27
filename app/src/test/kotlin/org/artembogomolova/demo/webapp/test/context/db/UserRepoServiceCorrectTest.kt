@@ -37,7 +37,7 @@ internal class UserRepoServiceCorrectTest @Autowired constructor(
     fun checkAdminUserDeletedDatabaseCorrupted() {
         val user: User = userRepository.findByLogin(UserRepoService.PREDEFINED_ADMIN_ACCOUNT_LOGIN)!!
         userRepository.delete(user)
-        checkUserDeletedDatabaseCorrupted(user.login)
+        checkUserDeletedDatabaseCorrupted(user.login!!)
     }
 
     @DisplayName("Test check '${UserRepoService.PREDEFINED_GUEST_ACCOUNT_LOGIN}' removed from existing database. This is wrong way!")
@@ -45,7 +45,7 @@ internal class UserRepoServiceCorrectTest @Autowired constructor(
     fun checkGuestUserDeletedDatabaseCorrupted() {
         val user: User = userRepository.findByLogin(UserRepoService.PREDEFINED_GUEST_ACCOUNT_LOGIN)!!
         userRepository.delete(user)
-        checkUserDeletedDatabaseCorrupted(user.login)
+        checkUserDeletedDatabaseCorrupted(user.login!!)
     }
 
     private fun checkUserDeletedDatabaseCorrupted(login: String) {
