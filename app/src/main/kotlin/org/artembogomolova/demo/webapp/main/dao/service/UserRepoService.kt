@@ -42,10 +42,10 @@ class UserRepoService {
             role = role
         )
         println("created person: $person")
-        role.users?.add(result)
+        role.users.add(result)
         println("super user role: $role")
-        role.authorities!!.stream()
-            .sorted(Comparator.comparing { obj: Authority -> obj.name })
+        role.authorities.stream()
+            .sorted(Comparator.comparing { obj: Authority -> obj.name!! })
             .forEach { x: Authority? -> println("authority enabled:  $x") }
         userRepository.save(result)
     }
@@ -83,9 +83,9 @@ class UserRepoService {
         )
         println("created person: $person")
         println("super user role: $role")
-        role.users?.add(result)
-        role.authorities!!.stream()
-            .sorted(Comparator.comparing { obj: Authority -> obj.name })
+        role.users.add(result)
+        role.authorities.stream()
+            .sorted(Comparator.comparing { obj: Authority -> obj.name!! })
             .forEach { x: Authority? -> println("authority enabled: $x") }
         userRepository.save(result)
     }
@@ -116,7 +116,7 @@ class UserRepoService {
         get() {
             val user = userRepository.findByLogin(PREDEFINED_GUEST_ACCOUNT_LOGIN) ?: throw IllegalStateException("user can't be null!")
             val userLogin = user.login
-            return AnonymousAuthenticationToken(userLogin, userLogin, user.role.authorities)
+            return AnonymousAuthenticationToken(userLogin, userLogin, user.role!!.authorities)
         }
 
     fun corruptedDatabase(): Boolean {
