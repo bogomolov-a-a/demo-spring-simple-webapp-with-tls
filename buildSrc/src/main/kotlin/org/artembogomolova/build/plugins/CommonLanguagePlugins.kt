@@ -19,6 +19,7 @@ internal class KotlinPluginApplier : PluginApplier<KotlinPluginWrapper>(KotlinPl
         const val DEFAULT_JVM_TARGET_KOTLIN_OPTION_VALUE = "11"
         const val KOTLIN_ANNOTATION_PROCESSOR_PLUGIN = "kotlin-kapt"
         const val KOTLIN_REFLECT_DEPENDENCY_NOTATION = "org.jetbrains.kotlin:kotlin-reflect:%s"
+        const val KOTLIN_COMPILE_EMBEDDABLE_DEPENDENCY_NOTATION = "org.jetbrains.kotlin:kotlin-compiler-embeddable:%s"
     }
 
     override fun applyAdditionalPlugins(plugins: PluginContainer, properties: MutableMap<String, Any>) {
@@ -28,9 +29,13 @@ internal class KotlinPluginApplier : PluginApplier<KotlinPluginWrapper>(KotlinPl
 
     override fun configureDependencies(target: DependencyHandler, properties: MutableMap<String, Any>) {
         super.configureDependencies(target, properties)
-        val kotlinReflectDependencyNotation = KOTLIN_REFLECT_DEPENDENCY_NOTATION.format(getKotlinVersion(properties))
+        val kotlinVersion = getKotlinVersion(properties)
+        val kotlinReflectDependencyNotation = KOTLIN_REFLECT_DEPENDENCY_NOTATION.format(kotlinVersion)
         target.add(JavaPlugin.IMPLEMENTATION_CONFIGURATION_NAME, kotlinReflectDependencyNotation)
         target.add(JavaPlugin.TEST_IMPLEMENTATION_CONFIGURATION_NAME, kotlinReflectDependencyNotation)
+        val kotlinCompileEmbeddableDependencyNotation = KOTLIN_COMPILE_EMBEDDABLE_DEPENDENCY_NOTATION.format(kotlinVersion)
+        target.add(JavaPlugin.IMPLEMENTATION_CONFIGURATION_NAME, kotlinCompileEmbeddableDependencyNotation)
+        target.add(JavaPlugin.TEST_IMPLEMENTATION_CONFIGURATION_NAME, kotlinCompileEmbeddableDependencyNotation)
     }
 
     override fun configureTasks(target: TaskContainer, properties: MutableMap<String, Any>) {
