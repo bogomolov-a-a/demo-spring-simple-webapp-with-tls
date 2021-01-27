@@ -2,7 +2,7 @@ package org.artembogomolova.demo.webapp.main.domain.auth
 
 import org.artembogomolova.demo.webapp.main.domain.core.IdentifiedEntity
 import org.artembogomolova.demo.webapp.main.domain.core.Person
-import java.util.Locale
+import java.util.*
 
 enum class BasicAuthorityEnum(val authorityName: String) {
     BAT_CREATE("create"),
@@ -19,7 +19,7 @@ enum class BasicAuthorityEnum(val authorityName: String) {
         private const val AUTHORITY_FORMAT = "%s:%s"
 
         @JvmStatic
-        fun getAuthorityByEntityAndAction(entityClass: Class<out IdentifiedEntity>, action: String): String {
+        fun getAuthorityByEntityAndAction(entityClass: Class<out IdentifiedEntity<*>>, action: String): String {
             val entityName = entityClass.simpleName.toLowerCase(Locale.ENGLISH)
             return String.format(AUTHORITY_FORMAT, entityName, action.toLowerCase(Locale.ENGLISH))
         }
