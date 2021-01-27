@@ -5,6 +5,9 @@ import org.artembogomolova.build.utils.ClassPathClassFounder
 import org.gradle.api.Project
 import org.gradle.api.tasks.TaskContainer
 import org.gradle.api.tasks.testing.Test
+import org.gradle.api.tasks.testing.TestDescriptor
+import org.gradle.api.tasks.testing.TestListener
+import org.gradle.api.tasks.testing.TestResult
 import org.gradle.testing.jacoco.plugins.JacocoPlugin
 import org.gradle.testing.jacoco.plugins.JacocoTaskExtension
 import org.gradle.testing.jacoco.tasks.JacocoCoverageVerification
@@ -22,6 +25,7 @@ internal class JacocoPluginApplier : PluginApplier<JacocoPlugin>(JacocoPlugin::c
         const val JACOCO_XML_REPORT_FILE_PROPERTY_NAME = "jacocoXmlReportFileName"
         const val CLASS_DUMP_DIR_PROPERTY_NAME = "classDumpDir"
         const val COVERAGE_RATIO_MINIMUM = 0.949
+        const val NO_TEST_FOUND_MESSAGE = "Error occurred test execute: no tests found!"
 
     }
 
@@ -65,6 +69,9 @@ internal class JacocoPluginApplier : PluginApplier<JacocoPlugin>(JacocoPlugin::c
                 ignoreFailures = false
                 setTestNameIncludePatterns(TEST_CLASS_NAME_PATTERNS)
                 doFirst {
+                    if (testClassesDirs.isEmpty) {
+                        throw IllegalStateException(NO_TEST_FOUND_MESSAGE)
+                    }
                     extensions.configure(JacocoTaskExtension::class.java) { extension ->
                         with(extension)
                         {
@@ -75,6 +82,20 @@ internal class JacocoPluginApplier : PluginApplier<JacocoPlugin>(JacocoPlugin::c
                         }
                     }
                 }
+                addTestListener(object : TestListener {
+                    override fun beforeSuite(suite: TestDescriptor) {}
+                    override fun beforeTest(testDescriptor: TestDescriptor) {
+                        println("Running test $testDescriptor")
+                    }
+
+                    override fun afterTest(testDescriptor: TestDescriptor, result: TestResult) {}
+                    override fun afterSuite(suite: TestDescriptor, result: TestResult) {
+                        if (result.testCount == 0L) {
+                            throw IllegalStateException(NO_TEST_FOUND_MESSAGE)
+                        }
+                    }
+                })
+                addTestOutputListener { _, outputEvent -> println(outputEvent?.message) }
             }
         }
     }
