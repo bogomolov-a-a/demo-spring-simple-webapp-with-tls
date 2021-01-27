@@ -26,7 +26,6 @@ internal class HttpsProtocolExchangeOnTest(
     @Value("\${test.ssl.trusted-key-password}")
     lateinit var trustedKeyPassword: String
 
-
     @Test
     @DisplayName("Validated tls connection established, try to get index page by https with generated server certificate.")
     fun validateTLSConnectionCreatedAndIndexPageGet() {
@@ -39,7 +38,7 @@ internal class HttpsProtocolExchangeOnTest(
             trustedKeyPassword
         )!!
         log.info("try to get index page in secured connection.")
-        val data: ResponseEntity<String> = restTemplate.getForEntity<String>("https://localhost:${serverPort}/", String::class.java)
+        val data: ResponseEntity<String> = restTemplate.getForEntity("https://localhost:${serverPort}/", String::class.java)
         val result = data.body
         Assertions.assertEquals(HttpStatus.OK, data.statusCode, result)
         log.info("index page in secured connection successful get!")
