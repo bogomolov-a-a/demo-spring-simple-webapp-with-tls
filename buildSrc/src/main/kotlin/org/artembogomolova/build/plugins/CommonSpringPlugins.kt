@@ -34,6 +34,8 @@ internal class SpringBootPluginApplier : PluginApplier<SpringBootPlugin>(SpringB
         const val SLF_4J_API_DEPENDENCY = "org.slf4j:slf4j-api"
         const val LOGBACK_CLASSIC_DEPENDENCY = "ch.qos.logback:logback-classic"
         const val LOGBACK_CORE_DEPENDENCY = "ch.qos.logback:logback-core"
+        const val ROOT_VALIDATION_DEPENDENCY = "org.springframework.boot:spring-boot-starter-validation"
+        const val COMMONS_LANG3_DEPENDENCY = "org.apache.commons:commons-lang3"
     }
 
     override fun applyAdditionalPlugins(plugins: PluginContainer, properties: MutableMap<String, Any>) {
@@ -49,6 +51,10 @@ internal class SpringBootPluginApplier : PluginApplier<SpringBootPlugin>(SpringB
         target.add(JavaPlugin.TEST_IMPLEMENTATION_CONFIGURATION_NAME, LOGBACK_CLASSIC_DEPENDENCY)
         target.add(JavaPlugin.IMPLEMENTATION_CONFIGURATION_NAME, LOGBACK_CORE_DEPENDENCY)
         target.add(JavaPlugin.TEST_IMPLEMENTATION_CONFIGURATION_NAME, LOGBACK_CORE_DEPENDENCY)
+        target.add(JavaPlugin.IMPLEMENTATION_CONFIGURATION_NAME, ROOT_VALIDATION_DEPENDENCY)
+        target.add(JavaPlugin.TEST_IMPLEMENTATION_CONFIGURATION_NAME, ROOT_VALIDATION_DEPENDENCY)
+        target.add(JavaPlugin.IMPLEMENTATION_CONFIGURATION_NAME, COMMONS_LANG3_DEPENDENCY)
+        target.add(JavaPlugin.TEST_IMPLEMENTATION_CONFIGURATION_NAME, COMMONS_LANG3_DEPENDENCY)
     }
 
 }
