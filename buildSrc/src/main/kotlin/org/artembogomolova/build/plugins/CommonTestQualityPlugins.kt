@@ -85,7 +85,7 @@ internal class JacocoPluginApplier : PluginApplier<JacocoPlugin>(JacocoPlugin::c
                 addTestListener(object : TestListener {
                     override fun beforeSuite(suite: TestDescriptor) {}
                     override fun beforeTest(testDescriptor: TestDescriptor) {
-                        println("Running test $testDescriptor")
+                        print("Running test $testDescriptor")
                     }
 
                     override fun afterTest(testDescriptor: TestDescriptor, result: TestResult) {}
