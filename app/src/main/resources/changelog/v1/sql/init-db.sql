@@ -24,78 +24,47 @@ create table persons(
   unique (name,surname,patronymic,birth_date)
 );
 /
-create table orders(
-  id integer not null primary key autoincrement,
-  order_date TIMESTAMP not null default current_timestamp,
-  deliver_date TIMESTAMP,
-  order_address_plain text,
-  description text not null,
-  payed integer default 0,
-  order_address_id bigint,
-  person_id bigint not null,
-  foreign key (order_address_id) references addresses(id) on delete cascade on update cascade,
-  foreign key (person_id ) references persons(id) on delete cascade on update cascade
-);
-/
-create table tickets(
-  id integer not null primary key autoincrement,
-  summ real,
-  order_id bigint not null,
-  foreign key (order_id) references orders(id) on delete cascade on update cascade
-);
-create table categories(
-  id integer not null primary key autoincrement,
-  name text not null,
-  parent_category_id bigint
-);
-/
-create table producers(
-  id integer not null primary key autoincrement,
-  name text not null,
-  producer_address_id bigint not null,
-  foreign key (producer_address_id) references addresses(id)on delete cascade on update cascade
-);
-/
-create table goods(
+create table roles
+(
  id integer not null primary key autoincrement,
  name text not null,
  description text not null,
- price real not null,
- img_file_path text,
- quantity double not null default 0,
- producer_id bigint not null,
- category_id bigint not null,
- foreign key (category_id) references categories(id) on delete cascade on update cascade,
- foreign key (producer_id) references producers(id) on delete cascade on update cascade
+ unique (name) -- role name must be unique
 );
 /
-create table actions(
+create table users(
+  id integer not null primary key autoincrement,
+  login text not null,
+  password text not null,
+  client_certificate_data text not null,
+  avatar text,
+  active integer not null default 1,
+  person_id bigint not null,
+  role_id bigint not null,
+  foreign key (person_id) references persons(id) on delete cascade on update cascade,
+  foreign key (role_id) references roles(id) on delete cascade on update cascade,
+  unique (login),
+  unique (person_id) -- disable multi_account for one person
+);
+/
+create table authorities(
   id integer not null primary key autoincrement,
   name text not null,
-  description text not null,
-  discount_fixed real default 0,
-  discount_percent real default 0,
-  start_date TIMESTAMP not null,
-  end_date TIMESTAMP not null,
-  category_id bigint,
-  good_id bigint ,
-  foreign key (category_id) references categories(id) on delete cascade on update cascade,
-  foreign key (good_id) references goods(id)on delete cascade on update cascade
+  description text not null
 );
 /
-create table order_positions(
+create table role_authorities(
   id integer not null primary key autoincrement,
-  discount real not null default 0,
-  quantity real not null default 1,
-  order_id bigint not null,
-  good_id bigint not null,
-  action_id bigint,
-  foreign key (order_id) references orders(id) on delete cascade on update cascade,
-  foreign key (good_id) references goods(id) on delete cascade on update cascade,
-  foreign key (action_id) references actions(id)on delete cascade on update cascade
+  role_id bigint not null,
+  authority_id bigint not null,
+  foreign key (role_id) references roles(id) on delete cascade on update cascade,
+  foreign key (authority_id) references authorities(id) on delete cascade on update cascade
 );
-
-
-
-
-
+/
+create table block_authorities(--for block authority for user.
+  id integer not null primary key autoincrement,
+  user_id bigint not null,
+  authority_id bigint not null,
+  foreign key (user_id) references users(id) on delete cascade on update cascade,
+  foreign key (authority_id) references authorities(id) on delete cascade on update cascade
+);
