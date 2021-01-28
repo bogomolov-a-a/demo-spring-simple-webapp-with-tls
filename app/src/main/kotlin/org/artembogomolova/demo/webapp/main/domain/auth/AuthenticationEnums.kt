@@ -1,27 +1,34 @@
 package org.artembogomolova.demo.webapp.main.domain.auth
 
+import java.util.Locale
 import org.artembogomolova.demo.webapp.main.domain.core.IdentifiedEntity
 import org.artembogomolova.demo.webapp.main.domain.core.Person
-import java.util.*
 
-enum class BasicAuthorityEnum(val authorityName: String) {
-    BAT_CREATE("create"),
-    BAT_UPDATE("update"),
-    BAT_READ("read"),
-    BAT_DELETE("delete"),
-    BAT_GRANT("grant"),
-    BAT_REVOKE("revoke"),
+enum class BasicAuthorityEnum(
+    val authorityName: String,
+    val description: String
+) {
+    BAT_CREATE("create", "can create entity"),
+    BAT_UPDATE("update", "can update entity"),
+    BAT_READ("read", "can read entity"),
+    BAT_DELETE("delete", "can delete entity"),
+    BAT_GRANT("grant", "can grant authority"),
+    BAT_REVOKE("revoke", "can revoke authority"),
 
     /*GUEST ANONYMOUS ACCESS*/
-    BAT_ANONYMOUS("anonymous");
+    BAT_ANONYMOUS("anonymous", "use for anonymous access");
 
     companion object {
         private const val AUTHORITY_FORMAT = "%s:%s"
+        private const val AUTHORITY_DESCRIPTION_FORMAT = "%s:%s"
 
         @JvmStatic
-        fun getAuthorityByEntityAndAction(entityClass: Class<out IdentifiedEntity<*>>, action: String): String {
+        fun getAuthorityByEntityAndAction(entityClass: Class<out IdentifiedEntity<*>>, action: String): Authority {
             val entityName = entityClass.simpleName.toLowerCase(Locale.ENGLISH)
-            return String.format(AUTHORITY_FORMAT, entityName, action.toLowerCase(Locale.ENGLISH))
+            return Authority(
+                AUTHORITY_FORMAT.format(entityName, action.toLowerCase(Locale.ENGLISH)),
+                AUTHORITY_DESCRIPTION_FORMAT.format(entityName, action)
+            )
         }
     }
 }
@@ -31,13 +38,16 @@ enum class BasicAuthorityEnum(val authorityName: String) {
  */
 enum class PredefinedUserRole(
     val id: Long,
-    val privileges: Set<String>
+    val description: String,
+    val privileges: Set<Authority>
 ) {
     /**
      * super user, view all users, grant authorities, revoke authorities, block user...
      */
     ADMIN(
-        1L, setOf( /*Person*/ /*profile authorities*/
+        1L,
+        "super user, view all users, grant authorities, revoke authorities, block user...",
+        setOf( /*Person*/ /*profile authorities*/
             BasicAuthorityEnum.getAuthorityByEntityAndAction(Person::class.java, BasicAuthorityEnum.BAT_CREATE.name),
             BasicAuthorityEnum.getAuthorityByEntityAndAction(Person::class.java, BasicAuthorityEnum.BAT_UPDATE.name),
             BasicAuthorityEnum.getAuthorityByEntityAndAction(Person::class.java, BasicAuthorityEnum.BAT_READ.name),  /*profile remove*/
@@ -55,10 +65,12 @@ enum class PredefinedUserRole(
     ),
 
     /**
-     * control orders and goods, view all orders, view all good request, good storage status...
+     * control other users, other entity status...
      */
     MODERATOR(
-        2L, setOf( /*Person*/
+        2L,
+        "control other users, other entity status...",
+        setOf( /*Person*/
             BasicAuthorityEnum.getAuthorityByEntityAndAction(Person::class.java, BasicAuthorityEnum.BAT_CREATE.name),
             BasicAuthorityEnum.getAuthorityByEntityAndAction(Person::class.java, BasicAuthorityEnum.BAT_UPDATE.name),
             BasicAuthorityEnum.getAuthorityByEntityAndAction(Person::class.java, BasicAuthorityEnum.BAT_READ.name),  /*profile remove*/
@@ -72,7 +84,9 @@ enum class PredefinedUserRole(
      * can be create order, pay order, view all orders...
      */
     CUSTOMER(
-        3L, setOf( /*Person*/
+        3L,
+        "can be create order, pay order, view all orders...",
+        setOf( /*Person*/
             BasicAuthorityEnum.getAuthorityByEntityAndAction(Person::class.java, BasicAuthorityEnum.BAT_CREATE.name),
             BasicAuthorityEnum.getAuthorityByEntityAndAction(Person::class.java, BasicAuthorityEnum.BAT_UPDATE.name),
             BasicAuthorityEnum.getAuthorityByEntityAndAction(Person::class.java, BasicAuthorityEnum.BAT_READ.name),  /*profile remove*/
@@ -84,7 +98,9 @@ enum class PredefinedUserRole(
      * create good request, view it good status...
      */
     PRODUCER(
-        4L, setOf( /*Person*/
+        4L,
+        "create good request, view it good status...",
+        setOf( /*Person*/
             BasicAuthorityEnum.getAuthorityByEntityAndAction(Person::class.java, BasicAuthorityEnum.BAT_CREATE.name),
             BasicAuthorityEnum.getAuthorityByEntityAndAction(Person::class.java, BasicAuthorityEnum.BAT_READ.name),  /*profile remove*/
             BasicAuthorityEnum.getAuthorityByEntityAndAction(Person::class.java, BasicAuthorityEnum.BAT_DELETE.name),
@@ -93,10 +109,15 @@ enum class PredefinedUserRole(
     ),
 
     /**
-     * guest can view categories,providers,goods.
+     * guest has anonymous access for default page.
      */
-    GUEST(5L, setOf(BasicAuthorityEnum.BAT_ANONYMOUS.authorityName));
+    GUEST(
+        5L,
+        "guest has anonymous access for default page.",
+        setOf(BasicAuthorityEnum.getAuthorityByEntityAndAction(Person::class.java, BasicAuthorityEnum.BAT_ANONYMOUS.authorityName))
+    );
+
 
     val privilegesAsArray: Array<String>
-        get() = privileges.toTypedArray()
+        get() = privileges.mapNotNull(Authority::name).toTypedArray()
 }

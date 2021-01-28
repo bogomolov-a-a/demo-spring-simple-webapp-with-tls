@@ -1,9 +1,5 @@
 package org.artembogomolova.demo.webapp.main.domain.auth
 
-import org.artembogomolova.demo.webapp.main.domain.core.IdentifiedEntity
-import org.artembogomolova.demo.webapp.main.domain.core.Person
-import org.springframework.security.core.GrantedAuthority
-import java.util.stream.Collectors
 import javax.persistence.CascadeType
 import javax.persistence.Column
 import javax.persistence.Entity
@@ -15,17 +11,24 @@ import javax.persistence.OneToMany
 import javax.persistence.OneToOne
 import javax.persistence.Table
 import kotlin.reflect.KMutableProperty1
+import org.artembogomolova.demo.webapp.main.domain.core.IdentifiedEntity
+import org.artembogomolova.demo.webapp.main.domain.core.Person
+import org.springframework.security.core.GrantedAuthority
 
 @Entity
 @Table(name = "authorities")
 class Authority(
     @Column(nullable = false)
     var name: String?,
+    @Column(nullable = false)
+    var description: String?,
     @ManyToMany(mappedBy = "authorities")
-    val roles: MutableList<Role> = mutableListOf(),
+    var roles: MutableList<Role> = mutableListOf(),
     @ManyToMany(mappedBy = "blockAuthorities")
-    val users: MutableList<User> = mutableListOf(),
+    var users: MutableList<User> = mutableListOf(),
 ) : IdentifiedEntity<Authority>(), GrantedAuthority {
+
+    constructor() : this(null, null)
 
     override fun buildNaturalKey(): Array<KMutableProperty1<Authority, *>> = arrayOf(Authority::name)
 
@@ -36,7 +39,8 @@ class Authority(
     companion object {
         private const val serialVersionUID = 1L
         fun from(copyingEntity: Authority): Authority = Authority(
-            name = copyingEntity.name
+            name = copyingEntity.name,
+            description = copyingEntity.description
         )
     }
 }
@@ -46,6 +50,8 @@ class Authority(
 class Role(
     @Column(nullable = false)
     var name: String?,
+    @Column(nullable = false)
+    var description: String?,
     @ManyToMany(cascade = [CascadeType.ALL])
     @JoinTable(
         name = "role_authorities",
@@ -57,19 +63,22 @@ class Role(
     val users: MutableList<User> = mutableListOf(),
 ) : IdentifiedEntity<Role>() {
 
+    constructor() : this(null, null)
+
     override fun buildNaturalKey(): Array<KMutableProperty1<Role, *>> = arrayOf(Role::name)
 
     companion object {
         private const val serialVersionUID = 1L
         fun from(predefinedUserRole: PredefinedUserRole): Role {
-            val result = Role(predefinedUserRole.name)
+            val result = Role(predefinedUserRole.name, predefinedUserRole.description)
             result.id = predefinedUserRole.id
-            result.authorities.addAll(predefinedUserRole.privileges.stream().map { name: String -> Authority(name) }.collect(Collectors.toList()))
+            result.authorities.addAll(predefinedUserRole.privileges)
             return result
         }
 
         fun from(copyingEntity: Role): Role = Role(
-            name = copyingEntity.name
+            name = copyingEntity.name,
+            description = copyingEntity.description
         )
     }
 }
@@ -99,6 +108,7 @@ class User(
     )
     val blockAuthorities: MutableList<Authority>? = mutableListOf(),
 ) : IdentifiedEntity<User>() {
+    constructor() : this(null, null)
 
     override fun buildNaturalKey(): Array<KMutableProperty1<User, *>> = arrayOf(
         User::login,

@@ -144,6 +144,7 @@ class PhysicalAddress(
     var specificPart: String? = null,
 ) : IdentifiedEntity<PhysicalAddress>() {
 
+    constructor():this(null,null,null,null)
     override fun buildNaturalKey(): Array<KMutableProperty1<PhysicalAddress, *>> = arrayOf(
         PhysicalAddress::postalCode,
         PhysicalAddress::country,
@@ -188,6 +189,7 @@ class Person(
     val user: User? = null,
 ) : IdentifiedEntity<Person>() {
 
+    constructor() : this(null,null,null,null)
     override fun buildNaturalKey(): Array<KMutableProperty1<Person, *>> = arrayOf(
         Person::name,
         Person::surname,
