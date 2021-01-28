@@ -14,6 +14,10 @@ import org.springframework.http.ResponseEntity
 internal class HttpsProtocolExchangeOnTest(
     @LocalServerPort serverPort: Int
 ) : AbstractContextLoadTest(serverPort) {
+    companion object {
+        const val INDEX_PAGE_ANONYMOUS_VALUE = "Hello!"
+    }
+
     @Value("\${test.ssl.trusted-keystore-file}")
     lateinit var trustedKeystoreFile: String
 
@@ -41,6 +45,8 @@ internal class HttpsProtocolExchangeOnTest(
         val data: ResponseEntity<String> = restTemplate.getForEntity("https://localhost:${serverPort}/", String::class.java)
         val result = data.body
         Assertions.assertEquals(HttpStatus.OK, data.statusCode, result)
+        Assertions.assertEquals(INDEX_PAGE_ANONYMOUS_VALUE, result)
         log.info("index page in secured connection successful get!")
     }
+
 }
