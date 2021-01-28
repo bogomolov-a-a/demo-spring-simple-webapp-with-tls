@@ -1,4 +1,4 @@
-package org.artembogomolova.demo.webapp.test.domain.entity
+package org.artembogomolova.demo.webapp.test.domain
 
 import org.artembogomolova.demo.webapp.main.domain.core.IdentifiedEntity
 import org.artembogomolova.demo.webapp.main.validation.UniqueMultiColumn

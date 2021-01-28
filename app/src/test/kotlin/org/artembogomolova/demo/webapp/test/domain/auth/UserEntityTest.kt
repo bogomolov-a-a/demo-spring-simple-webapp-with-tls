@@ -1,10 +1,10 @@
-package org.artembogomolova.demo.webapp.test.domain.entity.auth
+package org.artembogomolova.demo.webapp.test.domain.auth
 
 import org.artembogomolova.demo.webapp.main.domain.auth.Role
 import org.artembogomolova.demo.webapp.main.domain.auth.User
 import org.artembogomolova.demo.webapp.main.domain.auth.User_
 import org.artembogomolova.demo.webapp.main.domain.core.Person
-import org.artembogomolova.demo.webapp.test.domain.entity.AbstractAccessorEntityTest
+import org.artembogomolova.demo.webapp.test.domain.AbstractAccessorEntityTest
 import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.DisplayName
 
@@ -69,8 +69,8 @@ internal class UserEntityTest : AbstractAccessorEntityTest<User>(
         private const val CERTIFICATE_DATA_VALUE = "test certificate data"
         private const val AVATAR_VALUE = "avatar data"
         private const val ACTIVE_VALUE = true
-        private val PERSON_VALUE: Person = Person(null, null, null, null)
-        private val ROLE_VALUE: Role = Role(null)
+        private val PERSON_VALUE: Person = Person()
+        private val ROLE_VALUE: Role = Role()
         private const val LOGIN_ANOTHER_VALUE = "test login 2"
     }
 }

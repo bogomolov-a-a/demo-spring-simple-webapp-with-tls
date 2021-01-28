@@ -1,8 +1,8 @@
-package org.artembogomolova.demo.webapp.test.domain.entity.core
+package org.artembogomolova.demo.webapp.test.domain.core
 
 import org.artembogomolova.demo.webapp.main.domain.core.PhysicalAddress
 import org.artembogomolova.demo.webapp.main.domain.core.PhysicalAddress_
-import org.artembogomolova.demo.webapp.test.domain.entity.AbstractAccessorEntityTest
+import org.artembogomolova.demo.webapp.test.domain.AbstractAccessorEntityTest
 import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.DisplayName
 

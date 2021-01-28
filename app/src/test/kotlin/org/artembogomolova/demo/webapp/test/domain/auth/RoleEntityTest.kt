@@ -1,8 +1,8 @@
-package org.artembogomolova.demo.webapp.test.domain.entity.auth
+package org.artembogomolova.demo.webapp.test.domain.auth
 
 import org.artembogomolova.demo.webapp.main.domain.auth.Role
 import org.artembogomolova.demo.webapp.main.domain.auth.Role_
-import org.artembogomolova.demo.webapp.test.domain.entity.AbstractAccessorEntityTest
+import org.artembogomolova.demo.webapp.test.domain.AbstractAccessorEntityTest
 import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.DisplayName
 
@@ -12,8 +12,7 @@ internal class RoleEntityTest :
         Role::class.java,
         Role::from
     ) {
-    override fun buildStandardEntity(): Role = Role(NAME_VALUE)
-
+    override fun buildStandardEntity(): Role = Role(NAME_VALUE, DESCRIPTION_VALUE)
 
     override fun containFieldCorrectValuesTest(standardEntity: Role) {
         Assertions.assertEquals(NAME_VALUE, standardEntity.name)
@@ -21,7 +20,7 @@ internal class RoleEntityTest :
         Assertions.assertTrue(standardEntity.users.isEmpty())
     }
 
-    override fun buildAnotherEntityForTest(): Role = Role(NAME_ANOTHER_VALUE)
+    override fun buildAnotherEntityForTest(): Role = Role(NAME_ANOTHER_VALUE, DESCRIPTION_VALUE)
 
     override fun withoutBasicConstraint(standardEntity: Role, columnName: String): Boolean {
         if (Role_.NAME == columnName) {
@@ -33,6 +32,7 @@ internal class RoleEntityTest :
 
     companion object {
         private const val NAME_VALUE = "test role"
+        private const val DESCRIPTION_VALUE = "test role description"
         private const val NAME_ANOTHER_VALUE = "test another role"
     }
 }
