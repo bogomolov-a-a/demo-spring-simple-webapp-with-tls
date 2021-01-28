@@ -6,7 +6,7 @@ import org.springframework.data.repository.CrudRepository
 import org.springframework.stereotype.Repository
 
 @Repository
-interface IPersonRepository : CrudRepository<Person?, Long?>
+interface IPersonRepository : CrudRepository<Person, Long>
 
 @Repository
-interface IPhysicalAddressRepository : CrudRepository<PhysicalAddress?, Long?>
+interface IPhysicalAddressRepository : CrudRepository<PhysicalAddress, Long>
