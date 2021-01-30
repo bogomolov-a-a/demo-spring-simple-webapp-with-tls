@@ -15,6 +15,7 @@ abstract class PluginApplier<T : Plugin<out Any>>(private val pluginClass: Class
         println("try add plugin with class ${pluginClass.name} for project '${target.name}'")
         applyPlugin(target)
         println("try to configure properties for plugin with class ${pluginClass.name}")
+        @Suppress("UNCHECKED_CAST")
         val properties = target.properties as MutableMap<String, Any>
         configureProperties(properties, target)
         println("all properties for plugin with class ${pluginClass.name} configured!")
