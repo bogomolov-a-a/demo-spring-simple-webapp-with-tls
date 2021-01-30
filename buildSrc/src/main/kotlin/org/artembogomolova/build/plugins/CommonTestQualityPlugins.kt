@@ -63,16 +63,27 @@ internal class JacocoPluginApplier : PluginApplier<JacocoPlugin>(JacocoPlugin::c
                     }
                 }
                 addTestListener(object : TestListener {
-                    override fun beforeSuite(suite: TestDescriptor) {}
+                    override fun beforeSuite(suite: TestDescriptor) {
+                        //no op;
+                    }
+
                     override fun beforeTest(testDescriptor: TestDescriptor) {
                         print("Running test $testDescriptor")
                     }
 
-                    override fun afterTest(testDescriptor: TestDescriptor, result: TestResult) {}
+                    override fun afterTest(testDescriptor: TestDescriptor, result: TestResult) {
+                        //no op;
+                    }
+
                     override fun afterSuite(suite: TestDescriptor, result: TestResult) {
                         if (result.testCount == 0L) {
                             throw IllegalStateException(NO_TEST_FOUND_MESSAGE)
                         }
+                        println("suite '${suite.name}' result :")
+                        println("successful:${result.successfulTestCount}\n")
+                        println("failed:${result.failedTestCount}\n")
+                        println("skipped:${result.skippedTestCount}\n")
+                        println("total:${result.testCount}\n")
                     }
                 })
                 addTestOutputListener { _, outputEvent -> println(outputEvent?.message) }
