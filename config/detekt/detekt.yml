@@ -63,6 +63,9 @@ complexity:
     ignoreAnnotation: true
     excludeStringsWithLessThan5Characters: true
     ignoreStringsRegex: '$^'
+    threshold: 5
+    excludes:
+      - '**/CountryCodeValidators.kt'
   TooManyFunctions:
     active: true
     thresholdInFiles: 11
