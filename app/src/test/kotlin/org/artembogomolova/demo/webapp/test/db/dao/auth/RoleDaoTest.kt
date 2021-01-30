@@ -32,6 +32,13 @@ internal class RoleDaoTest : AbstractDaoTest<Role>(Role::class.java, ::Role) {
         return buildRole()
     }
 
+
+    override fun doDuplicateDeniedTestEntity(columns: UniqueMultiColumn.UniqueMultiColumnConstraint, commonValues: Map<String, Any?>): Role {
+        return buildRole()
+    }
+
+    override fun buildEntityWithoutViolationEntity(): Role = buildRole()
+
     private fun buildRole(): Role {
         val result = Role(
             name = ROLE_NAME_VALUE,
@@ -45,10 +52,6 @@ internal class RoleDaoTest : AbstractDaoTest<Role>(Role::class.java, ::Role) {
         name = AUTHORITY_NAME_VALUE,
         description = AUTHORITY_DESCRIPTION_VALUE
     )
-
-    override fun doDuplicateDeniedTestEntity(columns: UniqueMultiColumn.UniqueMultiColumnConstraint, commonValues: Map<String, Any?>): Role {
-        return buildRole()
-    }
 
     companion object {
         private const val ROLE_NAME_VALUE = "ROLE"
