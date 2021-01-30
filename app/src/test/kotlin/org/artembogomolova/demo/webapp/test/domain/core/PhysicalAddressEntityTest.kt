@@ -1,5 +1,6 @@
 package org.artembogomolova.demo.webapp.test.domain.core
 
+import org.artembogomolova.demo.webapp.main.domain.core.CountryCode
 import org.artembogomolova.demo.webapp.main.domain.core.PhysicalAddress
 import org.artembogomolova.demo.webapp.main.domain.core.PhysicalAddress_
 import org.artembogomolova.demo.webapp.test.domain.AbstractAccessorEntityTest
@@ -13,7 +14,7 @@ internal class PhysicalAddressEntityTest : AbstractAccessorEntityTest<PhysicalAd
 ) {
     override fun buildStandardEntity(): PhysicalAddress = PhysicalAddress(
         postalCode = POSTAL_CODE_VALUE,
-        country = COUNTRY_VALUE,
+        countryCode = COUNTRY_CODE_VALUE,
         state = STATE_VALUE,
         city = CITY_VALUE,
         district = DISTRICT_VALUE,
@@ -26,7 +27,7 @@ internal class PhysicalAddressEntityTest : AbstractAccessorEntityTest<PhysicalAd
 
     override fun containFieldCorrectValuesTest(standardEntity: PhysicalAddress) {
         Assertions.assertEquals(POSTAL_CODE_VALUE, standardEntity.postalCode)
-        Assertions.assertEquals(COUNTRY_VALUE, standardEntity.country)
+        Assertions.assertEquals(COUNTRY_CODE_VALUE, standardEntity.countryCode)
         Assertions.assertEquals(STATE_VALUE, standardEntity.state)
         Assertions.assertEquals(CITY_VALUE, standardEntity.city)
         Assertions.assertEquals(DISTRICT_VALUE, standardEntity.district)
@@ -38,7 +39,7 @@ internal class PhysicalAddressEntityTest : AbstractAccessorEntityTest<PhysicalAd
 
     override fun buildAnotherEntityForTest(): PhysicalAddress = PhysicalAddress(
         postalCode = "523152",
-        country = "Country1",
+        countryCode = CountryCode.US,
         city = "City1",
         house = "42"
     )
@@ -111,8 +112,8 @@ internal class PhysicalAddressEntityTest : AbstractAccessorEntityTest<PhysicalAd
                 withoutColumnEqualTest(standardEntity, PhysicalAddress::postalCode)
                 true
             }
-            PhysicalAddress_.COUNTRY -> {
-                withoutColumnEqualTest(standardEntity, PhysicalAddress::country)
+            PhysicalAddress_.COUNTRY_CODE -> {
+                withoutColumnEqualTest(standardEntity, PhysicalAddress::countryCode)
                 true
             }
             PhysicalAddress_.STATE -> {
@@ -124,13 +125,13 @@ internal class PhysicalAddressEntityTest : AbstractAccessorEntityTest<PhysicalAd
     }
 
     private fun isCountryPartColumnName(columnName: String): Boolean {
-        return PhysicalAddress_.POSTAL_CODE == columnName || PhysicalAddress_.COUNTRY == columnName ||
+        return PhysicalAddress_.POSTAL_CODE == columnName || PhysicalAddress_.COUNTRY_CODE == columnName ||
                 PhysicalAddress_.STATE == columnName
     }
 
     companion object {
         private const val POSTAL_CODE_VALUE = "190000"
-        private const val COUNTRY_VALUE = "Russia"
+        private val COUNTRY_CODE_VALUE = CountryCode.RU
         private const val STATE_VALUE = "Saint Petersburg"
         private const val CITY_VALUE = "Saint Petersburg"
         private const val DISTRICT_VALUE = "District1"

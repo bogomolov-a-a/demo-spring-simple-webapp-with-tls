@@ -1,12 +1,13 @@
 package org.artembogomolova.demo.webapp.test.domain.core
 
+import java.util.Calendar
+import java.util.Date
 import org.artembogomolova.demo.webapp.main.domain.core.Person
 import org.artembogomolova.demo.webapp.main.domain.core.Person_
 import org.artembogomolova.demo.webapp.main.domain.core.PhysicalAddress
 import org.artembogomolova.demo.webapp.test.domain.AbstractAccessorEntityTest
 import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.DisplayName
-import java.util.*
 
 @DisplayName("Entity test: Person")
 internal class PersonEntityTest :
@@ -14,42 +15,34 @@ internal class PersonEntityTest :
         Person::class.java,
         Person::from
     ) {
-    override fun buildStandardEntity(): Person {
-        val result = Person(
-            name = NAME_VALUE,
-            surname = SURNAME_VALUE,
-            patronymic = PATRONYMIC_VALUE,
-            phone = PHONE_VALUE,
-            estateAddress = PHYSICAL_ADDRESS_VALUE
-        )
-        result.birthDate = BIRTH_DATE_VALUE
-        return result
-    }
+    override fun buildStandardEntity(): Person = Person(
+        name = NAME_VALUE,
+        surname = SURNAME_VALUE,
+        patronymic = PATRONYMIC_VALUE,
+        phone = PHONE_VALUE,
+        estateAddress = PHYSICAL_ADDRESS_VALUE,
+        birthDate = BIRTH_DATE_VALUE.time
+    )
+
 
     override fun containFieldCorrectValuesTest(standardEntity: Person) {
         Assertions.assertEquals(NAME_VALUE, standardEntity.name)
         Assertions.assertEquals(SURNAME_VALUE, standardEntity.surname)
         Assertions.assertEquals(PATRONYMIC_VALUE, standardEntity.patronymic)
-        Assertions.assertEquals(BIRTH_DATE_VALUE, standardEntity.birthDate)
+        Assertions.assertEquals(BIRTH_DATE_VALUE.time, standardEntity.birthDate)
         Assertions.assertEquals(PHONE_VALUE, standardEntity.phone)
         Assertions.assertEquals(PHYSICAL_ADDRESS_VALUE, standardEntity.estateAddress)
         Assertions.assertEquals(null, standardEntity.user)
     }
 
-    /*protected val availableConstraintNames: List<String>
-        protected get() = java.util.List.of(
-            IdentifiedEntity.BASIC_CONSTRAINT_NAME, Person.PHONE_CONSTRAINT_NAME,
-            Person.EMAIL_CONSTRAINT_NAME
-        )*/
-
-    override fun buildAnotherEntityForTest(): Person {
+   override fun buildAnotherEntityForTest(): Person {
         val result = buildStandardEntity()
         result.name = "ABC"
         return result
     }
 
     override fun withoutBasicConstraint(standardEntity: Person, columnName: String): Boolean {
-        if (Person_._BIRTH_DATE == columnName) {
+        if (Person_.BIRTH_DATE == columnName) {
             withoutColumnEqualTest(standardEntity, Person::birthDate)
             return true
         }
