@@ -7,6 +7,18 @@ spring:
       ddl-auto: validate
       use-new-id-generator-mappings: true
     database-platform: org.artembogomolova.demo.webapp.main.dao.util.SQLite3Dialect
+    properties:
+      hibernate:
+        jdbc:
+          batch_size: 50
+        enable_lazy_load_no_trans: false
+        generate_statistics: true
+        order_inserts: true
+      jdbc:
+        lob:
+          non_contextual_creation: true
+      temp:
+        use_jdbc_metadata_defaults: true
   datasource:
     driver-class-name: org.sqlite.JDBC
     continue-on-error: false
