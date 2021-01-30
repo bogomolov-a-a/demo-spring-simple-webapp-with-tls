@@ -1,6 +1,8 @@
 package org.artembogomolova.build.plugins
 
 import io.github.classgraph.ClassInfo
+import java.io.File
+import java.math.BigDecimal
 import org.artembogomolova.build.utils.ClassPathClassFounder
 import org.gradle.api.Project
 import org.gradle.api.tasks.TaskContainer
@@ -14,8 +16,6 @@ import org.gradle.testing.jacoco.tasks.JacocoCoverageVerification
 import org.gradle.testing.jacoco.tasks.JacocoReport
 import org.jacoco.core.analysis.ICounter
 import org.jacoco.core.analysis.ICoverageNode
-import java.io.File
-import java.math.BigDecimal
 
 internal class JacocoPluginApplier : PluginApplier<JacocoPlugin>(JacocoPlugin::class.java) {
     companion object {
@@ -43,24 +43,7 @@ internal class JacocoPluginApplier : PluginApplier<JacocoPlugin>(JacocoPlugin::c
     }
 
     private fun configureJacocoTestIntegrationTask(target: TaskContainer, properties: MutableMap<String, Any>) {
-        fun isAvailableToExclude(clazzInfo: ClassInfo): Boolean = clazzInfo.name.endsWith("_")
-        fun findCoverageClasses(): Pair<List<String>, List<String>> {
-            val includes = ArrayList<String>()
-            val excludes = ArrayList<String>()
-            val result = Pair<List<String>, List<String>>(includes, excludes)
-            val classPathClassFounder = ClassPathClassFounder(properties[BUILD_DIR_PATH_PROPERTY_NAME] as String)
-            println("try to search includes and excludes in '$classPathClassFounder.searchingPath' for project ")
-            classPathClassFounder.getAllClassInfo { clazzInfo ->
-                if (isAvailableToExclude(clazzInfo)) {
-                    excludes.add(clazzInfo.name)
-                } else {
-                    includes.add(clazzInfo.name)
-                }
-            }
-            println("found includes: ${result.first}")
-            println("found excludes: ${result.second}")
-            return result
-        }
+
 
         target.withType(Test::class.java) {
             with(it) {
@@ -76,9 +59,6 @@ internal class JacocoPluginApplier : PluginApplier<JacocoPlugin>(JacocoPlugin::c
                         with(extension)
                         {
                             this.classDumpDir = File(properties[CLASS_DUMP_DIR_PROPERTY_NAME] as String)
-                            val coverageClasses = findCoverageClasses()
-                            this.includes = coverageClasses.first
-                            this.excludes = coverageClasses.second
                         }
                     }
                 }
@@ -101,6 +81,26 @@ internal class JacocoPluginApplier : PluginApplier<JacocoPlugin>(JacocoPlugin::c
     }
 
     private fun configureJacocoVerificationTask(target: TaskContainer, properties: MutableMap<String, Any>) {
+        fun isAvailableToExclude(clazzInfo: ClassInfo): Boolean = clazzInfo.name.endsWith("_")
+        fun findCoverageClasses(): Pair<List<String>, List<String>> {
+            val includes = ArrayList<String>()
+            val excludes = ArrayList<String>()
+            val result = Pair<List<String>, List<String>>(includes, excludes)
+            val classPathClassFounder = ClassPathClassFounder(properties[BUILD_DIR_PATH_PROPERTY_NAME] as String)
+            println("try to search includes and excludes in '$classPathClassFounder.searchingPath' for project ")
+            classPathClassFounder.getAllClassInfo { clazzInfo ->
+                if (isAvailableToExclude(clazzInfo)) {
+                    excludes.add(clazzInfo.name)
+                } else {
+                    includes.add(clazzInfo.name)
+                }
+            }
+            println("found includes: ${result.first}")
+            println("found excludes: ${result.second}")
+            return result
+        }
+
+        val coverageClasses = findCoverageClasses()
         target.withType(JacocoCoverageVerification::class.java) {
             with(it)
             {
@@ -109,6 +109,8 @@ internal class JacocoPluginApplier : PluginApplier<JacocoPlugin>(JacocoPlugin::c
                     rule { rule ->
                         with(rule)
                         {
+                            this.includes = coverageClasses.first
+                            this.excludes = coverageClasses.second
                             limit { limit ->
                                 with(limit)
                                 {
@@ -123,6 +125,8 @@ internal class JacocoPluginApplier : PluginApplier<JacocoPlugin>(JacocoPlugin::c
                     rule { rule ->
                         with(rule)
                         {
+                            this.includes = coverageClasses.first
+                            this.excludes = coverageClasses.second
                             limit { limit ->
                                 with(limit) {
                                     println("creating ${ICoverageNode.CounterEntity.CLASS.name} with ${ICounter.CounterValue.COVEREDRATIO.name} equals $COVERAGE_RATIO_MINIMUM")
@@ -136,6 +140,8 @@ internal class JacocoPluginApplier : PluginApplier<JacocoPlugin>(JacocoPlugin::c
                     rule { rule ->
                         with(rule)
                         {
+                            this.includes = coverageClasses.first
+                            this.excludes = coverageClasses.second
                             limit { limit ->
                                 with(limit) {
                                     println("creating ${ICoverageNode.CounterEntity.LINE.name} with ${ICounter.CounterValue.COVEREDRATIO.name} equals $COVERAGE_RATIO_MINIMUM")
@@ -149,6 +155,8 @@ internal class JacocoPluginApplier : PluginApplier<JacocoPlugin>(JacocoPlugin::c
                     rule { rule ->
                         with(rule)
                         {
+                            this.includes = coverageClasses.first
+                            this.excludes = coverageClasses.second
                             limit { limit ->
                                 with(limit) {
                                     println("creating ${ICoverageNode.CounterEntity.BRANCH.name} with ${ICounter.CounterValue.COVEREDRATIO.name} equals $COVERAGE_RATIO_MINIMUM")
@@ -162,6 +170,8 @@ internal class JacocoPluginApplier : PluginApplier<JacocoPlugin>(JacocoPlugin::c
                     rule { rule ->
                         with(rule)
                         {
+                            this.includes = coverageClasses.first
+                            this.excludes = coverageClasses.second
                             limit { limit ->
                                 with(limit) {
                                     println("creating ${ICoverageNode.CounterEntity.INSTRUCTION.name} with ${ICounter.CounterValue.COVEREDRATIO.name} equals $COVERAGE_RATIO_MINIMUM")
@@ -175,6 +185,8 @@ internal class JacocoPluginApplier : PluginApplier<JacocoPlugin>(JacocoPlugin::c
                     rule { rule ->
                         with(rule)
                         {
+                            this.includes = coverageClasses.first
+                            this.excludes = coverageClasses.second
                             limit { limit ->
                                 with(limit) {
                                     println("creating ${ICoverageNode.CounterEntity.COMPLEXITY.name} with ${ICounter.CounterValue.COVEREDRATIO.name} equals $COVERAGE_RATIO_MINIMUM")
@@ -185,8 +197,8 @@ internal class JacocoPluginApplier : PluginApplier<JacocoPlugin>(JacocoPlugin::c
                             }
                         }
                     }
+                    println("test coverage verification rules created")
                 }
-                println("test coverage verification rules created")
             }
         }
     }
