@@ -1,7 +1,7 @@
 create table addresses(
   id integer not null primary key autoincrement,
   postal_code text not null,
-  country text not null,
+  country_code text not null,
   state text,
   city text not null,
   district text,
@@ -9,7 +9,7 @@ create table addresses(
   house text not null,
   room integer,
   specific_part text,
-  unique (postal_code,country,state,city,district,street,house,room,specific_part)
+  unique (postal_code,country_code,state,city,district,street,house,room,specific_part)
 );
 /
 create table persons(
@@ -17,7 +17,7 @@ create table persons(
   name text not null,
   surname text not null,
   patronymic text,
-  birth_date TIMESTAMP not null,
+  birth_date bigint not null,
   phone text not null,
   estate_address_id bigint not null,
   foreign key (estate_address_id) references addresses(id) on delete cascade on update cascade,
