@@ -22,7 +22,7 @@ abstract class AbstractAccessorEntityTest<T : IdentifiedEntity<T>> protected con
     private val availableConstraintNames = getAvailableConstraintNames()
     private var standardEntity: T? = null
     protected open fun getAvailableConstraintNames(): List<String> {
-        return listOf(IdentifiedEntity.BASIC_CONSTRAINT_NAME)
+        return listOf(IdentifiedEntity.NATURAL_KEY_CONSTRAINT_NAME)
     }
 
     @BeforeEach
@@ -101,19 +101,19 @@ abstract class AbstractAccessorEntityTest<T : IdentifiedEntity<T>> protected con
     }
 
     private fun checkBasicConstraint(standardEntity: T, constraintName: String, columnName: String): Boolean {
-        if (IdentifiedEntity.BASIC_CONSTRAINT_NAME != constraintName) {
+        if (IdentifiedEntity.NATURAL_KEY_CONSTRAINT_NAME != constraintName) {
             return false
         }
         if (!withoutBasicConstraint(standardEntity, columnName)) {
-            throw ValidationException(IdentifiedEntity.BASIC_CONSTRAINT_NAME + " has violations!")
+            throw ValidationException(IdentifiedEntity.NATURAL_KEY_CONSTRAINT_NAME + " has violations!")
         }
         return true
     }
 
     protected open fun withoutAlternateConstraints(standardEntity: T, constraintName: String, columnName: String): Boolean {
         val constraintNames = java.util.List.copyOf(availableConstraintNames)
-        constraintNames.remove(IdentifiedEntity.BASIC_CONSTRAINT_NAME)
-        return constraintNames.isEmpty() && IdentifiedEntity.BASIC_CONSTRAINT_NAME != constraintName
+        constraintNames.remove(IdentifiedEntity.NATURAL_KEY_CONSTRAINT_NAME)
+        return constraintNames.isEmpty() && IdentifiedEntity.NATURAL_KEY_CONSTRAINT_NAME != constraintName
     }
 
     protected abstract fun withoutBasicConstraint(standardEntity: T, columnName: String): Boolean

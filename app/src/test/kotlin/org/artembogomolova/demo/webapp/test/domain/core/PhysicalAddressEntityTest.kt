@@ -37,12 +37,16 @@ internal class PhysicalAddressEntityTest : AbstractAccessorEntityTest<PhysicalAd
         Assertions.assertEquals(SPECIFIC_PART_VALUE, standardEntity.specificPart)
     }
 
-    override fun buildAnotherEntityForTest(): PhysicalAddress = PhysicalAddress(
-        postalCode = "523152",
-        countryCode = CountryCode.US,
-        city = "City1",
-        house = "42"
-    )
+    override fun buildAnotherEntityForTest(): PhysicalAddress {
+        val result = buildStandardEntity()
+        with(result) {
+            postalCode = "523152"
+            countryCode = CountryCode.US
+            city = "City1"
+            house = "42"
+        }
+        return result
+    }
 
     override fun withoutBasicConstraint(standardEntity: PhysicalAddress, columnName: String): Boolean {
         if (isCountryPartColumnName(columnName)) {

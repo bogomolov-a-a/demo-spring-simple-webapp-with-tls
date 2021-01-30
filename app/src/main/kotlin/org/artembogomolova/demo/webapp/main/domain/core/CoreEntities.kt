@@ -1,12 +1,12 @@
 package org.artembogomolova.demo.webapp.main.domain.core
 
-import org.artembogomolova.demo.webapp.main.domain.auth.User
 import java.io.Serializable
-import java.util.*
 import javax.persistence.Basic
 import javax.persistence.CascadeType
 import javax.persistence.Column
 import javax.persistence.Entity
+import javax.persistence.EnumType
+import javax.persistence.Enumerated
 import javax.persistence.GeneratedValue
 import javax.persistence.GenerationType
 import javax.persistence.Id
@@ -15,10 +15,16 @@ import javax.persistence.ManyToOne
 import javax.persistence.MappedSuperclass
 import javax.persistence.OneToOne
 import javax.persistence.Table
-import javax.persistence.Temporal
-import javax.persistence.TemporalType
+import javax.validation.constraints.NotBlank
+import javax.validation.constraints.NotNull
+import javax.validation.constraints.Pattern
 import kotlin.reflect.KMutableProperty1
 import kotlin.reflect.KProperty1
+import org.artembogomolova.demo.webapp.main.dao.repo.IPersonRepository
+import org.artembogomolova.demo.webapp.main.dao.repo.IPhysicalAddressRepository
+import org.artembogomolova.demo.webapp.main.domain.auth.User
+import org.artembogomolova.demo.webapp.main.validation.UniqueMultiColumn
+import org.artembogomolova.demo.webapp.main.validation.ValidCountryCodeAndZipCode
 
 @MappedSuperclass
 abstract class IdentifiedEntity<T>(
@@ -36,7 +42,7 @@ abstract class IdentifiedEntity<T>(
 
     companion object {
         private const val serialVersionUID = 1L
-        const val BASIC_CONSTRAINT_NAME = "basicConstraint"
+        const val NATURAL_KEY_CONSTRAINT_NAME = "naturalKeyConstraint"
     }
 
     override fun equals(other: Any?): Boolean {
@@ -128,13 +134,36 @@ private class HashCodeCalculator<T> {
 
 @Entity
 @Table(name = "addresses")
+@ValidCountryCodeAndZipCode
+@UniqueMultiColumn(
+    repository = IPhysicalAddressRepository::class,
+    constraints = [UniqueMultiColumn.UniqueMultiColumnConstraint(
+        name = IdentifiedEntity.NATURAL_KEY_CONSTRAINT_NAME,
+        columnNames = [PhysicalAddress_.POSTAL_CODE,
+            PhysicalAddress_.COUNTRY_CODE,
+            PhysicalAddress_.STATE,
+            PhysicalAddress_.CITY,
+            PhysicalAddress_.DISTRICT,
+            PhysicalAddress_.STREET,
+            PhysicalAddress_.HOUSE,
+            PhysicalAddress_.ROOM,
+            PhysicalAddress_.SPECIFIC_PART
+        ]
+    )]
+)
 class PhysicalAddress(
+    @field:NotBlank
+    @field:Pattern(regexp = ConstraintPatterns.POSTAL_CODE_PATTERN)
     @Column(nullable = false)
     var postalCode: String?,
+    @field:NotNull
     @Column(nullable = false)
-    var country: String?,
+    @Enumerated(EnumType.STRING)
+    var countryCode: CountryCode?,
+    @field:NotBlank
     @Column(nullable = false)
     var city: String?,
+    @field:NotBlank
     @Column(nullable = false)
     var house: String?,
     var state: String? = null,
@@ -144,19 +173,25 @@ class PhysicalAddress(
     var specificPart: String? = null,
 ) : IdentifiedEntity<PhysicalAddress>() {
 
-    constructor():this(null,null,null,null)
+    constructor() : this(null, null, null, null)
+
     override fun buildNaturalKey(): Array<KMutableProperty1<PhysicalAddress, *>> = arrayOf(
         PhysicalAddress::postalCode,
-        PhysicalAddress::country,
+        PhysicalAddress::countryCode,
         PhysicalAddress::city,
-        PhysicalAddress::house
+        PhysicalAddress::house,
+        PhysicalAddress::state,
+        PhysicalAddress::district,
+        PhysicalAddress::street,
+        PhysicalAddress::room,
+        PhysicalAddress::specificPart
     )
 
     companion object {
         private const val serialVersionUID = 1L
         fun from(copyingEntity: PhysicalAddress): PhysicalAddress = PhysicalAddress(
             postalCode = copyingEntity.postalCode,
-            country = copyingEntity.country,
+            countryCode = copyingEntity.countryCode,
             city = copyingEntity.city,
             house = copyingEntity.house,
             state = copyingEntity.state,
@@ -170,26 +205,41 @@ class PhysicalAddress(
 
 @Entity
 @Table(name = "persons")
+@UniqueMultiColumn(
+    repository = IPersonRepository::class,
+    constraints = [UniqueMultiColumn.UniqueMultiColumnConstraint(
+        name = IdentifiedEntity.NATURAL_KEY_CONSTRAINT_NAME,
+        columnNames = [Person_.NAME,
+            Person_.PATRONYMIC,
+            Person_.SURNAME,
+            Person_.BIRTH_DATE]
+    )]
+)
 class Person(
+    @field:NotBlank
     @Column(nullable = false)
     var name: String?,
+    @field:NotBlank
     @Column(nullable = false)
     var surname: String?,
+    @field:NotBlank
     @Column(nullable = false)
     var patronymic: String?,
-    @Temporal(TemporalType.TIMESTAMP)
-    @Column(name = "birthDate", nullable = false)
-    private var _birthDate: Date? = null,
+    @field:NotNull
+    var birthDate: Long? = null,
+    @field:NotBlank
+    @field:Pattern(regexp = ConstraintPatterns.PHONE_PATTERN)
     @Column(nullable = false)
     var phone: String? = null,
     @ManyToOne(cascade = [CascadeType.ALL])
     @JoinColumn(name = "estate_address_id", columnDefinition = "bigint", nullable = false)
     var estateAddress: PhysicalAddress? = null,
     @OneToOne(mappedBy = "person")
-    val user: User? = null,
+    var user: User? = null,
 ) : IdentifiedEntity<Person>() {
 
-    constructor() : this(null,null,null,null)
+    constructor() : this(null, null, null, null)
+
     override fun buildNaturalKey(): Array<KMutableProperty1<Person, *>> = arrayOf(
         Person::name,
         Person::surname,
@@ -197,30 +247,16 @@ class Person(
         Person::birthDate
     )
 
-    var birthDate: Date?
-        get() = if (_birthDate != null) {
-            Date(_birthDate!!.time)
-        } else {
-            null
-        }
-        set(value) {
-            if (value != null) {
-                _birthDate = Date(value.time)
-            }
-        }
-
     companion object {
         private const val serialVersionUID = 1L
-        fun from(copyingEntity: Person): Person {
-            val result = Person(
-                name = copyingEntity.name,
-                surname = copyingEntity.surname,
-                patronymic = copyingEntity.patronymic,
-                phone = copyingEntity.phone,
-            )
-            result.birthDate = copyingEntity.birthDate
-            return result
-        }
+        fun from(copyingEntity: Person): Person = Person(
+            name = copyingEntity.name,
+            surname = copyingEntity.surname,
+            patronymic = copyingEntity.patronymic,
+            phone = copyingEntity.phone,
+            birthDate = copyingEntity.birthDate
+        )
+
     }
 }
 

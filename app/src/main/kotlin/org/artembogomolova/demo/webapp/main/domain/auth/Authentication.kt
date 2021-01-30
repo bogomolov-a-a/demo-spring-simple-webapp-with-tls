@@ -10,14 +10,22 @@ import javax.persistence.ManyToOne
 import javax.persistence.OneToMany
 import javax.persistence.OneToOne
 import javax.persistence.Table
+import javax.validation.constraints.NotBlank
+import javax.validation.constraints.NotNull
 import kotlin.reflect.KMutableProperty1
+import org.artembogomolova.demo.webapp.main.dao.repo.IAuthorityRepository
+import org.artembogomolova.demo.webapp.main.dao.repo.IRoleRepository
+import org.artembogomolova.demo.webapp.main.dao.repo.IUserRepository
 import org.artembogomolova.demo.webapp.main.domain.core.IdentifiedEntity
 import org.artembogomolova.demo.webapp.main.domain.core.Person
+import org.artembogomolova.demo.webapp.main.validation.UniqueMultiColumn
 import org.springframework.security.core.GrantedAuthority
 
 @Entity
 @Table(name = "authorities")
+/*Authority has no natural key for db yet, it role_id and authority.name */
 class Authority(
+    @field:NotBlank
     @Column(nullable = false)
     var name: String?,
     @Column(nullable = false)
@@ -47,9 +55,18 @@ class Authority(
 
 @Entity
 @Table(name = "roles")
+@UniqueMultiColumn(
+    repository = IRoleRepository::class,
+    constraints = [UniqueMultiColumn.UniqueMultiColumnConstraint(
+        name = IdentifiedEntity.NATURAL_KEY_CONSTRAINT_NAME,
+        columnNames = [Role_.NAME]
+    )]
+)
 class Role(
+    @field:NotBlank
     @Column(nullable = false)
     var name: String?,
+    @field:NotBlank
     @Column(nullable = false)
     var description: String?,
     @ManyToMany(cascade = [CascadeType.ALL])
@@ -85,20 +102,33 @@ class Role(
 
 @Entity
 @Table(name = "users")
+@UniqueMultiColumn(
+    repository = IUserRepository::class,
+    constraints = [UniqueMultiColumn.UniqueMultiColumnConstraint(
+        name = IdentifiedEntity.NATURAL_KEY_CONSTRAINT_NAME,
+        /*for base yet only login as natural key*/
+        columnNames = [User_.LOGIN]
+    )]
+)
 class User(
+    @field:NotBlank
     @Column(nullable = false)
     var login: String?,
+    @field:NotBlank
     @Column(nullable = false)
     var password: String?,
+    @field:NotBlank
+    @Column(nullable = false)
+    var clientCertificateData: String?,
     @ManyToOne(cascade = [CascadeType.ALL])
     @JoinColumn(name = "role_id", columnDefinition = BIGINT_DEF, nullable = false)
     var role: Role? = null,
     @OneToOne(cascade = [CascadeType.ALL], orphanRemoval = true)
     @JoinColumn(name = "person_id", columnDefinition = BIGINT_DEF, nullable = false)
     var person: Person? = null,
+    @field:NotNull
     @Column(insertable = false, nullable = false)
     var active: Boolean = true,
-    var clientCertificateData: String? = null,
     var avatar: String? = null,
     @ManyToMany(cascade = [CascadeType.ALL])
     @JoinTable(
@@ -108,7 +138,7 @@ class User(
     )
     val blockAuthorities: MutableList<Authority>? = mutableListOf(),
 ) : IdentifiedEntity<User>() {
-    constructor() : this(null, null)
+    constructor() : this(null, null, null)
 
     override fun buildNaturalKey(): Array<KMutableProperty1<User, *>> = arrayOf(
         User::login,
