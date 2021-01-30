@@ -2,13 +2,14 @@ package org.artembogomolova.demo.webapp.test.db.dao
 
 import java.text.ParseException
 import java.text.SimpleDateFormat
+import org.artembogomolova.demo.webapp.main.domain.core.CountryCode
 import org.artembogomolova.demo.webapp.main.domain.core.Person
 import org.artembogomolova.demo.webapp.main.domain.core.PhysicalAddress
 
 object DomainTestUtil {
     fun buildTestAddress(): PhysicalAddress = PhysicalAddress(
         postalCode = "523152",
-        country = "Country1",
+        countryCode = CountryCode.RU,
         state = "State1",
         city = "City1",
         district = "District1",
@@ -46,7 +47,7 @@ object DomainTestUtil {
             estateAddress = buildTestAddress()
         )
         try {
-            result.birthDate = (SimpleDateFormat("yyyy-MM-dd").parse("2010-10-27"))
+            result.birthDate = SimpleDateFormat("yyyy-MM-dd").parse("2010-10-27").time
         } catch (e: ParseException) {
             //
         }
