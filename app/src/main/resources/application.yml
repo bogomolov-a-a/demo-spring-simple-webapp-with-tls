@@ -1,0 +1,36 @@
+spring:
+  profiles:
+    active:
+      - dev
+  jpa:
+    hibernate:
+      ddl-auto: validate
+      use-new-id-generator-mappings: true
+    database-platform: org.artembogomolova.demo.webapp.main.dao.util.SQLite3Dialect
+    properties:
+      hibernate:
+        jdbc:
+          batch_size: 50
+        enable_lazy_load_no_trans: false
+        generate_statistics: true
+        order_inserts: true
+      jdbc:
+        lob:
+          non_contextual_creation: true
+      temp:
+        use_jdbc_metadata_defaults: true
+  datasource:
+    driver-class-name: org.sqlite.JDBC
+    continue-on-error: false
+  liquibase:
+    change-log: classpath:changelog/db.changelog-master.yml
+server:
+  port: 8080
+  compression:
+    enabled: true
+  ssl:
+    enabled: true
+    client-auth: none
+    enabled-protocols:
+      - TLSv1.2
+      - TLSv1.3
