@@ -1,11 +1,14 @@
 package org.artembogomolova.demo.webapp.main.dao.service
 
+import java.time.LocalDateTime
+import java.time.ZoneOffset
 import org.artembogomolova.demo.webapp.main.dao.repo.IAuthorityRepository
 import org.artembogomolova.demo.webapp.main.dao.repo.IRoleRepository
 import org.artembogomolova.demo.webapp.main.dao.repo.IUserRepository
 import org.artembogomolova.demo.webapp.main.domain.auth.Authority
 import org.artembogomolova.demo.webapp.main.domain.auth.PredefinedUserRole
 import org.artembogomolova.demo.webapp.main.domain.auth.User
+import org.artembogomolova.demo.webapp.main.domain.core.CountryCode
 import org.artembogomolova.demo.webapp.main.domain.core.Person
 import org.artembogomolova.demo.webapp.main.domain.core.PhysicalAddress
 import org.springframework.beans.factory.annotation.Autowired
@@ -14,10 +17,6 @@ import org.springframework.security.core.Authentication
 import org.springframework.security.crypto.password.PasswordEncoder
 import org.springframework.stereotype.Component
 import org.springframework.transaction.annotation.Transactional
-import java.time.LocalDateTime
-import java.time.ZoneOffset
-import java.util.Comparator
-import java.util.Date
 
 @Component
 @Transactional
@@ -41,6 +40,7 @@ class UserRepoService {
             person = person,
             role = role
         )
+        person.user = result
         println("created person: $person")
         role.users.add(result)
         println("super user role: $role")
@@ -50,21 +50,19 @@ class UserRepoService {
         userRepository.save(result)
     }
 
-    private fun createPredefinedSuperUserPerson(): Person {
-        val result = Person(
-            name = CHANGE_IT,
-            surname = CHANGE_IT,
-            patronymic = CHANGE_IT,
-            phone = CHANGE_IT,
-            estateAddress = buildSuperUserAddress()
-        )
-        result.birthDate = Date(LocalDateTime.now().toInstant(ZoneOffset.UTC).epochSecond)
-        return result
-    }
+    private fun createPredefinedSuperUserPerson(): Person = Person(
+        name = CHANGE_IT,
+        surname = CHANGE_IT,
+        patronymic = CHANGE_IT,
+        phone = EMPTY_PHONE,
+        estateAddress = buildSuperUserAddress(),
+        birthDate = LocalDateTime.now().toInstant(ZoneOffset.UTC).epochSecond
+    )
+
 
     private fun buildSuperUserAddress(): PhysicalAddress = PhysicalAddress(
-        country = PREDEFINED_ADMIN_ACCOUNT_COUNTRY,
-        postalCode = PREDEFINED_ADMIN_ACCOUNT_POSTAL_CODE,
+        countryCode = PREDEFINED_ADMIN_ACCOUNT_COUNTRY,
+        postalCode = PREDEFINED_ACCOUNT_POSTAL_CODE,
         city = PREDEFINED_ADMIN_ACCOUNT_CITY_NAME,
         house = CHANGE_IT
     )
@@ -90,22 +88,19 @@ class UserRepoService {
         userRepository.save(result)
     }
 
-    private fun createPredefinedGuestPerson(): Person {
-        val result = Person(
-            name = PREDEFINED_GUEST_ACCOUNT_LOGIN,
-            surname = PREDEFINED_GUEST_ACCOUNT_LOGIN,
-            patronymic = PREDEFINED_GUEST_ACCOUNT_LOGIN,
-            phone = PREDEFINED_GUEST_ACCOUNT_LOGIN,
-            estateAddress = buildGuestAddress()
-        )
-        result.birthDate = Date(LocalDateTime.now().toInstant(ZoneOffset.UTC).epochSecond)
-        return result
-    }
+    private fun createPredefinedGuestPerson(): Person = Person(
+        name = PREDEFINED_GUEST_ACCOUNT_LOGIN,
+        surname = PREDEFINED_GUEST_ACCOUNT_LOGIN,
+        patronymic = PREDEFINED_GUEST_ACCOUNT_LOGIN,
+        phone = EMPTY_PHONE,
+        estateAddress = buildGuestAddress(),
+        birthDate = LocalDateTime.now().toInstant(ZoneOffset.UTC).epochSecond
+    )
 
 
     private fun buildGuestAddress(): PhysicalAddress = PhysicalAddress(
-        country = PREDEFINED_GUEST_ACCOUNT_LOGIN,
-        postalCode = PREDEFINED_GUEST_ACCOUNT_LOGIN,
+        countryCode = PREDEFINED_GUEST_ACCOUNT_COUNTRY,
+        postalCode = PREDEFINED_ACCOUNT_POSTAL_CODE,
         city = PREDEFINED_GUEST_ACCOUNT_LOGIN,
         house = PREDEFINED_GUEST_ACCOUNT_LOGIN
     )
@@ -127,10 +122,12 @@ class UserRepoService {
 
     companion object {
         const val PREDEFINED_ADMIN_ACCOUNT_LOGIN = "admin"
-        private const val PREDEFINED_ADMIN_ACCOUNT_COUNTRY = "Russia"
-        private const val PREDEFINED_ADMIN_ACCOUNT_POSTAL_CODE = "190000"
+        private val PREDEFINED_ADMIN_ACCOUNT_COUNTRY = CountryCode.RU
+        private val PREDEFINED_GUEST_ACCOUNT_COUNTRY = CountryCode.RU
+        private const val PREDEFINED_ACCOUNT_POSTAL_CODE = "190000"
         private const val PREDEFINED_ADMIN_ACCOUNT_CITY_NAME = "Saint Petersburg"
         private const val CHANGE_IT = "changeit"
         const val PREDEFINED_GUEST_ACCOUNT_LOGIN = "guest"
+        private const val EMPTY_PHONE = "+0-000-000-00-00"
     }
 }
