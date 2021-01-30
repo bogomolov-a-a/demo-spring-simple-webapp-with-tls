@@ -3,6 +3,8 @@ spring:
     url: jdbc:sqlite:build/simple-service.db
     username: admin
     password: admin
+  jpa:
+    show-sql: true
 server:
   port: 8443
   ssl:
@@ -20,6 +22,7 @@ test:
     trusted-store-type: PKCS12
     trusted-store-password: localhost
     trusted-key-password: localhost
-  #logging:
-  # level:
-  #  org: DEBUG
+logging:
+  level:
+    org.hibernate.SQL: DEBUG
+    org.hibernate.type.descriptor.sql.BasicBinder: TRACE
