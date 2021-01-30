@@ -14,11 +14,40 @@
       <Class name="org.artembogomolova.demo.webapp.main.domain.core.Person_"/>
     </Or>
   </Match>
-  <!-- exclude mutable backing fields-->
+  <!--equals&hashCode methods implements in basic class by convention. -->
   <Match>
     <And>
-      <Class name="org.artembogomolova.demo.webapp.main.domain.core.Person"/>
-      <Bug code="EI2"/>
+      <Bug pattern="EQ_UNUSUAL"/>
+      <Class name="org.artembogomolova.demo.webapp.main.domain.core.IdentifiedEntity"/>
+    </And>
+  </Match>
+  <!--false alarms -->
+  <Match>
+    <And>
+      <Bug code="BC"/>
+      <Class name="org.artembogomolova.demo.webapp.main.domain.auth.PredefinedUserRole"/>
+    </And>
+  </Match>
+  <Match>
+    <Bug pattern="NP_NULL_PARAM_DEREF"/>
+    <Or>
+      <Package name="org.artembogomolova.demo.webapp.test.db.dao.core"/>
+      <Package name="org.artembogomolova.demo.webapp.test.db.dao.auth"/>
+    </Or>
+  </Match>
+  <Match>
+    <And>
+      <Bug pattern="NP_NULL_ON_SOME_PATH_FROM_RETURN_VALUE"/>
+      <Class name="org.artembogomolova.demo.webapp.test.db.dao.EntityModifier"/>
+    </And>
+  </Match>
+  <Match>
+    <Bug pattern="NP_PARAMETER_MUST_BE_NONNULL_BUT_MARKED_AS_NULLABLE"/>
+  </Match>
+  <Match>
+    <And>
+      <Bug pattern="NP_NULL_ON_SOME_PATH_FROM_RETURN_VALUE"/>
+      <Class name="org.artembogomolova.demo.webapp.main.validation.CountryCodeAndZipCodeValidator"/>
     </And>
   </Match>
 </FindBugsFilter>
