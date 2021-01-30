@@ -66,10 +66,8 @@ abstract class AbstractDaoTest<T : IdentifiedEntity<T>> protected constructor(
         }
     }
 
-    protected fun handleExceptions(e: Exception?, entities: List<T>?): Boolean {
-        /*Exceptions are wrong.*/
-        return false
-    }
+    /*Exceptions are wrong.*/
+    protected fun handleExceptions(e: Exception?, entities: List<T>?): Boolean = false
 
     protected open fun validateAnotherRepositoryEmpty() {
         //no repositories validate needed
@@ -174,35 +172,35 @@ abstract class AbstractDaoTest<T : IdentifiedEntity<T>> protected constructor(
     protected abstract fun doDuplicateDeniedTestEntity(columns: UniqueMultiColumn.UniqueMultiColumnConstraint, commonValues: Map<String, Any?>): T
 
     @Test
-    @DisplayName("Test for validation with another violations(not 'UniqueMultiColumnConstraint' annotations). Entity with all correct fields.")
+    @DisplayName("Test for validation without another violations(not 'UniqueMultiColumnConstraint' annotations). Entity with all correct fields.")
     fun validatorTest() {
         val violations: Set<ConstraintViolation<T>> = validator.validate(buildEntityWithoutViolationEntity())
         Assertions.assertTrue(violations.isEmpty(), "entity has following violations: $violations")
     }
 
-    protected open fun buildEntityWithoutViolationEntity(): T {
-        return constructor.get()
-    }
+    protected open fun buildEntityWithoutViolationEntity(): T = constructor.get()
 
     @Test
     @DisplayName(
-        "Test for validation without another violations(not 'UniqueMultiColumnConstraint' annotations). "
+        "Test for validation with another violations(not 'UniqueMultiColumnConstraint' annotations). "
                 + "Entity with one or more incorrect fields. Basically entity no-arg constructor"
     )
     fun validatorWithViolationTest() {
         val violations: Set<ConstraintViolation<T>> = validator.validate(buildWithViolationEntity())
         log.info("entity has following violations: $violations")
         Assertions.assertFalse(violations.isEmpty(), "entity has no violations!")
+        /* val exceptedViolations = buildExceptedViolations()
+         Assertions.assertEquals(exceptedViolations, violations, "excepted violations $exceptedViolations, actual violations: $violations\"")*/
     }
 
-    protected fun buildWithViolationEntity(): T {
-        return constructor.get()
-    }
+//    protected open fun buildExceptedViolations(): Set<ConstraintViolation<T>> = setOf()
+
+    protected fun buildWithViolationEntity(): T = constructor.get()
 
     companion object {
         private const val TEST_CLASS_NAME_SUFFIX = "DaoTest"
         private const val TEST_CLASS_DISPLAY_NAME_PREFIX = "Dao test: "
         private val ID_COMPARATOR = Comparator.comparing<IdentifiedEntity<*>, Long?>(IdentifiedEntity<*>::id)
-        internal const val EMPTY_REPOSITORY_COUNT = 0
+        internal const val EMPTY_REPOSITORY_COUNT = 0L
     }
 }
