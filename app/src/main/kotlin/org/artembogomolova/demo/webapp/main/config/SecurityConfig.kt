@@ -27,19 +27,6 @@ import org.springframework.security.web.authentication.logout.LogoutSuccessHandl
 class SecurityConfig : WebSecurityConfigurerAdapter() {
 
     @Autowired
-    lateinit var loginSuccessfulHandler: AuthenticationSuccessHandler
-
-    @Autowired
-    lateinit var loginFailureHandler: AuthenticationFailureHandler
-
-    @Autowired
-    lateinit var logoutSuccessHandler: LogoutSuccessHandler
-
-    @Autowired
-    lateinit var logoutHandler: LogoutHandler
-
-    //    private val userDetailsService: UserDetailsService? = null,
-    @Autowired
     lateinit var anonymousAuthenticationFilterImpl: AnonymousAuthenticationFilter
 
     @get:Bean
@@ -58,7 +45,8 @@ class SecurityConfig : WebSecurityConfigurerAdapter() {
         http.authorizeRequests()
             .antMatchers(*PublicController.unsecuredResources)
             .hasAnyAuthority(*PredefinedUserRole.GUEST.privilegesAsArray)
-        /*For guest main page*/http.addFilterAt(anonymousAuthenticationFilterImpl, AnonymousAuthenticationFilter::class.java)
+        /*For guest main page*/
+        http.addFilterAt(anonymousAuthenticationFilterImpl, AnonymousAuthenticationFilter::class.java)
     }
 
     @Throws(Exception::class)
@@ -66,9 +54,8 @@ class SecurityConfig : WebSecurityConfigurerAdapter() {
         http.logout()
             .logoutUrl(LOGOUT_URL)
             //.logoutSuccessUrl(PublicController.LOGIN_URL)
-            .logoutSuccessHandler(logoutSuccessHandler)
             .invalidateHttpSession(true)
-            .addLogoutHandler(logoutHandler)
+
     }
 
     /**
@@ -77,13 +64,9 @@ class SecurityConfig : WebSecurityConfigurerAdapter() {
     @Throws(Exception::class)
     private fun configureLoginProcess(http: HttpSecurity) {
         http.formLogin()
-            //.loginPage(PublicController.LOGIN_URL)
-            .successHandler(loginSuccessfulHandler)
-            .failureHandler(loginFailureHandler)
     }
 
     companion object {
         private const val LOGOUT_URL = "/logout"
-        private val SECURED_RESOURCES = arrayOf("/api/**")
     }
 }
