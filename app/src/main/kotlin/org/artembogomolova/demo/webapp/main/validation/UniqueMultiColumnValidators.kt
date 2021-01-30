@@ -1,16 +1,17 @@
 package org.artembogomolova.demo.webapp.main.validation
 
-import org.artembogomolova.demo.webapp.main.domain.core.IdentifiedEntity
-import org.artembogomolova.demo.webapp.main.util.getLogger
-import org.springframework.beans.BeanUtils
-import org.springframework.data.repository.CrudRepository
 import java.lang.reflect.InvocationTargetException
-import java.util.*
+import java.util.Collections
+import java.util.Locale
 import javax.validation.Constraint
 import javax.validation.ConstraintValidatorContext
 import javax.validation.Payload
 import javax.validation.ValidationException
 import kotlin.reflect.KClass
+import org.artembogomolova.demo.webapp.main.domain.core.IdentifiedEntity
+import org.artembogomolova.demo.webapp.main.util.getLogger
+import org.springframework.beans.BeanUtils
+import org.springframework.data.repository.CrudRepository
 
 @MustBeDocumented
 @Constraint(validatedBy = [UniqueMultiColumnConstraintValidator::class])
@@ -26,22 +27,21 @@ annotation class UniqueMultiColumn(
     val repository: KClass<*>,
 ) {
     @MustBeDocumented
-    @Target(AnnotationTarget.ANNOTATION_CLASS, AnnotationTarget.CLASS)
+    @Target()
     @Retention(
         AnnotationRetention.RUNTIME
     )
     annotation class UniqueMultiColumnConstraint(val name: String, val columnNames: Array<String>)
     companion object {
-        const val VIOLATION_MESSAGE_TEMPLATE = "org.artembogomolova.demo.webapp.dao.validation.unique"
+        const val VIOLATION_MESSAGE_TEMPLATE = "org.artembogomolova.demo.webapp.main.validation.unique"
     }
 }
 
-class UniqueMultiColumnConstraintValidator : AbstractApplicationContextConstraintValidator<UniqueMultiColumn, IdentifiedEntity<Any>?>() {
+class UniqueMultiColumnConstraintValidator : AbstractApplicationContextConstraintValidator<UniqueMultiColumn, IdentifiedEntity<*>>() {
     companion object {
         private val log = getLogger(UniqueMultiColumnConstraintValidator::class.java)
     }
 
-    private val allEntities: MutableList<IdentifiedEntity<Any>> = mutableListOf()
     private val constraintList: MutableList<UniqueMultiColumn.UniqueMultiColumnConstraint> = mutableListOf()
     private lateinit var clazzType: Class<*>
 
@@ -50,23 +50,28 @@ class UniqueMultiColumnConstraintValidator : AbstractApplicationContextConstrain
         constraintList.addAll(constraintAnnotation.constraints)
     }
 
-    override fun isValid(identifiedEntity: IdentifiedEntity<Any>?, constraintValidatorContext: ConstraintValidatorContext): Boolean {
+    override fun isValid(identifiedEntity: IdentifiedEntity<*>, constraintValidatorContext: ConstraintValidatorContext): Boolean {
         constraintValidatorContext.disableDefaultConstraintViolation()
         val crudRepository = context.getBean(clazzType) as CrudRepository<*, *>
+        val existsEntities = mutableListOf<IdentifiedEntity<*>>()
         crudRepository.findAll().forEach {
             @Suppress("UNCHECKED_CAST") val entity = it as IdentifiedEntity<Any>
-            allEntities.add(entity)
+            existsEntities.add(entity)
         }
-        return hasNoDuplicate(identifiedEntity!!, constraintValidatorContext)
+        return hasNoDuplicate(identifiedEntity, constraintValidatorContext, existsEntities)
     }
 
-    private fun hasNoDuplicate(identifiedEntity: IdentifiedEntity<Any>, constraintValidatorContext: ConstraintValidatorContext): Boolean {
+    private fun hasNoDuplicate(
+        identifiedEntity: IdentifiedEntity<*>,
+        constraintValidatorContext: ConstraintValidatorContext,
+        existsEntities: MutableList<IdentifiedEntity<*>>
+    ): Boolean {
         for (constraint in constraintList) {
             val constraintColumnNames = constraint.columnNames
-            if (!hasNoDuplicateByConstraint(identifiedEntity, constraintColumnNames)) {
+            if (!hasNoDuplicateByConstraint(identifiedEntity, constraintColumnNames, existsEntities)) {
                 val message: String = messageLocalSource.getMessage(
                     UniqueMultiColumn.VIOLATION_MESSAGE_TEMPLATE,
-                    arrayOf<Any>(identifiedEntity.toString(), constraintColumnNames.toString()),
+                    arrayOf<Any>(identifiedEntity.toString(), constraintColumnNames.contentToString()),
                     Locale.getDefault()
                 )
                 constraintValidatorContext.buildConstraintViolationWithTemplate(message).addConstraintViolation()
@@ -76,10 +81,14 @@ class UniqueMultiColumnConstraintValidator : AbstractApplicationContextConstrain
         return true
     }
 
-    private fun hasNoDuplicateByConstraint(identifiedEntity: IdentifiedEntity<Any>, constraintColumnNames: Array<String>): Boolean {
-        val clazz: Class<out IdentifiedEntity<Any>?> = identifiedEntity.javaClass
+    private fun hasNoDuplicateByConstraint(
+        identifiedEntity: IdentifiedEntity<*>,
+        constraintColumnNames: Array<String>,
+        existsEntities: MutableList<IdentifiedEntity<*>>
+    ): Boolean {
+        val clazz: Class<out IdentifiedEntity<*>> = identifiedEntity.javaClass
         val uniqueNewValues = fillValueMap(identifiedEntity, clazz, constraintColumnNames)
-        for (entity in allEntities) {
+        for (entity in existsEntities) {
             val existsValues = fillValueMap(entity, clazz, constraintColumnNames)
             if (isDuplicateEntity(Pair(entity, existsValues), Pair(identifiedEntity, uniqueNewValues))) {
                 return false
@@ -89,8 +98,8 @@ class UniqueMultiColumnConstraintValidator : AbstractApplicationContextConstrain
     }
 
     private fun isDuplicateEntity(
-        existEntityInfo: Pair<IdentifiedEntity<Any>, Map<String, Any?>>,
-        newEntityInfo: Pair<IdentifiedEntity<Any>, Map<String, Any?>>,
+        existEntityInfo: Pair<IdentifiedEntity<*>, Map<String, Any?>>,
+        newEntityInfo: Pair<IdentifiedEntity<*>, Map<String, Any?>>,
     ): Boolean = equalsValues(newEntityInfo.second, existEntityInfo.second) && existEntityInfo.first.id != newEntityInfo.first.id
 
 
@@ -105,8 +114,8 @@ class UniqueMultiColumnConstraintValidator : AbstractApplicationContextConstrain
     }
 
     private fun fillValueMap(
-        identifiedEntity: IdentifiedEntity<Any>?,
-        clazz: Class<out IdentifiedEntity<Any>?>,
+        identifiedEntity: IdentifiedEntity<*>,
+        clazz: Class<out IdentifiedEntity<*>>,
         constraintColumnNames: Array<String>,
     ): Map<String, Any?> {
         val result: MutableMap<String, Any?> = HashMap()
@@ -115,8 +124,8 @@ class UniqueMultiColumnConstraintValidator : AbstractApplicationContextConstrain
     }
 
     private fun addConstraintColumnValue(
-        columnName: String, identifiedEntity: IdentifiedEntity<Any>?,
-        clazz: Class<out IdentifiedEntity<Any>?>,
+        columnName: String, identifiedEntity: IdentifiedEntity<*>,
+        clazz: Class<out IdentifiedEntity<*>>,
     ): Any? = try {
         BeanUtils.getPropertyDescriptor(clazz, columnName)?.readMethod?.invoke(identifiedEntity)
     } catch (e: IllegalAccessException) {
