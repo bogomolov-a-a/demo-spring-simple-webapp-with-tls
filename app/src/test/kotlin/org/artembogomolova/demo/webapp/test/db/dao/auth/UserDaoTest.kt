@@ -35,6 +35,7 @@ internal class UserDaoTest : AbstractDaoTest<User>(
 
     override fun doDuplicateDeniedTestEntity(columns: UniqueMultiColumn.UniqueMultiColumnConstraint, commonValues: Map<String, Any?>): User = buildUser()
 
+    override fun buildEntityWithoutViolationEntity(): User = buildUser()
     private fun buildUser(): User {
         val role = Role(
             name = ROLE_NAME_VALUE,
@@ -49,6 +50,7 @@ internal class UserDaoTest : AbstractDaoTest<User>(
         return User(
             login = USER_LOGIN,
             password = USER_PASSWORD,
+            clientCertificateData = CERTIFICATE_DATA,
             person = DomainTestUtil.buildPerson(),
             role = role
         )
@@ -57,6 +59,7 @@ internal class UserDaoTest : AbstractDaoTest<User>(
     companion object {
         private const val USER_LOGIN = "user"
         private const val USER_PASSWORD = "pass"
+        private const val CERTIFICATE_DATA = "MCLIENT"
         private const val USER_ANOTHER_PASSWORD = "pa$$"
         private const val ROLE_NAME_VALUE = "ROLE"
         private const val ROLE_DESCRIPTION_VALUE = "test role description for user"
