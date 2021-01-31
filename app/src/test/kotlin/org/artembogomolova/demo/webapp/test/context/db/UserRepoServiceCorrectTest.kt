@@ -15,9 +15,8 @@ import org.springframework.context.event.ContextStartedEvent
 
 @DisplayName("Validation for database corruption condition, full configuration loaded.")
 internal class UserRepoServiceCorrectTest constructor(
-    @LocalServerPort serverPort: Int,
-
-    ) : AbstractContextLoadTest(serverPort) {
+    @LocalServerPort serverPort: Int
+) : AbstractContextLoadTest(serverPort) {
     @Autowired
     private lateinit var userRepoService: UserRepoService
 

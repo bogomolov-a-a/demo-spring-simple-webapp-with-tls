@@ -26,7 +26,8 @@ jobs:
           chmod +x ./certificate/cert-build.sh &&./certificate/cert-build.sh
       - name: Build with gradle in docker
         run: |
-          chmod +x ./gradlew && ./gradlew clean buildWithCoverage -DtestWithoutLogs=true
+          chmod +x ./gradlew && ./gradlew clean buildWithCoverage
+# -DtestWithoutLogs=true
 #          ./gradlew -Psonar.login=${{ secrets.SONAR_TOKEN }} -Psonar.organization=${{ github.repository_owner }} \
 #          -Psonar.host.url=https://sonarcloud.io buildWithCoverage
 #          mkdir coverage

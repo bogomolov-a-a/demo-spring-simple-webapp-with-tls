@@ -22,7 +22,7 @@ test:
     trusted-store-type: PKCS12
     trusted-store-password: localhost
     trusted-key-password: localhost
-logging:
-  level:
-    org.hibernate.SQL: DEBUG
-    org.hibernate.type.descriptor.sql.BasicBinder: TRACE
+#logging:
+#  level:
+#    org.hibernate.SQL: DEBUG
+#    org.hibernate.type.descriptor.sql.BasicBinder: TRACE
