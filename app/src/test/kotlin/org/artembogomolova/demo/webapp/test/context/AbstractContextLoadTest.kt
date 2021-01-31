@@ -22,8 +22,9 @@ import org.springframework.test.context.support.DependencyInjectionTestExecution
 abstract class AbstractContextLoadTest protected constructor(protected val serverPort: Int) : AbstractTest() {
 
     @Autowired
-    private lateinit var userRepository: IUserRepository
-    fun checkServerPortAssigned() {
+    protected lateinit var userRepository: IUserRepository
+
+    protected fun checkServerPortAssigned() {
         Assertions.assertNotEquals(0, serverPort, "Port is 0! This is wrong way!")
         log.info("application started at port {}", serverPort)
     }

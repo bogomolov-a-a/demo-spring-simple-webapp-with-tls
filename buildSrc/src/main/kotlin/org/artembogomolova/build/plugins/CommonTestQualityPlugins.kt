@@ -82,10 +82,10 @@ internal class JacocoPluginApplier : PluginApplier<JacocoPlugin>(JacocoPlugin::c
                             throw IllegalStateException(NO_TEST_FOUND_MESSAGE)
                         }
                         println("suite '${suite.name}' ended. Results:")
-                        println("successful : ${result.successfulTestCount}\n")
-                        println("failed : ${result.failedTestCount}\n")
-                        println("skipped : ${result.skippedTestCount}\n")
-                        println("total : ${result.testCount}\n")
+                        println("successful : ${result.successfulTestCount}")
+                        println("failed : ${result.failedTestCount}")
+                        println("skipped : ${result.skippedTestCount}")
+                        println("total : ${result.testCount}")
                     }
                 })
                 addTestOutputListener(

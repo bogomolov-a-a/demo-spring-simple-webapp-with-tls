@@ -1,6 +1,5 @@
 package org.artembogomolova.demo.webapp.test.context.db
 
-import org.artembogomolova.demo.webapp.main.dao.repo.IUserRepository
 import org.artembogomolova.demo.webapp.main.dao.service.UserRepoService
 import org.artembogomolova.demo.webapp.main.domain.auth.User
 import org.artembogomolova.demo.webapp.main.event.ContextStartedEventListener
@@ -15,13 +14,18 @@ import org.springframework.context.ConfigurableApplicationContext
 import org.springframework.context.event.ContextStartedEvent
 
 @DisplayName("Validation for database corruption condition, full configuration loaded.")
-internal class UserRepoServiceCorrectTest @Autowired constructor(
+internal class UserRepoServiceCorrectTest constructor(
     @LocalServerPort serverPort: Int,
-    val userRepository: IUserRepository,
-    val userRepoService: UserRepoService,
-    val applicationContext: ConfigurableApplicationContext,
-    val contextStartedEventListener: ContextStartedEventListener
-) : AbstractContextLoadTest(serverPort) {
+
+    ) : AbstractContextLoadTest(serverPort) {
+    @Autowired
+    private lateinit var userRepoService: UserRepoService
+
+    @Autowired
+    private lateinit var applicationContext: ConfigurableApplicationContext
+
+    @Autowired
+    private lateinit var contextStartedEventListener: ContextStartedEventListener
 
     @Test
     @DisplayName("Test check all predefined users removed from existing database. This is wrong way!")
