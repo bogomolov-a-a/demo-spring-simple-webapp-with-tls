@@ -24,18 +24,18 @@ jobs:
       - name: build test certificates
         run: |
           chmod +x ./certificate/cert-build.sh &&./certificate/cert-build.sh
-      - name: Build with Maven in docker
+      - name: Build with gradle in docker
         run: |
-          chmod +x ./gradlew
-          ./gradlew -Psonar.login=${{ secrets.SONAR_TOKEN }} -Psonar.organization=${{ github.repository_owner }} \
-          -Psonar.host.url=https://sonarcloud.io buildWithCoverage
-          mkdir coverage
-      - name: Upload coverage to Codecov
-        uses: codecov/codecov-action@v1
-        with:
-          token: ${{ secrets.CODECOV_TOKEN }}
-          name: demo-spring-simple-webapp-with-tls
-          fail_ci_if_error: true
-          path_to_write_report: ./coverage/codecov_report.gz
-          verbose: true
-          file: ./target/site/jacoco/jacoco.xml
+          chmod +x ./gradlew && ./gradlew clean buildWithCoverage -DtestWithoutLogs=true
+#          ./gradlew -Psonar.login=${{ secrets.SONAR_TOKEN }} -Psonar.organization=${{ github.repository_owner }} \
+#          -Psonar.host.url=https://sonarcloud.io buildWithCoverage
+#          mkdir coverage
+#      - name: Upload coverage to Codecov
+#        uses: codecov/codecov-action@v1
+#        with:
+#          token: ${{ secrets.CODECOV_TOKEN }}
+#          name: demo-spring-simple-webapp-with-tls
+#          fail_ci_if_error: true
+#          path_to_write_report: ./coverage/codecov_report.gz
+#          verbose: true
+#          file: ./target/site/jacoco/jacoco.xml

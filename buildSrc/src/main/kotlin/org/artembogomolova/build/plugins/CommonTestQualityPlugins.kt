@@ -9,6 +9,8 @@ import org.gradle.api.tasks.TaskContainer
 import org.gradle.api.tasks.testing.Test
 import org.gradle.api.tasks.testing.TestDescriptor
 import org.gradle.api.tasks.testing.TestListener
+import org.gradle.api.tasks.testing.TestOutputEvent
+import org.gradle.api.tasks.testing.TestOutputListener
 import org.gradle.api.tasks.testing.TestResult
 import org.gradle.testing.jacoco.plugins.JacocoPlugin
 import org.gradle.testing.jacoco.plugins.JacocoTaskExtension
@@ -86,7 +88,16 @@ internal class JacocoPluginApplier : PluginApplier<JacocoPlugin>(JacocoPlugin::c
                         println("total:${result.testCount}\n")
                     }
                 })
-                addTestOutputListener { _, outputEvent -> println(outputEvent?.message) }
+                addTestOutputListener(
+                    object : TestOutputListener {
+                        override fun onOutput(testDescriptor: TestDescriptor?, outputEvent: TestOutputEvent?) {
+                            if (System.getProperty("testWithoutLogs") != null) {
+                                return
+                            }
+                            println(outputEvent?.message)
+                        }
+                    }
+                )
             }
         }
     }
