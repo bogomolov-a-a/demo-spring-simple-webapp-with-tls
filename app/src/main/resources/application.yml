@@ -12,7 +12,7 @@ spring:
         jdbc:
           batch_size: 50
         enable_lazy_load_no_trans: false
-        generate_statistics: true
+       # generate_statistics: true
         order_inserts: true
       jdbc:
         lob:
