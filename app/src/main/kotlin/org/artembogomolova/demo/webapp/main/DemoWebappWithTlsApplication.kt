@@ -10,7 +10,7 @@ import org.springframework.context.ConfigurableApplicationContext
 
 @SpringBootApplication(
     exclude = [ /*Exclude. Cause - conflicts with custom configuration*/
-        SecurityAutoConfiguration::class],
+        SecurityAutoConfiguration::class]
 )
 class DemoWebappWithTlsApplication : SpringBootServletInitializer() {
     companion object {

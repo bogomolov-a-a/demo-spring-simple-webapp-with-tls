@@ -20,15 +20,12 @@ import org.springframework.transaction.annotation.Transactional
 
 @Component
 @Transactional
-class UserRepoService {
-    @Autowired
-    lateinit var userRepository: IUserRepository
+class UserRepoService @Autowired constructor(
+    private val userRepository: IUserRepository,
+    private val userRoleRepository: IRoleRepository,
+    private val authorityRepository: IAuthorityRepository
+) {
 
-    @Autowired
-    lateinit var userRoleRepository: IRoleRepository
-
-    @Autowired
-    lateinit var authorityRepository: IAuthorityRepository
 
     fun createPredefinedSuperUser(passwordEncoder: PasswordEncoder) {
         val person = createPredefinedSuperUserPerson()

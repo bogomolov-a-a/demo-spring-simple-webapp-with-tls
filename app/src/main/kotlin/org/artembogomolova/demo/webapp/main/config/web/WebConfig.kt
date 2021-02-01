@@ -1,4 +1,4 @@
-package org.artembogomolova.demo.webapp.main.config
+package org.artembogomolova.demo.webapp.main.config.web
 
 import org.springframework.context.annotation.ComponentScan
 import org.springframework.context.annotation.Configuration

@@ -19,7 +19,6 @@ abstract class AbstractApplicationContextConstraintValidator<A : Annotation?, T>
         context = applicationContext
     }
 
-
 }
 
 class ApplicationContextConstraintValidatorFactory(private val applicationContext: ApplicationContext) :

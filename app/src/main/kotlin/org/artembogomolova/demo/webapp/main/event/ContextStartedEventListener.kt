@@ -10,15 +10,11 @@ import org.springframework.security.crypto.password.PasswordEncoder
 import org.springframework.stereotype.Component
 
 @Component
-class ContextStartedEventListener {
-    @Autowired
-    lateinit var userRepoService: UserRepoService
-
-    @Autowired
-    lateinit var roleRepoService: RoleRepoService
-
-    @Autowired
-    lateinit var passwordEncoder: PasswordEncoder
+class ContextStartedEventListener @Autowired constructor(
+    private val userRepoService: UserRepoService,
+    private val roleRepoService: RoleRepoService,
+    private val passwordEncoder: PasswordEncoder
+) {
 
     @EventListener
     fun onApplicationEvent(contextStartedEvent: ContextStartedEvent?) {

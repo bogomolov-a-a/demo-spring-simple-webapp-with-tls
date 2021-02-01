@@ -1,4 +1,4 @@
-package org.artembogomolova.demo.webapp.main.config
+package org.artembogomolova.demo.webapp.main.config.db
 
 import org.springframework.boot.autoconfigure.domain.EntityScan
 import org.springframework.context.annotation.Configuration

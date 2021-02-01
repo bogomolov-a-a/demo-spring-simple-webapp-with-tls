@@ -1,4 +1,4 @@
-package org.artembogomolova.demo.webapp.main.config
+package org.artembogomolova.demo.webapp.main.config.db
 
 import org.hibernate.FlushMode
 import org.springframework.boot.autoconfigure.orm.jpa.HibernatePropertiesCustomizer

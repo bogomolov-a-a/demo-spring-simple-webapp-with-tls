@@ -1,10 +1,8 @@
 spring:
-  datasource:
-    url: jdbc:sqlite:simple-service.db
-    username: admin
-    password: admin
   jpa:
     show-sql: true
+  datasource:
+    url: jdbc:sqlite:simple-service.db
 server:
   port: 8443
   ssl:
