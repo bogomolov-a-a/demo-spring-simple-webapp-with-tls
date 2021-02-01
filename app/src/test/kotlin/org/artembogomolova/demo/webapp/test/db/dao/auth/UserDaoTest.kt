@@ -5,17 +5,32 @@ import org.artembogomolova.demo.webapp.main.domain.auth.Authority
 import org.artembogomolova.demo.webapp.main.domain.auth.Role
 import org.artembogomolova.demo.webapp.main.domain.auth.User
 import org.artembogomolova.demo.webapp.main.validation.UniqueMultiColumn
+import org.artembogomolova.demo.webapp.test.config.UserDaoTestConfiguration
 import org.artembogomolova.demo.webapp.test.db.dao.AbstractDaoTest
 import org.artembogomolova.demo.webapp.test.db.dao.DomainTestUtil
 import org.junit.jupiter.api.DisplayName
 import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.context.annotation.Import
 import org.springframework.data.repository.CrudRepository
 
+@Import(UserDaoTestConfiguration::class)
 @DisplayName("Dao test: User")
 internal class UserDaoTest : AbstractDaoTest<User>(
     User::class.java,
     ::User
 ) {
+    companion object {
+        private const val USER_LOGIN = "user"
+        private const val USER_PASSWORD = "pass"
+        private const val CERTIFICATE_DATA = "MCLIENT"
+        private const val USER_ANOTHER_PASSWORD = "pa$$"
+        private const val ROLE_NAME_VALUE = "ROLE"
+        private const val ROLE_DESCRIPTION_VALUE = "test role description for user"
+        private const val AUTHORITY_NAME_VALUE = "person:test_get"
+        private const val AUTHORITY_DESCRIPTION_VALUE = "test authority user person info get"
+
+    }
+
     @Autowired
     private lateinit var userRepository: IUserRepository
 
@@ -56,14 +71,5 @@ internal class UserDaoTest : AbstractDaoTest<User>(
         )
     }
 
-    companion object {
-        private const val USER_LOGIN = "user"
-        private const val USER_PASSWORD = "pass"
-        private const val CERTIFICATE_DATA = "MCLIENT"
-        private const val USER_ANOTHER_PASSWORD = "pa$$"
-        private const val ROLE_NAME_VALUE = "ROLE"
-        private const val ROLE_DESCRIPTION_VALUE = "test role description for user"
-        private const val AUTHORITY_NAME_VALUE = "person:test_get"
-        private const val AUTHORITY_DESCRIPTION_VALUE = "test authority user person info get"
-    }
+
 }

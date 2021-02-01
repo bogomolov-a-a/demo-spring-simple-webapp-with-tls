@@ -6,16 +6,27 @@ import org.artembogomolova.demo.webapp.main.domain.auth.Authority_
 import org.artembogomolova.demo.webapp.main.domain.auth.Role
 import org.artembogomolova.demo.webapp.main.domain.auth.User
 import org.artembogomolova.demo.webapp.main.validation.UniqueMultiColumn
+import org.artembogomolova.demo.webapp.test.config.AuthorityDaoTestDatasourceConfiguration
 import org.artembogomolova.demo.webapp.test.db.dao.AbstractDaoTest
 import org.junit.jupiter.api.DisplayName
 import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.context.annotation.Import
 import org.springframework.data.repository.CrudRepository
 
+@Import(AuthorityDaoTestDatasourceConfiguration::class)
 @DisplayName("Dao test: Authority")
 internal class AuthorityDaoTest : AbstractDaoTest<Authority>(
     Authority::class.java,
     ::Authority
 ) {
+    companion object {
+        private const val NAME_VALUE = "test:authority"
+        private const val DESCRIPTION_VALUE = "test description"
+        private const val DESCRIPTION_ANOTHER_VALUE = "another description"
+
+
+    }
+
     @Autowired
     private lateinit var authorityRepository: IAuthorityRepository
     override fun updateEntities(savedCollection: List<Authority>): List<Authority> {
@@ -67,9 +78,4 @@ internal class AuthorityDaoTest : AbstractDaoTest<Authority>(
         return buildAuthority()
     }
 
-    companion object {
-        private const val NAME_VALUE = "test:authority"
-        private const val DESCRIPTION_VALUE = "test description"
-        private const val DESCRIPTION_ANOTHER_VALUE = "another description"
-    }
 }

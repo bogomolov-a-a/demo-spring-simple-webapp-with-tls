@@ -5,8 +5,8 @@ import java.util.function.Supplier
 import javax.validation.ConstraintViolation
 import javax.validation.ConstraintViolationException
 import javax.validation.Validator
-import org.artembogomolova.demo.webapp.main.config.CustomHibernateValidatorConfiguration
 import org.artembogomolova.demo.webapp.main.config.ValidationConfig
+import org.artembogomolova.demo.webapp.main.config.db.CustomHibernateValidatorConfiguration
 import org.artembogomolova.demo.webapp.main.domain.core.IdentifiedEntity
 import org.artembogomolova.demo.webapp.main.validation.UniqueMultiColumn
 import org.artembogomolova.demo.webapp.test.db.AbstractDatabaseTest

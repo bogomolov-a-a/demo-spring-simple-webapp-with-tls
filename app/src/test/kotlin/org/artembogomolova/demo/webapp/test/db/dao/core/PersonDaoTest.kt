@@ -4,18 +4,26 @@ import org.artembogomolova.demo.webapp.main.dao.repo.IPersonRepository
 import org.artembogomolova.demo.webapp.main.dao.repo.IPhysicalAddressRepository
 import org.artembogomolova.demo.webapp.main.domain.core.Person
 import org.artembogomolova.demo.webapp.main.validation.UniqueMultiColumn
+import org.artembogomolova.demo.webapp.test.config.PersonDaoTestDatasourceConfiguration
 import org.artembogomolova.demo.webapp.test.db.dao.AbstractDaoTest
 import org.artembogomolova.demo.webapp.test.db.dao.DomainTestUtil
 import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.DisplayName
 import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.context.annotation.Import
 import org.springframework.data.repository.CrudRepository
 
+@Import(PersonDaoTestDatasourceConfiguration::class)
 @DisplayName("Dao test: Person")
 internal class PersonDaoTest : AbstractDaoTest<Person>(
     Person::class.java,
     ::Person
 ) {
+    companion object {
+        private const val ANOTHER_PHONE_NUMBER = "+7-812-812-81-20"
+
+    }
+
     @Autowired
     private lateinit var personRepository: IPersonRepository
 
@@ -24,7 +32,7 @@ internal class PersonDaoTest : AbstractDaoTest<Person>(
 
     override fun updateEntities(savedCollection: List<Person>): List<Person> {
         val person: Person = savedCollection[0]
-        person.phone = "+7-812-812-81-20"
+        person.phone = ANOTHER_PHONE_NUMBER
         return savedCollection
     }
 

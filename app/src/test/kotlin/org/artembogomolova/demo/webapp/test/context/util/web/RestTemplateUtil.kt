@@ -1,5 +1,9 @@
-package org.artembogomolova.demo.webapp.test.context.web
+package org.artembogomolova.demo.webapp.test.context.util.web
 
+import java.io.File
+import java.security.KeyStore
+import java.util.Objects
+import java.util.function.Supplier
 import org.apache.http.conn.ssl.NoopHostnameVerifier
 import org.apache.http.conn.ssl.SSLConnectionSocketFactory
 import org.apache.http.conn.ssl.TrustSelfSignedStrategy
@@ -11,10 +15,6 @@ import org.springframework.boot.web.client.RestTemplateBuilder
 import org.springframework.core.io.FileSystemResource
 import org.springframework.http.client.ClientHttpRequestFactory
 import org.springframework.http.client.HttpComponentsClientHttpRequestFactory
-import java.io.File
-import java.security.KeyStore
-import java.util.Objects
-import java.util.function.Supplier
 
 class RestTemplateUtil {
     companion object {

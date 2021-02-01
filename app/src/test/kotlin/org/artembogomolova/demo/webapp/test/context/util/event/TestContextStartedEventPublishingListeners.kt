@@ -1,4 +1,4 @@
-package org.artembogomolova.demo.webapp.test.context.event
+package org.artembogomolova.demo.webapp.test.context.util.event
 
 import org.artembogomolova.demo.webapp.main.dao.repo.IAuthorityRepository
 import org.artembogomolova.demo.webapp.main.dao.repo.IRoleRepository

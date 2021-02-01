@@ -1,6 +1,8 @@
 spring:
   jpa:
     show-sql: true
+  datasource:
+    url: jdbc:sqlite:build/console-db:db
 server:
   port: 8443
   ssl:
@@ -18,7 +20,3 @@ test:
     trusted-store-type: PKCS12
     trusted-store-password: localhost
     trusted-key-password: localhost
-logging:
-  level:
-    org.hibernate.SQL: DEBUG
-    org.hibernate.type.descriptor.sql.BasicBinder: TRACE

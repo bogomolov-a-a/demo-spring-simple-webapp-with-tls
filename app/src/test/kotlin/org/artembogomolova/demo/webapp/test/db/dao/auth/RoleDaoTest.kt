@@ -4,13 +4,24 @@ import org.artembogomolova.demo.webapp.main.dao.repo.IRoleRepository
 import org.artembogomolova.demo.webapp.main.domain.auth.Authority
 import org.artembogomolova.demo.webapp.main.domain.auth.Role
 import org.artembogomolova.demo.webapp.main.validation.UniqueMultiColumn
+import org.artembogomolova.demo.webapp.test.config.RoleDaoTestConfiguration
 import org.artembogomolova.demo.webapp.test.db.dao.AbstractDaoTest
 import org.junit.jupiter.api.DisplayName
 import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.context.annotation.Import
 import org.springframework.data.repository.CrudRepository
 
+@Import(RoleDaoTestConfiguration::class)
 @DisplayName("Dao test: Role")
 internal class RoleDaoTest : AbstractDaoTest<Role>(Role::class.java, ::Role) {
+    companion object {
+        private const val ROLE_NAME_VALUE = "ROLE"
+        private const val ROLE_DESCRIPTION_VALUE = "test description"
+        private const val ROLE_DESCRIPTION_ANOTHER_VALUE = "test:authority_another"
+        private const val AUTHORITY_NAME_VALUE = "test:get"
+        private const val AUTHORITY_DESCRIPTION_VALUE = "test authority description"
+
+    }
 
     @Autowired
     private lateinit var roleRepository: IRoleRepository
@@ -53,11 +64,4 @@ internal class RoleDaoTest : AbstractDaoTest<Role>(Role::class.java, ::Role) {
         description = AUTHORITY_DESCRIPTION_VALUE
     )
 
-    companion object {
-        private const val ROLE_NAME_VALUE = "ROLE"
-        private const val ROLE_DESCRIPTION_VALUE = "test description"
-        private const val ROLE_DESCRIPTION_ANOTHER_VALUE = "test:authority_another"
-        private const val AUTHORITY_NAME_VALUE = "test:get"
-        private const val AUTHORITY_DESCRIPTION_VALUE = "test authority description"
-    }
 }

@@ -1,9 +1,10 @@
-package org.artembogomolova.demo.webapp.test.context.db
+package org.artembogomolova.demo.webapp.test.context.spring.launch.db
 
 import org.artembogomolova.demo.webapp.main.dao.service.UserRepoService
 import org.artembogomolova.demo.webapp.main.domain.auth.User
 import org.artembogomolova.demo.webapp.main.event.ContextStartedEventListener
-import org.artembogomolova.demo.webapp.test.context.AbstractContextLoadTest
+import org.artembogomolova.demo.webapp.test.config.UserRepoServiceCorrectTestDatasourceConfiguration
+import org.artembogomolova.demo.webapp.test.context.AbstractSpringBootContextLoadClass
 import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.Test
@@ -11,20 +12,18 @@ import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.web.server.LocalServerPort
 import org.springframework.context.ApplicationContextException
 import org.springframework.context.ConfigurableApplicationContext
+import org.springframework.context.annotation.Import
 import org.springframework.context.event.ContextStartedEvent
 
+@Import(UserRepoServiceCorrectTestDatasourceConfiguration::class)
 @DisplayName("Validation for database corruption condition, full configuration loaded.")
-internal class UserRepoServiceCorrectTest constructor(
-    @LocalServerPort serverPort: Int
-) : AbstractContextLoadTest(serverPort) {
-    @Autowired
-    private lateinit var userRepoService: UserRepoService
+internal class UserRepoServiceCorrectTest @Autowired constructor(
+    @LocalServerPort serverPort: Int,
+    private val userRepoService: UserRepoService,
+    private val applicationContext: ConfigurableApplicationContext,
+    private val contextStartedEventListener: ContextStartedEventListener
+) : AbstractSpringBootContextLoadClass(serverPort) {
 
-    @Autowired
-    private lateinit var applicationContext: ConfigurableApplicationContext
-
-    @Autowired
-    private lateinit var contextStartedEventListener: ContextStartedEventListener
 
     @Test
     @DisplayName("Test check all predefined users removed from existing database. This is wrong way!")
