@@ -1,8 +1,4 @@
 spring:
-  datasource:
-    url: jdbc:sqlite:build/simple-service.db
-    username: admin
-    password: admin
   jpa:
     show-sql: true
 server:
