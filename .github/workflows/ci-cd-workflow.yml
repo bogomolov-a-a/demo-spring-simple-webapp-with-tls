@@ -21,6 +21,8 @@ jobs:
           java-version: 11
       - name: fetch sources
         uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
       - name: build test certificates
         run: |
           chmod +x ./certificate/cert-build.sh &&./certificate/cert-build.sh
