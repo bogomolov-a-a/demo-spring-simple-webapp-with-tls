@@ -1,5 +1,7 @@
 package org.artembogomolova.build.plugins
 
+import org.gradle.api.Plugin
+import org.gradle.api.Project
 import org.gradle.api.artifacts.dsl.DependencyHandler
 import org.gradle.api.plugins.JavaPlugin
 import org.gradle.api.plugins.PluginContainer
@@ -13,7 +15,15 @@ const val KAPT_CONFIGURATION_NAME = "kapt"
 fun getKotlinVersion(properties: MutableMap<String, Any>): String =
     properties[KOTLIN_VERSION_PROPERTY_NAME] as String? ?: DEFAULT_KOTLIN_KOTLIN_OPTION_VALUE
 
-internal class KotlinPluginApplier : PluginApplier<KotlinPluginWrapper>(KotlinPluginWrapper::class.java) {
+internal class ProjectLanguagesPlugin : Plugin<Project> {
+    private val kotlinPluginApplier: KotlinPluginApplier = KotlinPluginApplier()
+    override fun apply(target: Project) {
+        kotlinPluginApplier.apply(target)
+    }
+
+}
+
+private class KotlinPluginApplier : PluginApplier<KotlinPluginWrapper>(KotlinPluginWrapper::class.java) {
     companion object {
         const val JVM_TARGET_VERSION_PROPERTY_NAME = "jvmTargetVersion"
         const val DEFAULT_JVM_TARGET_KOTLIN_OPTION_VALUE = "11"

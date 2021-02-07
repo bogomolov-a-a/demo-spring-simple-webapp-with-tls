@@ -1,5 +1,5 @@
 rootProject.name = "demo-spring-simple-webapp-with-tls"
-pluginManagement {
+/*pluginManagement {
     repositories {
         gradlePluginPortal()
         maven(url = "https://repo.spring.io/snapshot")
@@ -13,5 +13,5 @@ pluginManagement {
             }
         }
     }
-}
+}*/
 include(":app")

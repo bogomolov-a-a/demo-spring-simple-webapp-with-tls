@@ -4,6 +4,7 @@ import com.github.spotbugs.snom.SpotBugsExtension
 import com.github.spotbugs.snom.SpotBugsPlugin
 import io.gitlab.arturbosch.detekt.Detekt
 import io.gitlab.arturbosch.detekt.DetektPlugin
+import java.io.File
 import org.gradle.api.Plugin
 import org.gradle.api.Project
 import org.gradle.api.plugins.ExtensionContainer
@@ -12,9 +13,8 @@ import org.gradle.api.plugins.quality.CheckstylePlugin
 import org.gradle.api.plugins.quality.Pmd
 import org.gradle.api.plugins.quality.PmdPlugin
 import org.gradle.api.tasks.TaskContainer
-import java.io.File
 
-internal class StaticAnalysisApplier : Plugin<Project> {
+internal class StaticAnalysisPlugin : Plugin<Project> {
     private val checkstyleApplier: CheckstyleApplier = CheckstyleApplier()
     private val pmdApplier: PmdApplier = PmdApplier()
     private val detektApplier: DetektApplier = DetektApplier()
@@ -27,7 +27,7 @@ internal class StaticAnalysisApplier : Plugin<Project> {
     }
 }
 
-internal class PmdApplier : PluginApplier<PmdPlugin>(PmdPlugin::class.java) {
+private class PmdApplier : PluginApplier<PmdPlugin>(PmdPlugin::class.java) {
     override fun configureTasks(target: TaskContainer, properties: MutableMap<String, Any>) {
         super.configureTasks(target, properties)
         configurePmdTask(target, properties)
@@ -43,7 +43,7 @@ internal class PmdApplier : PluginApplier<PmdPlugin>(PmdPlugin::class.java) {
 
 }
 
-internal class CheckstyleApplier : PluginApplier<CheckstylePlugin>(CheckstylePlugin::class.java) {
+private class CheckstyleApplier : PluginApplier<CheckstylePlugin>(CheckstylePlugin::class.java) {
 
     override fun configureTasks(target: TaskContainer, properties: MutableMap<String, Any>) {
         super.configureTasks(target, properties)
@@ -60,7 +60,7 @@ internal class CheckstyleApplier : PluginApplier<CheckstylePlugin>(CheckstylePlu
     }
 }
 
-internal class DetektApplier : PluginApplier<DetektPlugin>(DetektPlugin::class.java) {
+private class DetektApplier : PluginApplier<DetektPlugin>(DetektPlugin::class.java) {
     companion object {
         const val SETTINGS_PATH = "%s/config/detekt/detekt.yml"
     }
@@ -88,7 +88,7 @@ internal class DetektApplier : PluginApplier<DetektPlugin>(DetektPlugin::class.j
     }
 }
 
-internal class SpotBugsApplier : PluginApplier<SpotBugsPlugin>(SpotBugsPlugin::class.java) {
+private class SpotBugsApplier : PluginApplier<SpotBugsPlugin>(SpotBugsPlugin::class.java) {
     companion object {
         const val SETTINGS_PATH = "%s/config/spotbugs/excludes.xml"
     }
