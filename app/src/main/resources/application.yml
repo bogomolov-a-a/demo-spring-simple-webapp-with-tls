@@ -12,7 +12,7 @@ spring:
         jdbc:
           batch_size: 50
         enable_lazy_load_no_trans: false
-       # generate_statistics: true
+        # generate_statistics: true
         order_inserts: true
       jdbc:
         lob:
@@ -22,10 +22,11 @@ spring:
   datasource:
     driver-class-name: org.sqlite.JDBC
     continue-on-error: false
+    url: ${DATABASE_URL:jdbc:sqlite:simple-service.db}
   liquibase:
     change-log: classpath:changelog/db.changelog-master.yml
 server:
-  port: 8080
+  port: ${PORT:8080}
   compression:
     enabled: true
   ssl:
@@ -34,3 +35,11 @@ server:
     enabled-protocols:
       - TLSv1.2
       - TLSv1.3
+    trust-store: ${TRUST_STORE_PATH:tls/trust-storage.p12}
+    trust-store-type: ${TRUST_STORE_TYPE:PKCS12}
+    trust-store-password: ${TRUST_STORE_PASSWORD:localhost}
+    key-store: ${KEY_STORE_PATH:tls/server-key.p12}
+    key-alias: ${KEY_ALIAS:localhost}
+    key-store-type: ${KEY_STORE_TYPE:PKCS12}
+    key-password: ${KEY_STORE_PASSWORD:localhost}
+    key-store-password: ${KEY_STORE_PASSWORD:localhost}
