@@ -33,14 +33,41 @@ enum class BasicAuthorityEnum(
     }
 }
 
+/*profile authorities*/
+private val personBasicProfileAuthorities = setOf(
+    BasicAuthorityEnum.getAuthorityByEntityAndAction(
+        Person::class.java,
+        BasicAuthorityEnum.BAT_CREATE.name,
+        BasicAuthorityEnum.BAT_CREATE.description
+    ),
+    BasicAuthorityEnum.getAuthorityByEntityAndAction(
+        Person::class.java,
+        BasicAuthorityEnum.BAT_READ.name,
+        BasicAuthorityEnum.BAT_READ.description
+    ),
+    BasicAuthorityEnum.getAuthorityByEntityAndAction(
+        Person::class.java,
+        BasicAuthorityEnum.BAT_UPDATE.name,
+        BasicAuthorityEnum.BAT_UPDATE.description
+    ),
+    /*profile remove*/
+    BasicAuthorityEnum.getAuthorityByEntityAndAction(
+        Person::class.java,
+        BasicAuthorityEnum.BAT_DELETE.name,
+        BasicAuthorityEnum.BAT_DELETE.description
+    )
+)
+
 /**
  * all users can be edit, delete it profiles, send messages to another user.
  */
 enum class PredefinedUserRole(
     val id: Long,
     val description: String,
-    val privileges: Set<Authority>
+    private val specificPrivileges: Set<Authority>,
+    private val commonPrivileges: Set<Authority> = emptySet()
 ) {
+
     /**
      * super user, view all users, grant authorities, revoke authorities, block user...
      */
@@ -48,28 +75,6 @@ enum class PredefinedUserRole(
         1L,
         "super user, view all users, grant authorities, revoke authorities, block user...",
         setOf( /*Person*/
-            /*profile authorities*/
-            BasicAuthorityEnum.getAuthorityByEntityAndAction(
-                Person::class.java,
-                BasicAuthorityEnum.BAT_CREATE.name,
-                BasicAuthorityEnum.BAT_CREATE.description
-            ),
-            BasicAuthorityEnum.getAuthorityByEntityAndAction(
-                Person::class.java,
-                BasicAuthorityEnum.BAT_READ.name,
-                BasicAuthorityEnum.BAT_READ.description
-            ),
-            BasicAuthorityEnum.getAuthorityByEntityAndAction(
-                Person::class.java,
-                BasicAuthorityEnum.BAT_UPDATE.name,
-                BasicAuthorityEnum.BAT_UPDATE.description
-            ),
-            /*profile remove*/
-            BasicAuthorityEnum.getAuthorityByEntityAndAction(
-                Person::class.java,
-                BasicAuthorityEnum.BAT_DELETE.name,
-                BasicAuthorityEnum.BAT_DELETE.description
-            ),
             /*Authority*/
             /*grant and revoke any authorities from user role*/
             BasicAuthorityEnum.getAuthorityByEntityAndAction(
@@ -110,7 +115,8 @@ enum class PredefinedUserRole(
                 BasicAuthorityEnum.BAT_REVOKE.name,
                 BasicAuthorityEnum.BAT_REVOKE.description
             )
-        )
+        ),
+        personBasicProfileAuthorities
     ),
 
     /**
@@ -120,28 +126,6 @@ enum class PredefinedUserRole(
         2L,
         "control other users, other entity status...",
         setOf(
-            /*Person*/
-            BasicAuthorityEnum.getAuthorityByEntityAndAction(
-                Person::class.java,
-                BasicAuthorityEnum.BAT_CREATE.name,
-                BasicAuthorityEnum.BAT_CREATE.description
-            ),
-            BasicAuthorityEnum.getAuthorityByEntityAndAction(
-                Person::class.java,
-                BasicAuthorityEnum.BAT_READ.name,
-                BasicAuthorityEnum.BAT_READ.description
-            ),
-            BasicAuthorityEnum.getAuthorityByEntityAndAction(
-                Person::class.java,
-                BasicAuthorityEnum.BAT_UPDATE.name,
-                BasicAuthorityEnum.BAT_UPDATE.description
-            ),
-            /*profile remove*/
-            BasicAuthorityEnum.getAuthorityByEntityAndAction(
-                Person::class.java,
-                BasicAuthorityEnum.BAT_DELETE.name,
-                BasicAuthorityEnum.BAT_DELETE.description
-            ),
             /*User*/
             /*Can read user list*/
             BasicAuthorityEnum.getAuthorityByEntityAndAction(
@@ -155,7 +139,8 @@ enum class PredefinedUserRole(
                 BasicAuthorityEnum.BAT_UPDATE.name,
                 BasicAuthorityEnum.BAT_UPDATE.description
             )
-        )
+        ),
+        personBasicProfileAuthorities
     ),
 
     /**
@@ -235,6 +220,14 @@ enum class PredefinedUserRole(
         )
     );
 
+    val privileges: Set<Authority>
+
+    init {
+        val mutablePrivilegesSet = mutableSetOf<Authority>()
+        mutablePrivilegesSet.addAll(specificPrivileges)
+        mutablePrivilegesSet.addAll(commonPrivileges)
+        privileges = mutablePrivilegesSet.toSet()
+    }
 
     val privilegesAsArray: Array<String>
         @Suppress("UNCHECKED_CAST")

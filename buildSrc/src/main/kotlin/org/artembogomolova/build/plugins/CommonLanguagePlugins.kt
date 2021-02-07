@@ -9,6 +9,7 @@ import org.gradle.api.tasks.TaskContainer
 import org.jetbrains.kotlin.gradle.plugin.KotlinPluginWrapper
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
+const val KOTLIN_LANGUAGE_NAME = "kotlin"
 const val KOTLIN_VERSION_PROPERTY_NAME = "kotlinVersion"
 const val DEFAULT_KOTLIN_KOTLIN_OPTION_VALUE = "1.4.20"
 const val KAPT_CONFIGURATION_NAME = "kapt"

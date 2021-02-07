@@ -37,7 +37,6 @@ dependencies {
     implementation("org.jacoco:org.jacoco.core:$jacocoVersion")
     /*sonar*/
     implementation("org.sonarsource.scanner.gradle:sonarqube-gradle-plugin:$sonarPluginVersion")
-    implementation("org.enginehub.gradle:gradle-codecov-plugin:0.1.0")
 }
 val compileKotlin: KotlinCompile by tasks
 compileKotlin.kotlinOptions {

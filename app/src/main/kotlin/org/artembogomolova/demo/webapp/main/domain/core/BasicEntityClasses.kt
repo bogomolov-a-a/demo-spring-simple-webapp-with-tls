@@ -11,6 +11,11 @@ enum class CountryCode {
 
 object ConstraintPatterns {
     const val PHONE_PATTERN = "\\+([0-9]{1,3})\\-([0-9]{3})\\-([0-9]{3})\\-([0-9]{2})\\-([0-9]{2})"
+    const val D3_PATTERN = "\\d{3}"
+    const val D4_PATTERN = "\\d{4}"
+    const val D5_PATTERN = "\\d{5}"
+    const val D6_PATTERN = "\\d{6}"
+    const val D3_D2_PATTERN = "\\d{3}[ ]?\\d{2}"
     const val POSTAL_CODE_PATTERN =
         "(GIR[ ]?0AA|((AB|AL|B|BA|BB|BD|BH|BL|BN|BR|BS|BT|CA|CB|CF|CH|CM|CO|CR|CT|CV|CW|DA|DD|DE|DG|DH|DL|DN|DT|DY|E|EC|EH|EN|EX|FK|" +
                 "FY|G|GL|GY|GU|HA|HD|HG|HP|HR|HS|HU|HX|IG|IM|IP|IV|JE|KA|KT|KW|KY|L|LA|LD|LE|LL|LN|LS|LU|M|ME|MK|ML|N|NE|NG|NN|NP|NR|NW|OL|OX|PA" +
