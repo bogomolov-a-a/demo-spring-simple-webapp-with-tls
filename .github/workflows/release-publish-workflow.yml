@@ -10,25 +10,25 @@ jobs:
   realease-image-push:
     runs-on: ubuntu-latest
     steps:
-      - name: checkout source
+      - name: Check out source
         uses: actions/checkout@v2
       - name: Set up JDK
         uses: actions/setup-java@v1
         with:
-          java-version: 15
+          java-version: 11
       - name: build test certificates
         run: |
           chmod +x ./certificate/cert-build.sh &&./certificate/cert-build.sh
-      - name: build app
+      - name: Build app
         run: chmod +x ./gradlew&& ./gradlew clean assemble
       - name: Build image
         run: |
           docker build . --file Dockerfile -t $IMAGE_NAME
-      - name: login to registry
+      - name: Log in to registry
         run: |
           # Step 1: Authenticate
           echo "${{ secrets.CR_PAT }}" | docker login $REGISTRY_URL -u bogomolov-a-a --password-stdin
-      - name: push image to GitHub Docker Registry
+      - name: Push image to GitHub Docker Registry
         run: |
           LIBRARY_IMAGE_ID=${{ github.repository_owner }}/$IMAGE_NAME/$IMAGE_NAME;
           IMAGE_ID=$REGISTRY_URL/$LIBRARY_IMAGE_ID
@@ -46,6 +46,6 @@ jobs:
           docker tag $IMAGE_NAME $IMAGE_ID:$VERSION
           # Step 3: Publish
           docker push $IMAGE_ID:$VERSION
-      - name: logout from registry
+      - name: Log out from registry
         run: |
           docker logout $REGISTRY_URL
