@@ -5,22 +5,22 @@ on:
 
 env:
   IMAGE_NAME: ${{ github.event.repository.name }}
-  REGISTRY_URL: docker.pkg.github.com
+  REGISTRY_URL: ghcr.io
 jobs:
   realease-image-push:
     runs-on: ubuntu-latest
     steps:
       - name: checkout source
         uses: actions/checkout@v2
-      - name: Set up JDK 11
+      - name: Set up JDK
         uses: actions/setup-java@v1
         with:
-          java-version: 11
+          java-version: 15
       - name: build test certificates
         run: |
           chmod +x ./certificate/cert-build.sh &&./certificate/cert-build.sh
       - name: build app
-        run: mvn -B package verify --file pom.xml
+        run: chmod +x ./gradlew&& ./gradlew clean assemble
       - name: Build image
         run: |
           docker build . --file Dockerfile -t $IMAGE_NAME
@@ -46,6 +46,6 @@ jobs:
           docker tag $IMAGE_NAME $IMAGE_ID:$VERSION
           # Step 3: Publish
           docker push $IMAGE_ID:$VERSION
-      - name: logout form registry
+      - name: logout from registry
         run: |
           docker logout $REGISTRY_URL

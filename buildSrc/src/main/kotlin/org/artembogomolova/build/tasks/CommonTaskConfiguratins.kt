@@ -2,10 +2,12 @@ package org.artembogomolova.build.tasks
 
 import org.gradle.api.Project
 import org.gradle.api.internal.ConventionTask
+import org.gradle.api.plugins.JavaBasePlugin
 import org.gradle.api.tasks.TaskAction
 import org.gradle.testing.jacoco.tasks.JacocoCoverageVerification
 import org.gradle.testing.jacoco.tasks.JacocoMerge
 import org.gradle.testing.jacoco.tasks.JacocoReport
+import org.sonarqube.gradle.SonarQubeExtension
 
 class TaskRegistration {
     companion object {
@@ -24,7 +26,7 @@ class TaskRegistration {
 
 open class BuildWithCoverage : ConventionTask() {
     init {
-        this.dependsOn.add("build")
+        this.dependsOn.add(JavaBasePlugin.BUILD_TASK_NAME)
         val reportTasks = project.tasks.withType(JacocoReport::class.java)
         this.dependsOn.addAll(reportTasks)
         val mergeTask = project.tasks.withType(JacocoMerge::class.java)
@@ -34,6 +36,7 @@ open class BuildWithCoverage : ConventionTask() {
         verificationTasks.forEach {
             it.dependsOn.addAll(reportTasks)
         }
+        this.dependsOn.add(SonarQubeExtension.SONARQUBE_TASK_NAME)
     }
 
     @TaskAction

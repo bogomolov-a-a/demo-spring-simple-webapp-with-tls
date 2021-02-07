@@ -1,11 +1,27 @@
 # demo-spring-simple-webapp-with-tls
+## Project quality 
 
+### Summary
 ![CI](https://github.com/bogomolov-a-a/demo-spring-simple-webapp-with-tls/workflows/CI/badge.svg)
-![issue from sonar](https://github.com/bogomolov-a-a/demo-spring-simple-webapp-with-tls/workflows/issue%20from%20sonar/badge.svg)
-[![codecov](https://codecov.io/gh/bogomolov-a-a/demo-spring-simple-webapp-with-tls/branch/main/graph/badge.svg?token=OUWRCJPS11)](undefined)
-[![Known Vulnerabilities](https://snyk.io/test/github/bogomolov-a-a/demo-spring-simple-webapp-with-tls/badge.svg)](https://snyk.io/test/github/bogomolov-a-a/demo-spring-simple-webapp-with-tls)
-[![Sonarcloud Status](https://sonarcloud.io/api/project_badges/measure?project=bogomolov-a-a_demo-spring-simple-webapp-with-tls&metric=alert_status)](https://sonarcloud.io/dashboard?id=bogomolov-a-a_demo-spring-simple-webapp-with-tls)
+
+[![Lines of Code](https://sonarcloud.io/api/project_badges/measure?project=demo-spring-simple-webapp-with-tls&metric=ncloc)](https://sonarcloud.io/dashboard?id=demo-spring-simple-webapp-with-tls)
+[![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=demo-spring-simple-webapp-with-tls&metric=alert_status)](https://sonarcloud.io/dashboard?id=demo-spring-simple-webapp-with-tls)
+
+### Code Quality
+
+[![Coverage](https://sonarcloud.io/api/project_badges/measure?project=demo-spring-simple-webapp-with-tls&metric=coverage)](https://sonarcloud.io/dashboard?id=demo-spring-simple-webapp-with-tls)
+[![Code Smells](https://sonarcloud.io/api/project_badges/measure?project=demo-spring-simple-webapp-with-tls&metric=code_smells)](https://sonarcloud.io/dashboard?id=demo-spring-simple-webapp-with-tls)
+[![Technical Debt](https://sonarcloud.io/api/project_badges/measure?project=demo-spring-simple-webapp-with-tls&metric=sqale_index)](https://sonarcloud.io/dashboard?id=demo-spring-simple-webapp-with-tls)
+[![Duplicated Lines (%)](https://sonarcloud.io/api/project_badges/measure?project=demo-spring-simple-webapp-with-tls&metric=duplicated_lines_density)](https://sonarcloud.io/dashboard?id=demo-spring-simple-webapp-with-tls)
+[![Vulnerabilities](https://sonarcloud.io/api/project_badges/measure?project=demo-spring-simple-webapp-with-tls&metric=vulnerabilities)](https://sonarcloud.io/dashboard?id=demo-spring-simple-webapp-with-tls)
+[![Technical Debt](https://sonarcloud.io/api/project_badges/measure?project=demo-spring-simple-webapp-with-tls&metric=sqale_index)](https://sonarcloud.io/dashboard?id=demo-spring-simple-webapp-with-tls)
+[![Bugs](https://sonarcloud.io/api/project_badges/measure?project=demo-spring-simple-webapp-with-tls&metric=bugs)](https://sonarcloud.io/dashboard?id=demo-spring-simple-webapp-with-tls)
+
+### Code ratings
+
+[![Security Rating](https://sonarcloud.io/api/project_badges/measure?project=demo-spring-simple-webapp-with-tls&metric=security_rating)](https://sonarcloud.io/dashboard?id=demo-spring-simple-webapp-with-tls)
+[![Maintainability Rating](https://sonarcloud.io/api/project_badges/measure?project=demo-spring-simple-webapp-with-tls&metric=sqale_rating)](https://sonarcloud.io/dashboard?id=demo-spring-simple-webapp-with-tls)
+
+## About project
 
 This demo application implement pet supplies store.
-
-Test 'release' workflow,2

@@ -120,7 +120,7 @@ private class HashCodeCalculator<T> {
     private fun calculateReferencableHashCode(value: Any): Int = value.hashCode()
 
 
-    private fun isFloatingPointValue(value: Any): Boolean = (value is Double)// or (value is Float)
+    private fun isFloatingPointValue(value: Any): Boolean = (value is Double)
 
     private fun calculateNullHashCode(keyProperty: KProperty1<T, Any?>): Int = when {
         (isStringProperty(keyProperty)) -> {

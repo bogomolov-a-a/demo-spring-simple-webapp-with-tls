@@ -1,9 +1,11 @@
 package org.artembogomolova.build.plugins
 
-import io.github.classgraph.ClassInfo
 import java.io.File
 import java.math.BigDecimal
-import org.artembogomolova.build.utils.ClassPathClassFounder
+import org.artembogomolova.build.plugins.CodeCoveragePlugin.Companion.JACOCO_XML_REPORT_FILE_PATH
+import org.artembogomolova.build.utils.excludeGeneratedModelClasses
+import org.artembogomolova.build.utils.findCoverageClasses
+import org.gradle.api.Plugin
 import org.gradle.api.Project
 import org.gradle.api.tasks.TaskContainer
 import org.gradle.api.tasks.testing.Test
@@ -19,11 +21,22 @@ import org.gradle.testing.jacoco.tasks.JacocoReport
 import org.jacoco.core.analysis.ICounter
 import org.jacoco.core.analysis.ICoverageNode
 
-internal class JacocoPluginApplier : PluginApplier<JacocoPlugin>(JacocoPlugin::class.java) {
+internal class CodeCoveragePlugin : Plugin<Project> {
+    companion object {
+        const val JACOCO_XML_REPORT_FILE_PATH = "%s/reports/jacoco/jacoco.xml"
+    }
+
+    private val jacocoPluginApplier: JacocoPluginApplier = JacocoPluginApplier()
+    override fun apply(target: Project) {
+        jacocoPluginApplier.apply(target)
+    }
+
+}
+
+private class JacocoPluginApplier : PluginApplier<JacocoPlugin>(JacocoPlugin::class.java) {
     companion object {
         val TEST_CLASS_NAME_PATTERNS = listOf("*Test")
         const val CLASS_DUMP_DIR_RELATIVE_PATH = "%s/jacoco/classpathdumps"
-        const val JACOCO_XML_REPORT_FILE_PATH = "%s/reports/jacoco/jacoco.xml"
         const val JACOCO_XML_REPORT_FILE_PROPERTY_NAME = "jacocoXmlReportFileName"
         const val CLASS_DUMP_DIR_PROPERTY_NAME = "classDumpDir"
         const val COVERAGE_RATIO_MINIMUM = 0.949
@@ -103,118 +116,102 @@ internal class JacocoPluginApplier : PluginApplier<JacocoPlugin>(JacocoPlugin::c
     }
 
     private fun configureJacocoVerificationTask(target: TaskContainer, properties: MutableMap<String, Any>) {
-        fun isAvailableToExclude(clazzInfo: ClassInfo): Boolean = clazzInfo.name.endsWith("_")
-        fun findCoverageClasses(): Pair<List<String>, List<String>> {
-            val includes = ArrayList<String>()
-            val excludes = ArrayList<String>()
-            val result = Pair<List<String>, List<String>>(includes, excludes)
-            val classPathClassFounder = ClassPathClassFounder(properties[BUILD_DIR_PATH_PROPERTY_NAME] as String)
-            println("try to search includes and excludes in '$classPathClassFounder.searchingPath' for project ")
-            classPathClassFounder.getAllClassInfo { clazzInfo ->
-                if (isAvailableToExclude(clazzInfo)) {
-                    excludes.add(clazzInfo.name)
-                } else {
-                    includes.add(clazzInfo.name)
-                }
-            }
-            println("found includes: ${result.first}")
-            println("found excludes: ${result.second}")
-            return result
-        }
 
-        val coverageClasses = findCoverageClasses()
         target.withType(JacocoCoverageVerification::class.java) {
             with(it)
             {
-                with(violationRules) {
-                    println("start creating rules")
-                    rule { rule ->
-                        with(rule)
-                        {
-                            this.includes = coverageClasses.first
-                            this.excludes = coverageClasses.second
-                            limit { limit ->
-                                with(limit)
-                                {
-                                    println("creating ${ICoverageNode.CounterEntity.METHOD.name} with ${ICounter.CounterValue.COVEREDRATIO.name} equals $COVERAGE_RATIO_MINIMUM")
-                                    counter = ICoverageNode.CounterEntity.METHOD.name
-                                    value = ICounter.CounterValue.COVEREDRATIO.name
-                                    minimum = BigDecimal.valueOf(COVERAGE_RATIO_MINIMUM)
+                doFirst {
+                    val coverageClasses = findCoverageClasses(properties, ::excludeGeneratedModelClasses)
+                    with(violationRules) {
+                        println("start creating rules")
+                        rule { rule ->
+                            with(rule)
+                            {
+                                this.includes = coverageClasses.first
+                                this.excludes = coverageClasses.second
+                                limit { limit ->
+                                    with(limit)
+                                    {
+                                        println("creating ${ICoverageNode.CounterEntity.METHOD.name} with ${ICounter.CounterValue.COVEREDRATIO.name} equals $COVERAGE_RATIO_MINIMUM")
+                                        counter = ICoverageNode.CounterEntity.METHOD.name
+                                        value = ICounter.CounterValue.COVEREDRATIO.name
+                                        minimum = BigDecimal.valueOf(COVERAGE_RATIO_MINIMUM)
+                                    }
                                 }
                             }
                         }
-                    }
-                    rule { rule ->
-                        with(rule)
-                        {
-                            this.includes = coverageClasses.first
-                            this.excludes = coverageClasses.second
-                            limit { limit ->
-                                with(limit) {
-                                    println("creating ${ICoverageNode.CounterEntity.CLASS.name} with ${ICounter.CounterValue.COVEREDRATIO.name} equals $COVERAGE_RATIO_MINIMUM")
-                                    counter = ICoverageNode.CounterEntity.CLASS.name
-                                    value = ICounter.CounterValue.COVEREDRATIO.name
-                                    minimum = BigDecimal.valueOf(COVERAGE_RATIO_MINIMUM)
+                        rule { rule ->
+                            with(rule)
+                            {
+                                this.includes = coverageClasses.first
+                                this.excludes = coverageClasses.second
+                                limit { limit ->
+                                    with(limit) {
+                                        println("creating ${ICoverageNode.CounterEntity.CLASS.name} with ${ICounter.CounterValue.COVEREDRATIO.name} equals $COVERAGE_RATIO_MINIMUM")
+                                        counter = ICoverageNode.CounterEntity.CLASS.name
+                                        value = ICounter.CounterValue.COVEREDRATIO.name
+                                        minimum = BigDecimal.valueOf(COVERAGE_RATIO_MINIMUM)
+                                    }
                                 }
                             }
                         }
-                    }
-                    rule { rule ->
-                        with(rule)
-                        {
-                            this.includes = coverageClasses.first
-                            this.excludes = coverageClasses.second
-                            limit { limit ->
-                                with(limit) {
-                                    println("creating ${ICoverageNode.CounterEntity.LINE.name} with ${ICounter.CounterValue.COVEREDRATIO.name} equals $COVERAGE_RATIO_MINIMUM")
-                                    counter = ICoverageNode.CounterEntity.LINE.name
-                                    value = ICounter.CounterValue.COVEREDRATIO.name
-                                    minimum = BigDecimal.valueOf(COVERAGE_RATIO_MINIMUM)
+                        rule { rule ->
+                            with(rule)
+                            {
+                                this.includes = coverageClasses.first
+                                this.excludes = coverageClasses.second
+                                limit { limit ->
+                                    with(limit) {
+                                        println("creating ${ICoverageNode.CounterEntity.LINE.name} with ${ICounter.CounterValue.COVEREDRATIO.name} equals $COVERAGE_RATIO_MINIMUM")
+                                        counter = ICoverageNode.CounterEntity.LINE.name
+                                        value = ICounter.CounterValue.COVEREDRATIO.name
+                                        minimum = BigDecimal.valueOf(COVERAGE_RATIO_MINIMUM)
+                                    }
                                 }
                             }
                         }
-                    }
-                    rule { rule ->
-                        with(rule)
-                        {
-                            this.includes = coverageClasses.first
-                            this.excludes = coverageClasses.second
-                            limit { limit ->
-                                with(limit) {
-                                    println("creating ${ICoverageNode.CounterEntity.BRANCH.name} with ${ICounter.CounterValue.COVEREDRATIO.name} equals $COVERAGE_RATIO_MINIMUM")
-                                    counter = ICoverageNode.CounterEntity.BRANCH.name
-                                    value = ICounter.CounterValue.COVEREDRATIO.name
-                                    minimum = BigDecimal.valueOf(COVERAGE_RATIO_MINIMUM)
+                        rule { rule ->
+                            with(rule)
+                            {
+                                this.includes = coverageClasses.first
+                                this.excludes = coverageClasses.second
+                                limit { limit ->
+                                    with(limit) {
+                                        println("creating ${ICoverageNode.CounterEntity.BRANCH.name} with ${ICounter.CounterValue.COVEREDRATIO.name} equals $COVERAGE_RATIO_MINIMUM")
+                                        counter = ICoverageNode.CounterEntity.BRANCH.name
+                                        value = ICounter.CounterValue.COVEREDRATIO.name
+                                        minimum = BigDecimal.valueOf(COVERAGE_RATIO_MINIMUM)
+                                    }
                                 }
                             }
                         }
-                    }
-                    rule { rule ->
-                        with(rule)
-                        {
-                            this.includes = coverageClasses.first
-                            this.excludes = coverageClasses.second
-                            limit { limit ->
-                                with(limit) {
-                                    println("creating ${ICoverageNode.CounterEntity.INSTRUCTION.name} with ${ICounter.CounterValue.COVEREDRATIO.name} equals $COVERAGE_RATIO_MINIMUM")
-                                    counter = ICoverageNode.CounterEntity.INSTRUCTION.name
-                                    value = ICounter.CounterValue.COVEREDRATIO.name
-                                    minimum = BigDecimal.valueOf(COVERAGE_RATIO_MINIMUM)
+                        rule { rule ->
+                            with(rule)
+                            {
+                                this.includes = coverageClasses.first
+                                this.excludes = coverageClasses.second
+                                limit { limit ->
+                                    with(limit) {
+                                        println("creating ${ICoverageNode.CounterEntity.INSTRUCTION.name} with ${ICounter.CounterValue.COVEREDRATIO.name} equals $COVERAGE_RATIO_MINIMUM")
+                                        counter = ICoverageNode.CounterEntity.INSTRUCTION.name
+                                        value = ICounter.CounterValue.COVEREDRATIO.name
+                                        minimum = BigDecimal.valueOf(COVERAGE_RATIO_MINIMUM)
+                                    }
                                 }
                             }
                         }
-                    }
-                    rule { rule ->
-                        with(rule)
-                        {
-                            this.includes = coverageClasses.first
-                            this.excludes = coverageClasses.second
-                            limit { limit ->
-                                with(limit) {
-                                    println("creating ${ICoverageNode.CounterEntity.COMPLEXITY.name} with ${ICounter.CounterValue.COVEREDRATIO.name} equals $COVERAGE_RATIO_MINIMUM")
-                                    counter = ICoverageNode.CounterEntity.COMPLEXITY.name
-                                    value = ICounter.CounterValue.COVEREDRATIO.name
-                                    minimum = BigDecimal.valueOf(COVERAGE_RATIO_MINIMUM)
+                        rule { rule ->
+                            with(rule)
+                            {
+                                this.includes = coverageClasses.first
+                                this.excludes = coverageClasses.second
+                                limit { limit ->
+                                    with(limit) {
+                                        println("creating ${ICoverageNode.CounterEntity.COMPLEXITY.name} with ${ICounter.CounterValue.COVEREDRATIO.name} equals $COVERAGE_RATIO_MINIMUM")
+                                        counter = ICoverageNode.CounterEntity.COMPLEXITY.name
+                                        value = ICounter.CounterValue.COVEREDRATIO.name
+                                        minimum = BigDecimal.valueOf(COVERAGE_RATIO_MINIMUM)
+                                    }
                                 }
                             }
                         }
